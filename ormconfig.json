@@ -1,0 +1,11 @@
+[
+  {
+    "name": "default",
+    "driver": {
+      "type": "sqlite",
+      "url": "music.db",
+      "database": "music"
+    },
+    "autoSchemaSync": true
+  }
+]

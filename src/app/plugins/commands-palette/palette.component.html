@@ -1,0 +1,6 @@
+<div
+  *ngFor="let command of commands"
+  (click)="runCommand(command)"
+>
+  {{ command.displayName }}
+</div>
