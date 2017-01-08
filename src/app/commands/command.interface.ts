@@ -1,6 +1,7 @@
 export interface ICommand {
     name?: string,
     displayName?: string,
-    func?: Function,
+    service?: any,
+    property?: string,
     isVisibleInPallete?: boolean,
 }

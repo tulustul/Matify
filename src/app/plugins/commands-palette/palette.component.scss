@@ -1,0 +1,25 @@
+:host {
+  background-color: #555555;
+  position: fixed;
+  left: 50%;
+  color: white;
+  max-height: 300px;
+  overflow-y: auto;
+  cursor: pointer;
+  .command {
+    padding: 5px 15px;
+    border-bottom: 1px solid #969696;
+    &.selected {
+      background-color: #888888;
+    }
+  }
+  input {
+    padding: 5px 15px;
+    background-color: #6b6b6b;
+    border: none;
+    width: 100%;
+    outline: none;
+    color: white;
+    box-sizing: border-box;
+  }
+}

@@ -1,18 +1,18 @@
-import {
-  Table,
-  Column,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+// import {
+//   Table,
+//   Column,
+//   PrimaryGeneratedColumn,
+// } from 'typeorm';
 
-@Table()
-export class Track {
+// @Table()
+// export class Track {
 
-    @PrimaryGeneratedColumn()
-    id: number;
+//     @PrimaryGeneratedColumn()
+//     id: number;
 
-    @Column()
-    name: string;
+//     @Column()
+//     name: string;
 
-    @Column()
-    uri: string;
-}
+//     @Column()
+//     uri: string;
+// }

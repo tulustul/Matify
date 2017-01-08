@@ -4,7 +4,8 @@
     "driver": {
       "type": "sqlite",
       "url": "music.db",
-      "database": "music"
+      "database": "music",
+      "storage": "music.db"
     },
     "autoSchemaSync": true
   }

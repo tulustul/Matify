@@ -5,8 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
+import { Settings } from './settings.service';
+import { Keybindings } from './keybindings.service';
+import { CommandRunner } from './commands';
+import { CoreModule } from './core.module';
 
-import { MODULES } from './plugging'
+import { MODULES } from './plugging';
 
 @NgModule({
   declarations: [
@@ -14,12 +18,9 @@ import { MODULES } from './plugging'
   ],
   imports: [
     BrowserModule,
-    FormsModule,
-    HttpModule,
-    CommonModule,
+    CoreModule,
     ...MODULES
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

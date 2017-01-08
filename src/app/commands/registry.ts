@@ -14,3 +14,7 @@ export function register(commandDefiniton: ICommand) {
 export function getCommands() {
   return Array.from(REGISTRY.values());
 }
+
+export function getCommandByName(name: string) {
+  return REGISTRY.get(name);
+}

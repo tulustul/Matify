@@ -1,6 +1,15 @@
+<input
+  #searchBox
+  type="text"
+  [(ngModel)]="searchTerm"
+  (ngModelChange)="filterCommands()"
+>
 <div
-  *ngFor="let command of commands"
-  (click)="runCommand(command)"
+  class="command"
+  *ngFor="let command of commands; let i = index"
+  (click)="paletteService.runCommand(command)"
+  (hover)="selectCommand(i)"
+  [class.selected]="i == currentIndex"
 >
   {{ command.displayName }}
 </div>
