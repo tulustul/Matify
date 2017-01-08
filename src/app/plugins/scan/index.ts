@@ -1,4 +1,4 @@
-export * from './commands';
+export * from './scan';
 
 import { PaletteModule } from './scan.module';
 import { MODULES } from 'app/plugging';

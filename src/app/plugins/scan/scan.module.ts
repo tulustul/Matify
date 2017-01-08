@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 
-import { Commands } from './commands';
+import { Scan } from './scan';
+import { NotificationsModule } from 'app/plugins/notifications';
 
 @NgModule({
-  providers: [Commands],
+  imports: [NotificationsModule],
+  providers: [Scan],
 })
 export class PaletteModule { }

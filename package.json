@@ -13,7 +13,8 @@
     "build": "ng build && cp -R src/public dist/public",
     "prepare": "cp -a electron/. dist",
     "electron": "npm run prepare && electron dist",
-    "package": "npm run build && npm run prepare && ./node_modules/electron-packager/cli.js dist App --platform=darwin --arch=all --out=dist-app --overwrite"
+    "package": "npm run build && npm run prepare && ./node_modules/electron-packager/cli.js dist App --platform=darwin --arch=all --out=dist-app --overwrite",
+    "watch": "webpack --watch --progress --profile"
   },
   "private": true,
   "dependencies": {
@@ -25,7 +26,9 @@
     "@angular/platform-browser": "^2.3.1",
     "@angular/platform-browser-dynamic": "^2.3.1",
     "@angular/router": "^3.3.1",
+    "copy-webpack-plugin": "^4.0.1",
     "core-js": "^2.4.1",
+    "jsmediatags": "^3.3.2",
     "rxjs": "^5.0.1",
     "sqlite3": "^3.1.8",
     "ts-helpers": "^1.1.1",
@@ -37,7 +40,11 @@
     "@types/jasmine": "2.5.38",
     "@types/node": "^6.0.42",
     "angular-cli": "1.0.0-beta.24",
+    "angular2-template-loader": "^0.6.0",
+    "awesome-typescript-loader": "^3.0.0-beta.17",
     "codelyzer": "~2.0.0-beta.1",
+    "electron": "^1.4.13",
+    "electron-packager": "^8.1.0",
     "jasmine-core": "2.5.2",
     "jasmine-spec-reporter": "2.5.0",
     "karma": "1.2.0",
@@ -48,8 +55,6 @@
     "protractor": "~4.0.13",
     "ts-node": "1.2.1",
     "tslint": "^4.0.2",
-    "typescript": "~2.0.3",
-    "electron": "^1.4.13",
-    "electron-packager": "^8.1.0"
+    "typescript": "~2.1"
   }
 }

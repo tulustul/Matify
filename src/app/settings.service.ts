@@ -1,5 +1,3 @@
-import * as _fs from 'fs';
-
 import { ReplaySubject } from 'rxjs';
 
 const fs = (window as any).nodeRequire('fs');

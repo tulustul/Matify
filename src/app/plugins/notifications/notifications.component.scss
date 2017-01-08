@@ -1,0 +1,13 @@
+:host {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  .notification {
+    background-color: #808080;
+    color: white;
+    padding: 20px;
+    margin-bottom: 10px;
+  }
+}

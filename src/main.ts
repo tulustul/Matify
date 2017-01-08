@@ -9,6 +9,7 @@ import './app/plugins/track';
 import './app/plugins/commands-palette';
 import './app/plugins/scan';
 import './app/plugins/playlist';
+import './app/plugins/notifications';
 
 import { environment } from './environments/environment';
 import { AppModule } from './app/app.module';

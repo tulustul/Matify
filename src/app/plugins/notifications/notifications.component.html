@@ -1,0 +1,11 @@
+<div
+  class="notification"
+  *ngFor="let notification of notifications"
+>
+  <span>{{ notification.message }}</span>
+  <p
+    *ngIf="notification.secondaryContent"
+    [innerHTML]="notification.secondaryContent(notification.args)"
+  >
+  </p>
+</div>

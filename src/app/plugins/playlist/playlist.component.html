@@ -1,0 +1,12 @@
+<table>
+  <thead>
+    <th *ngFor="let column of columns">{{ column }}</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let track of tracks" (click)="play(track)">
+      <td *ngFor="let column of columns">
+        {{ track[column] }}
+      </td>
+    </tr>
+  </tbody>
+</table>

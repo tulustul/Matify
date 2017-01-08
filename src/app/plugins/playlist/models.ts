@@ -16,3 +16,8 @@
 //     @Column()
 //     uri: string;
 // }
+
+export interface Track {
+  name: string,
+  uri: string,
+}
