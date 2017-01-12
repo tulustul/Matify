@@ -28,6 +28,7 @@
     "@angular/router": "^3.3.1",
     "copy-webpack-plugin": "^4.0.1",
     "core-js": "^2.4.1",
+    "dexie": "^2.0.0-beta.7",
     "jsmediatags": "^3.3.2",
     "rxjs": "^5.0.1",
     "sqlite3": "^3.1.8",

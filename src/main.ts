@@ -3,20 +3,17 @@ import './polyfills.ts';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { enableProdMode } from '@angular/core';
 
-// import { createConnection } from 'typeorm';
-
-import './app/plugins/track';
 import './app/plugins/commands-palette';
 import './app/plugins/scan';
 import './app/plugins/playlist';
 import './app/plugins/notifications';
+import './app/plugins/bar';
 
 import { environment } from './environments/environment';
 import { AppModule } from './app/app.module';
+import { initDB } from './app/db';
 
-// createConnection().then(connection => {
-//   // here you can start to work with your entities
-// }).catch(error => console.log(error));
+initDB();
 
 if (environment.production) {
   enableProdMode();

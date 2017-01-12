@@ -1,11 +1,14 @@
 <table>
   <thead>
-    <th *ngFor="let column of columns">{{ column }}</th>
+    <th
+      *ngFor="let column of columns"
+      [style.width]="column.size"
+    >{{ column.field }}</th>
   </thead>
   <tbody>
     <tr *ngFor="let track of tracks" (click)="play(track)">
       <td *ngFor="let column of columns">
-        {{ track[column] }}
+        <span>{{ track[column.field] }}</span>
       </td>
     </tr>
   </tbody>

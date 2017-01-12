@@ -1,0 +1,21 @@
+:host {
+  width: 100%;
+  background-color: #777777;
+  color: white;
+  padding: 5px;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  .left, .right {
+    z-index: 1;
+  }
+  .progress {
+    position: absolute;
+    background-color: #444444;
+    top: 0;
+    left: 0;
+    height: 100%;
+    transition: 500ms linear;
+  }
+}

@@ -7,8 +7,9 @@ import { Observable, Observer } from 'rxjs';
 
 import { remote } from 'electron';
 
+import { deleteDB } from 'app/db';
 import { Command } from 'app/commands';
-import { Track } from 'app/plugins/track';
+import { Track } from 'app/track';
 import { NotificationsService, Notification } from 'app/plugins/notifications';
 
 const dialog = remote.dialog;
@@ -27,6 +28,11 @@ export class Scan {
 
   constructor(private notifications: NotificationsService) {}
 
+  @Command()
+  deleteDB() {
+    deleteDB();
+    this.notifications.push({message: 'DB deleted'})
+  }
   @Command({
     displayName: 'Add directory to library',
   })
@@ -80,7 +86,7 @@ export class Scan {
       }
     }
 
-    localStorage.setItem('tracks', JSON.stringify(this.tracks));
+    Track.store.bulkAdd(this.tracks);
 
     notification.message = 'Scanning finished';
     this.notifications.scheduleDispose(notification);
@@ -100,12 +106,12 @@ export class Scan {
           this.tracks.push({
             uri: filepath,
             source: 'disk',
-            title: tag.tags.title,
-            album: tag.tags.album,
-            artist: tag.tags.artist,
-            year: tag.tags.year,
-            track: tag.tags.track,
-            genre: tag.tags.genre,
+            title: tag.tags.title || null,
+            album: tag.tags.album || null,
+            artist: tag.tags.artist || null,
+            year: tag.tags.year || null,
+            track: tag.tags.track || null,
+            genre: tag.tags.genre || null,
             length: null,
           });
           resolve();

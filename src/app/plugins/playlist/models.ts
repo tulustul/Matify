@@ -1,23 +1,11 @@
-// import {
-//   Table,
-//   Column,
-//   PrimaryGeneratedColumn,
-// } from 'typeorm';
+import { Dexie } from 'dexie';
 
-// @Table()
-// export class Track {
+import { Store, PrimaryKey, Index } from 'app/db';
 
-//     @PrimaryGeneratedColumn()
-//     id: number;
+@Store()
+export class Playlist {
+  objects: Dexie.Table<Playlist, number>;
 
-//     @Column()
-//     name: string;
-
-//     @Column()
-//     uri: string;
-// }
-
-export interface Track {
-  name: string,
-  uri: string,
+  @PrimaryKey() id: number;
+  @Index() name: string;
 }

@@ -6,6 +6,7 @@
   max-height: 300px;
   overflow-y: auto;
   cursor: pointer;
+  z-index: 2;
   .command {
     padding: 5px 15px;
     border-bottom: 1px solid #969696;
