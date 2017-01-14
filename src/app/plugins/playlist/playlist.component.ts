@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 
+import { Directive, Input } from '@angular/core';
+import { TemplateRef, ViewContainerRef } from '@angular/core';
+
 import { Track } from 'app/track';
+import { PlaylistService } from './playlist.service';
 import { AudioService } from 'app/audio.service';
 
 @Component({
@@ -13,7 +17,7 @@ import { AudioService } from 'app/audio.service';
 })
 export class PlaylistComponent {
 
-  tracks: Track[];
+  playingTrack: Track;
 
   columns = [
     {
@@ -34,16 +38,15 @@ export class PlaylistComponent {
     },
   ];
 
-  constructor(private audio: AudioService) {
-    this.fetchTracks();
-  }
+  constructor(
+    private playlist: PlaylistService,
+    private audio: AudioService,
+) {
+  audio.track$.subscribe(track => this.playingTrack = track);
+}
 
   play(track: Track) {
-    this.audio.play(track);
-  }
-
-  async fetchTracks() {
-    this.tracks = await Track.store.toArray();
+    this.playlist.play(track);
   }
 
 }

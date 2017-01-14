@@ -8,6 +8,7 @@ import './app/plugins/scan';
 import './app/plugins/playlist';
 import './app/plugins/notifications';
 import './app/plugins/bar';
+import './app/plugins/trackScheduler';
 
 import { environment } from './environments/environment';
 import { AppModule } from './app/app.module';

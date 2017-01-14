@@ -133,27 +133,32 @@
             "context": "playlist"
         },
         {
-            "keys": ["<space>"],
-            "command": "pause_track",
-            "context": "playlist"
+            "keys": ["space"],
+            "command": "togglePause"
         },
         {
-            "keys": ["<arrowleft>"],
-            "command": "rewind",
-            "args": [-30]
+            "keys": ["arrowleft"],
+            "command": "seekBy",
+            "args": [-20]
         },
         {
-            "keys": ["<arrowright>"],
-            "command": "rewind",
-            "args": [30]
+            "keys": ["arrowright"],
+            "command": "seekBy",
+            "args": [20]
         },
         {
             "keys": ["p"],
-            "command": "previous_track"
+            "command": "skipTrackBy",
+            "args": [-1]
         },
         {
             "keys": ["n"],
-            "command": "next_track"
+            "command": "skipTrackBy",
+            "args": [1]
+        },
+        {
+            "keys": ["r"],
+            "command": "randomTrack"
         },
         {
             "keys": ["/"],

@@ -23,7 +23,7 @@ export class Keybindings {
     if (event.altKey) {
       combo += 'alt+';
     }
-    combo += event.key.toLowerCase();
+    combo += (event.key.trim() || event.code).toLowerCase();
     return combo;
   });
 

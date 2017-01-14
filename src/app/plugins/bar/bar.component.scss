@@ -2,20 +2,45 @@
   width: 100%;
   background-color: #777777;
   color: white;
-  padding: 5px;
   box-sizing: border-box;
-  position: relative;
   display: flex;
-  justify-content: space-between;
-  .left, .right {
-    z-index: 1;
+  .controls {
+    display: flex;
+    align-items: center;
+    i {
+      cursor: pointer;
+      &:hover {
+        color: #bbbbbb;
+      }
+    }
   }
-  .progress {
-    position: absolute;
-    background-color: #444444;
-    top: 0;
-    left: 0;
-    height: 100%;
-    transition: 500ms linear;
+  .info {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 1;
+    padding: 5px;
+    .left, .right {
+      z-index: 1;
+    }
+    .progress {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      z-index: 2;
+    }
+    .elapsed {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: #444444;
+      height: 100%;
+    }
+  }
+  .volume {
+    display: flex;
+    align-items: center;
   }
 }

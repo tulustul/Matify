@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { MODULES } from 'app/plugging';
 import { BarComponent } from './bar.component';
+import { Commands } from './commands';
 
 @NgModule({
   declarations: [
@@ -10,6 +11,7 @@ import { BarComponent } from './bar.component';
   ],
   imports: [CommonModule],
   exports: [BarComponent],
+  providers: [Commands],
 })
 class BarModule { }
 

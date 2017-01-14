@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import { Keybindings } from './keybindings.service';
+import { TrackSchedulerService } from 'app/plugins/trackScheduler';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,9 @@ import { Keybindings } from './keybindings.service';
 })
 export class AppComponent {
 
-  constructor(private keybindings: Keybindings) {}
+  constructor(
+    private keybindings: Keybindings,
+    trackSchedulerService: TrackSchedulerService,
+  ) {}
 
 }

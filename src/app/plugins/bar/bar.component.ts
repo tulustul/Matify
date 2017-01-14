@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 
-import { AudioService } from 'app/audio.service';
+import { Observable } from 'rxjs';
+
+import { AudioService, AudioState } from 'app/audio.service';
 import { Track } from 'app/track';
 import { formatSeconds } from 'app/utils';
+import { PlaylistService } from 'app/plugins/playlist';
 
 @Component({
   selector: 'bar',
@@ -19,14 +22,23 @@ export class BarComponent {
 
   _progress: number;
 
-  constructor(private audio: AudioService) {
+  playPauseIcon = 'play_arrow';
+
+  constructor(
+    private audio: AudioService,
+    private playlist: PlaylistService,
+  ) {
     this.audio.track$.subscribe(track => this.track = track);
     this.audio.position$.subscribe(elapsed => this._elapsed = elapsed);
     this.audio.duration$.subscribe(duration => this._duration = duration);
+
+    this.audio.state$.subscribe(state => {
+      this.playPauseIcon = state === AudioState.playing ? 'pause' : 'play_arrow'
+    });
   }
 
   get trackName() {
-    return this.track ? this.track.title : '-';
+    return this.track ? `${this.track.title} - ${this.track.artist}` : '-';
   }
 
   get elapsed() {
@@ -39,6 +51,21 @@ export class BarComponent {
 
   get progress() {
     return (this._elapsed / this._duration * 100);
+  }
+
+  seek(event: MouseEvent) {
+    let target = event.target as HTMLElement;
+    let position = this._duration * event.offsetX / target.clientWidth;
+    this.audio.seek(position);
+    this._elapsed = position;
+  }
+
+  togglePause() {
+    if (this.audio.track) {
+      this.audio.togglePause();
+    } else {
+      this.playlist.start();
+    }
   }
 
 }
