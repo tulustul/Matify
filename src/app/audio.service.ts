@@ -49,6 +49,7 @@ export class AudioService {
         Track.store.update(this.track.id, this.track);
         this.duration = this.track.length;
         this._duration$.next(this.duration);
+        this._track$.next(this.track);
       }
     });
 

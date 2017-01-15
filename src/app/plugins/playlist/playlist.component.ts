@@ -1,4 +1,8 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+} from '@angular/core';
 
 import { Directive, Input } from '@angular/core';
 import { TemplateRef, ViewContainerRef } from '@angular/core';
@@ -14,17 +18,23 @@ import { AudioService } from 'app/audio.service';
   host: {
     '[hidden]': '!opened',
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlaylistComponent {
 
+  @Input()
   playingTrack: Track;
 
   constructor(
     private playlist: PlaylistService,
     private audio: AudioService,
-) {
-  audio.track$.subscribe(track => this.playingTrack = track);
-}
+    changeDetectorRef: ChangeDetectorRef,
+  ) {
+    audio.track$.subscribe(track => {
+      this.playingTrack = track;
+      changeDetectorRef.markForCheck();
+    });
+  }
 
   play(track: Track) {
     this.playlist.play(track);

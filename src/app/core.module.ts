@@ -8,6 +8,7 @@ import { CommandRunner } from 'app/commands/runner';
 import { AudioService } from './audio.service';
 import { VirtualRepeater } from './virtualRepeater';
 import { BackgroundSliderComponent } from './backgroundSlider';
+import { SidebarComponent } from './sidebar';
 
 @NgModule({
   imports: [
@@ -17,6 +18,7 @@ import { BackgroundSliderComponent } from './backgroundSlider';
   declarations: [
     VirtualRepeater,
     BackgroundSliderComponent,
+    SidebarComponent,
   ],
   providers: [
     Settings,
@@ -27,6 +29,7 @@ import { BackgroundSliderComponent } from './backgroundSlider';
   exports: [
     VirtualRepeater,
     BackgroundSliderComponent,
+    SidebarComponent,
   ],
 })
 export class CoreModule { }

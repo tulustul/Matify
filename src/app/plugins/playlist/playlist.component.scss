@@ -2,22 +2,25 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  background: linear-gradient(to bottom left, #126532, #40727d);
   .header, .rows {
-    background-color: #144025;
     color: white;
     width: 100%;
     border-spacing: 0;
     .row {
       cursor: pointer;
       display: flex;
+      &:not(:last-child) {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      }
       &:hover {
-        background-color: #081f07;
+        background-color: #4d7b4b;
       }
       &.selected {
-        color: #e49f57;
+        color: #fcff1d;
       }
       .cell {
-        padding: 5px 0px;
+        padding: 7px 0px;
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
@@ -25,9 +28,8 @@
     }
   }
   .header {
-    background-color: #1b6d3c;
-    box-shadow: 0 0 7px 1px rgba(0, 0, 0, 0.45);
     z-index: 1;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.12);
   }
   .rows {
     overflow-y: auto;

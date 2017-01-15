@@ -5,26 +5,42 @@ import * as jss from 'jss/jss';
 import { ReplaySubject } from 'rxjs';
 import { AudioService } from 'app/audio.service';
 import { Track } from 'app/track';
+import { formatSeconds } from 'app/utils';
+
+interface Column {
+  displayName: string,
+  size: string,
+  getter: (track: Track) => any,
+}
 
 @Injectable()
 export class PlaylistService {
 
-  columns = [
+  columns: Column[] = [
     {
-      field: 'track',
+      displayName: 'Track',
       size: '50px',
+      getter: track => track.track,
     }, {
-      field: 'title',
+      displayName: 'Title',
       size: '40%',
+      getter: track => track.title,
     }, {
-      field: 'album',
+      displayName: 'Album',
       size: '20%',
+      getter: track => track.album,
     }, {
-      field: 'artist',
+      displayName: 'Artist',
       size: '20%',
+      getter: track => track.artist,
     }, {
-      field: 'year',
+      displayName: 'Year',
       size: '50px',
+      getter: track => track.year,
+    }, {
+      displayName: 'Length',
+      size: '50px',
+      getter: track => formatSeconds(track.length),
     },
   ];
 

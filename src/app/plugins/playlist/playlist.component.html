@@ -1,46 +1,23 @@
-<!--<div class="playlist">-->
-  <!--<table>
-    <thead>
-      <th
-        *ngFor="let column of columns"
-        [style.width]="column.size"
-      >{{ column.field }}</th>
-    </thead>
-    <tbody>
-      <tr
-        *ngFor="let track of tracks"
-        (click)="play(track)"
-        [class.selected]="track === playingTrack"
-      >
-        <td *ngFor="let column of columns">
-          <span>{{ track[column.field] }}</span>
-        </td>
-      </tr>
-    </tbody>
-  </table>-->
-
-  <div class="header">
-    <div class="row">
-      <div
-        class="cell"
-        *ngFor="let column of playlist.columns"
-        [style.width]="column.size"
-      >{{ column.field }}</div>
-    </div>
+<div class="header">
+  <div class="row">
+    <div
+      class="cell"
+      *ngFor="let column of playlist.columns"
+      [style.width]="column.size"
+    >{{ column.displayName }}</div>
   </div>
+</div>
 
-  <div class="rows">
-    <div *virtualFor="let tracks of playlist.tracks$ | async">
-      <div class="row"
-        *ngFor="let track of tracks"
-        (click)="play(track)"
-        [class.selected]="track === playingTrack"
-      >
-        <div class="cell" *ngFor="let column of playlist.columns">
-          {{ track[column.field] }}
-        </div>
+<div class="rows">
+  <div *virtualFor="let tracks of playlist.tracks$ | async">
+    <div class="row"
+      *ngFor="let track of tracks | async"
+      (click)="play(track)"
+      [class.selected]="track === playingTrack"
+    >
+      <div class="cell" *ngFor="let column of playlist.columns">
+        {{ column.getter(track) }}
       </div>
     </div>
   </div>
-
-<!--</div>-->
+</div>
