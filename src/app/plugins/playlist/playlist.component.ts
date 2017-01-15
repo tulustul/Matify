@@ -19,25 +19,6 @@ export class PlaylistComponent {
 
   playingTrack: Track;
 
-  columns = [
-    {
-      field: 'track',
-      size: '50px',
-    }, {
-      field: 'title',
-      size: '40%',
-    }, {
-      field: 'album',
-      size: 0,
-    }, {
-      field: 'artist',
-      size: 0,
-    }, {
-      field: 'year',
-      size: '50px',
-    },
-  ];
-
   constructor(
     private playlist: PlaylistService,
     private audio: AudioService,

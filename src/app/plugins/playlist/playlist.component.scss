@@ -1,36 +1,36 @@
 :host {
-  display: block;
+  display: flex;
+  flex-direction: column;
   height: 100%;
-  overflow-y: auto;
-  table {
-    background-color: #2f2f2f;
+  .header, .rows {
+    background-color: #144025;
     color: white;
     width: 100%;
     border-spacing: 0;
-    tr {
+    .row {
       cursor: pointer;
+      display: flex;
       &:hover {
-        background-color: #1f1f1f;
+        background-color: #081f07;
       }
       &.selected {
-        background-color: #46711f;
+        color: #e49f57;
       }
-      td {
-        position: relative;
+      .cell {
         padding: 5px 0px;
-        &:before {
-          content: '&nbsp;';
-          visibility: hidden;
-        }
-        span {
-          position: absolute;
-          left: 0;
-          right: 0;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-          overflow: hidden;
-        }
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
       }
     }
+  }
+  .header {
+    background-color: #1b6d3c;
+    box-shadow: 0 0 7px 1px rgba(0, 0, 0, 0.45);
+    z-index: 1;
+  }
+  .rows {
+    overflow-y: auto;
+    flex-grow: 1;
   }
 }

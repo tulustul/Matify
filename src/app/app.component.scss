@@ -3,6 +3,7 @@
   flex-direction: column;
   height: 100%;
   max-height: 100%;
+  -webkit-user-select: none;
   .view {
     flex-grow: 1;
     height: 100%;

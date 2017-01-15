@@ -1,0 +1,14 @@
+:host {
+  display: flex;
+  align-items: center;
+  position: relative;
+  background-color: #e49f57;
+  width: 150px;
+  .volume-info {
+    z-index: 1;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

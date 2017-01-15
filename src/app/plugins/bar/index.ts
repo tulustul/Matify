@@ -3,13 +3,20 @@ import { CommonModule } from '@angular/common';
 
 import { MODULES } from 'app/plugging';
 import { BarComponent } from './bar.component';
+import { PlaybackControlsComponent } from './playbackControls';
+import { TrackIndicatorComponent } from './trackIndicator';
+import { VolumeControlComponent } from './volumeControl';
 import { Commands } from './commands';
+import { CoreModule } from 'app/core.module';
 
 @NgModule({
   declarations: [
     BarComponent,
+    PlaybackControlsComponent,
+    TrackIndicatorComponent,
+    VolumeControlComponent,
   ],
-  imports: [CommonModule],
+  imports: [CommonModule, CoreModule],
   exports: [BarComponent],
   providers: [Commands],
 })

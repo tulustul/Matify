@@ -1,5 +1,5 @@
-<div *virtualFor="let tracks of playlist.tracks$ | async">
-  <table>
+<!--<div class="playlist">-->
+  <!--<table>
     <thead>
       <th
         *ngFor="let column of columns"
@@ -17,5 +17,30 @@
         </td>
       </tr>
     </tbody>
-  </table>
-</div>
+  </table>-->
+
+  <div class="header">
+    <div class="row">
+      <div
+        class="cell"
+        *ngFor="let column of playlist.columns"
+        [style.width]="column.size"
+      >{{ column.field }}</div>
+    </div>
+  </div>
+
+  <div class="rows">
+    <div *virtualFor="let tracks of playlist.tracks$ | async">
+      <div class="row"
+        *ngFor="let track of tracks"
+        (click)="play(track)"
+        [class.selected]="track === playingTrack"
+      >
+        <div class="cell" *ngFor="let column of playlist.columns">
+          {{ track[column.field] }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!--</div>-->

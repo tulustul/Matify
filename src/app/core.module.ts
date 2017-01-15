@@ -7,19 +7,26 @@ import { Keybindings } from 'app/keybindings.service';
 import { CommandRunner } from 'app/commands/runner';
 import { AudioService } from './audio.service';
 import { VirtualRepeater } from './virtualRepeater';
+import { BackgroundSliderComponent } from './backgroundSlider';
 
 @NgModule({
   imports: [
     HttpModule,
     CommonModule,
   ],
-  declarations: [VirtualRepeater],
+  declarations: [
+    VirtualRepeater,
+    BackgroundSliderComponent,
+  ],
   providers: [
     Settings,
     Keybindings,
     CommandRunner,
     AudioService,
   ],
-  exports: [VirtualRepeater],
+  exports: [
+    VirtualRepeater,
+    BackgroundSliderComponent,
+  ],
 })
 export class CoreModule { }

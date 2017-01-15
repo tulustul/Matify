@@ -1,0 +1,12 @@
+:host {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  flex-grow: 1;
+  padding: 5px;
+  background-color: #004e61;
+  color: #e49f57;
+  .left, .right {
+    z-index: 1;
+  }
+}

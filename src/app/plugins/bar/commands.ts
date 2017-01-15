@@ -23,4 +23,9 @@ export class Commands {
     this.audio.togglePause();
   }
 
+  @Command({isVisibleInPallete: false})
+  volumeBy(offset: number) {
+    this.audio.volume += offset;
+  }
+
 }

@@ -1,46 +1,9 @@
 :host {
   width: 100%;
-  background-color: #777777;
+  background-color: #1b6d3c;
   color: white;
   box-sizing: border-box;
   display: flex;
-  .controls {
-    display: flex;
-    align-items: center;
-    i {
-      cursor: pointer;
-      &:hover {
-        color: #bbbbbb;
-      }
-    }
-  }
-  .info {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    flex-grow: 1;
-    padding: 5px;
-    .left, .right {
-      z-index: 1;
-    }
-    .progress {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
-      z-index: 2;
-    }
-    .elapsed {
-      position: absolute;
-      top: 0;
-      left: 0;
-      background-color: #444444;
-      height: 100%;
-    }
-  }
-  .volume {
-    display: flex;
-    align-items: center;
-  }
+  box-shadow: 0 0 7px 1px rgba(0, 0, 0, 0.45);
+  z-index: 1;
 }

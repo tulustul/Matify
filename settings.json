@@ -185,6 +185,16 @@
         {
             "keys": ["<resize>"],
             "command": "refresh"
+        },
+        {
+            "keys": ["ctrl++"],
+            "command": "volumeBy",
+            "args": [0.05]
+        },
+        {
+            "keys": ["ctrl+-"],
+            "command": "volumeBy",
+            "args": [-0.05]
         }
     ]
 }

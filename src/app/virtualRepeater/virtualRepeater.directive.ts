@@ -3,10 +3,7 @@ import {
   ViewContainerRef,
   TemplateRef,
   ElementRef,
-  Renderer,
   EmbeddedViewRef,
-  NgZone,
-  ChangeDetectorRef,
   Input,
 } from '@angular/core';
 
@@ -25,11 +22,8 @@ export class VirtualRepeater {
 
   constructor(
     private elementRef: ElementRef,
-    private viewContainer : ViewContainerRef,
-    private templateRef   : TemplateRef<any>,
-    private renderer      : Renderer,
-    private ngZone        : NgZone,
-    private changeDetectorRef: ChangeDetectorRef,
+    private viewContainer: ViewContainerRef,
+    private templateRef: TemplateRef<any>,
   ) {
   }
 
@@ -63,28 +57,14 @@ export class VirtualRepeater {
     let slicedItems = this.originalItems.slice(index, index + itemsPerPage);
 
     this.view.context.$implicit = slicedItems;
-    // this.element.style.height = `${index * itemSize}px`;
     this.element.style.paddingTop = `${index * itemSize}px`;
     this.element.style.paddingBottom = `${(itemsCount - itemsPerPage - index) * itemSize}px`;
-  }
-
-  @Input()
-  set virtualFor(items: any[]) {
-    this.originalItems = items;
-    this.updateCollection();
   }
 
   @Input()
   set virtualForOf(items: any[]) {
     this.originalItems = items;
     this.updateCollection();
-  }
-
-  @Input()
-  set ngForTemplate(value: TemplateRef<any>) {
-    if (value) {
-      // this._template = value;
-    }
   }
 
 }

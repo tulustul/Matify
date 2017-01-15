@@ -1,0 +1,13 @@
+<div class="left">
+  {{ trackName }}
+</div>
+
+<background-slider
+  color="#002d38"
+  [value]="progress"
+  (change)="seek($event)"
+></background-slider>
+
+<div class="right">
+  {{ elapsed }} / {{ duration }} {{ progress.toFixed(0) }}%
+</div>

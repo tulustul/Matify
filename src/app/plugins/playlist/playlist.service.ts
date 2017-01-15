@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 
+import * as jss from 'jss/jss';
+
 import { ReplaySubject } from 'rxjs';
 import { AudioService } from 'app/audio.service';
 import { Track } from 'app/track';
@@ -7,12 +9,39 @@ import { Track } from 'app/track';
 @Injectable()
 export class PlaylistService {
 
+  columns = [
+    {
+      field: 'track',
+      size: '50px',
+    }, {
+      field: 'title',
+      size: '40%',
+    }, {
+      field: 'album',
+      size: '20%',
+    }, {
+      field: 'artist',
+      size: '20%',
+    }, {
+      field: 'year',
+      size: '50px',
+    },
+  ];
+
   tracks: Track[];
   _tracks$ = new ReplaySubject<Track[]>(1);
   tracks$ = this._tracks$.asObservable();
 
   constructor(private audio: AudioService) {
     this.fetchTracks();
+
+    let i = 1;
+    for (let column of this.columns) {
+      jss.set(`playlist .cell:nth-child(${i})`, {
+        width: column.size,
+      });
+      i++;
+    }
   }
 
   play(track: Track) {

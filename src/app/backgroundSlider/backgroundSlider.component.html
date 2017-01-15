@@ -1,0 +1,12 @@
+<div
+  #clickArea
+  class="click-area"
+  (mousedown)="clickHandler($event)"
+  (panstart)="panStartHandler()"
+  (pan)="panHandler($event)"
+></div>
+<div
+  class="level"
+  [style.width.%]="value"
+  [style.backgroundColor]="color"
+></div>

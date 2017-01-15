@@ -1,0 +1,10 @@
+:host {
+  display: flex;
+  align-items: center;
+  i {
+    cursor: pointer;
+    &:hover {
+      color: #bbbbbb;
+    }
+  }
+}

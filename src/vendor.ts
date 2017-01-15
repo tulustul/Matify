@@ -9,3 +9,5 @@ import 'rxjs';
 
 import 'jsmediatags/build2/jsmediatags';
 import 'dexie';
+import 'jss/jss';
+import 'hammerjs';
