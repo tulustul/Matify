@@ -6,6 +6,7 @@ import { ReplaySubject } from 'rxjs';
 import { AudioService } from 'app/audio.service';
 import { Track } from 'app/track';
 import { formatSeconds } from 'app/utils';
+import { Theme } from 'app/theme.service';
 
 interface Column {
   displayName: string,
@@ -48,7 +49,18 @@ export class PlaylistService {
   _tracks$ = new ReplaySubject<Track[]>(1);
   tracks$ = this._tracks$.asObservable();
 
-  constructor(private audio: AudioService) {
+  constructor(
+    private audio: AudioService,
+    theme: Theme,
+  ) {
+    theme.changes$.subscribe(() => {
+      jss.set('playlist .row.selected', theme['playlist.selected']);
+      jss.set('playlist .row:hover', theme['playlist.hover']);
+      jss.set('playlist', {
+        background: theme['background'],
+      });
+    });
+
     this.fetchTracks();
 
     let i = 1;

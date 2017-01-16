@@ -1,0 +1,15 @@
+<input
+  #searchBox
+  type="text"
+  [(ngModel)]="searchTerm"
+  (ngModelChange)="filterItems()"
+>
+<div
+  class="item"
+  *ngFor="let item of items; let i = index"
+  (click)="selectItem(i)"
+  (hover)="previewItem(i)"
+  [class.selected]="i == currentIndex"
+>
+  {{ item[fields[0]] }}
+</div>

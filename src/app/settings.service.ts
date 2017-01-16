@@ -4,6 +4,8 @@ const fs = (window as any).nodeRequire('fs');
 
 export class Settings {
 
+  theme: string;
+
   private _changes$ = new ReplaySubject<Settings>(1);
   changes$ = this._changes$.asObservable();
 

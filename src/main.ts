@@ -9,6 +9,7 @@ import './app/plugins/playlist';
 import './app/plugins/notifications';
 import './app/plugins/bar';
 import './app/plugins/trackScheduler';
+import './app/plugins/themes';
 
 import { environment } from './environments/environment';
 import { AppModule } from './app/app.module';
