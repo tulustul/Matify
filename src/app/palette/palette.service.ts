@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 
-import { ReplaySubject, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 type PaletteListener = (item: any) => void;
 
 @Injectable()
 export class PaletteService {
 
-  private _items$ = new ReplaySubject<any[]>(1);
+  private _items$ = new Subject<any[]>();
   items$ = this._items$.asObservable();
 
   preview$ = new Subject<any>();

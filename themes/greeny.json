@@ -1,8 +1,21 @@
 {
   "colors.font": "white",
-  "background": "linear-gradient(to bottom left, #126532, #40727d)",
-  "playlist.selected": {"color": "#fcff1d", "fontWeight": "normal"},
-  "playlist.hover": {"background": "#4d7b4b"},
+  "panel": {
+    "background": "linear-gradient(to bottom left, #126532, #40727d)"
+  },
+  "secondaryPanel": {
+    "background": "linear-gradient(to left bottom, rgb(10, 76, 36), rgb(25, 85, 99))"
+  },
+  "row": {
+    "borderColor": "rgba(255, 255, 255, 0.12)"
+  },
+  "rowSelected": {
+    "color": "#fcff1d",
+    "fontWeight": "normal"
+  },
+  "rowHovered": {
+    "background": "#4d7b4b"
+  },
   "trackIndicator.color": "#e49f57",
   "trackIndicator.background": "#004e61",
   "trackIndicator.elapsed": "#002d38",

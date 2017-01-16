@@ -16,6 +16,7 @@ import { Theme } from 'app/theme.service';
   styleUrls: ['./playlist.component.scss'],
   host: {
     '[hidden]': '!opened',
+    'class': 'mp-panel',
   },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

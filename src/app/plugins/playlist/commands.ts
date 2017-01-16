@@ -8,7 +8,7 @@ export class Commands {
 
   constructor(private playlist: PlaylistService) {}
 
-  @Command()
+  @Command({isVisibleInPallete: false})
   skipTrackBy(offset: number) {
     this.playlist.skipTrackBy(offset);
   }

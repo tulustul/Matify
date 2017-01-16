@@ -1,15 +1,23 @@
-<input
-  #searchBox
-  type="text"
-  [(ngModel)]="searchTerm"
-  (ngModelChange)="filterItems()"
->
-<div
-  class="item"
-  *ngFor="let item of items; let i = index"
-  (click)="selectItem(i)"
-  (hover)="previewItem(i)"
-  [class.selected]="i == currentIndex"
->
-  {{ item[fields[0]] }}
+<div class="palette mp-secondary-panel" *ngIf="opened">
+  <input
+    #searchBox
+    class="mp-row"
+    type="text"
+    [(ngModel)]="searchTerm"
+    (ngModelChange)="filterItems()"
+    placeholder="Filter..."
+  >
+  <div
+    class="mp-row"
+    *ngFor="let item of filteredItems; let i = index"
+    (click)="selectItem(i)"
+    (mouseenter)="previewItem(i)"
+    [class.mp-row-hovered]="i == currentIndex"
+  >
+    {{ item[fields[0]] }}
+  </div>
+
+  <div class="no-items" *ngIf="!filteredItems.length">
+    No results
+  </div>
 </div>

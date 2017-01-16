@@ -7,6 +7,9 @@ import { PlaylistService } from 'app/plugins/playlist';
   selector: 'playback-controls',
   templateUrl: './playbackControls.component.html',
   styleUrls: ['./playbackControls.component.scss'],
+  host: {
+    'class': 'mp-panel',
+  },
 })
 export class PlaybackControlsComponent {
 

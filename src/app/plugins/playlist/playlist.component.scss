@@ -5,12 +5,9 @@
   .header, .rows {
     width: 100%;
     border-spacing: 0;
-    .row {
+    .mp-row {
       cursor: pointer;
       display: flex;
-      &:not(:last-child) {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-      }
       .cell {
         padding: 7px 0px;
         white-space: nowrap;
@@ -19,9 +16,10 @@
       }
     }
   }
-  .header {
+  .header .mp-row {
     z-index: 1;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.12);
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
   }
   .rows {
     overflow-y: auto;

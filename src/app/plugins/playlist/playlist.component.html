@@ -1,5 +1,5 @@
 <div class="header">
-  <div class="row">
+  <div class="mp-row">
     <div
       class="cell"
       *ngFor="let column of playlist.columns"
@@ -10,10 +10,10 @@
 
 <div class="rows">
   <div *virtualFor="let tracks of playlist.tracks$ | async">
-    <div class="row"
+    <div class="mp-row"
       *ngFor="let track of tracks | async"
       (click)="play(track)"
-      [class.selected]="track === playingTrack"
+      [class.mp-row-selected]="track === playingTrack"
     >
       <div class="cell" *ngFor="let column of playlist.columns">
         {{ column.getter(track) }}

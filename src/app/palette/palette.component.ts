@@ -12,9 +12,6 @@ import { Keybindings } from 'app/keybindings.service';
   selector: 'palette',
   templateUrl: './palette.component.html',
   styleUrls: ['./palette.component.scss'],
-  host: {
-    '[hidden]': '!opened',
-  },
 })
 export class PaletteComponent {
 
@@ -26,6 +23,8 @@ export class PaletteComponent {
 
   items: any[] = [];
 
+  filteredItems: any[] = [];
+
   fields: string[] = [];
 
   @ViewChild('searchBox') searchBox: ElementRef;
@@ -36,6 +35,7 @@ export class PaletteComponent {
   ) {
     this.paletteService.items$.subscribe(items => {
       this.items = items;
+      this.filteredItems = this.items;
       this.opened = true;
       this.searchTerm = '';
       this.currentIndex = 0;
@@ -64,9 +64,9 @@ export class PaletteComponent {
 
   filterItems() {
     this.currentIndex = 0;
-    this.items = this.items.filter(item => {
+    this.filteredItems = this.items.filter(item => {
       let term = this.searchTerm.toLowerCase();
-      let itemName = item.displayName.toLowerCase();
+      let itemName = item[this.fields[0]].toLowerCase();
       let i = 0;
       let ok = term.length === 0;
       for (let ch of term) {
@@ -85,11 +85,12 @@ export class PaletteComponent {
 
   previewItem(index: number) {
     this.currentIndex = index;
-    this.paletteService.preview$.next(this.items[index]);
+    this.paletteService.preview$.next(this.filteredItems[index]);
   }
 
   selectItem(index: number) {
-    this.paletteService.selection$.next(this.items[index]);
+    this.paletteService.selection$.next(this.filteredItems[index]);
+    this.opened = false;
   }
 
   next() {
@@ -103,7 +104,7 @@ export class PaletteComponent {
   step(offset: number) {
     let newIndex = Math.max(
       0, Math.min(
-        this.items.length - 1, this.currentIndex + offset
+        this.filteredItems.length - 1, this.currentIndex + offset
       )
     );
     this.previewItem(newIndex);

@@ -2,12 +2,20 @@ import { Injectable } from '@angular/core';
 
 import { ReplaySubject } from 'rxjs';
 
+import * as jss from 'jss/jss';
+
 import { Settings } from './settings.service';
 
 const fs = (window as any).nodeRequire('fs');
 
 @Injectable()
 export class Theme {
+
+  panel: any;
+  row: any;
+  rowSelected: any;
+  rowHovered: any;
+  secondaryPanel: any;
 
   private _changes$ = new ReplaySubject<Theme>(1);
   changes$ = this._changes$.asObservable();
@@ -29,6 +37,7 @@ export class Theme {
         let settings = JSON.parse(data);
         Object.assign(this, settings);
         this._changes$.next(this);
+        this._setGlobalStyles();
       }
     });
   }
@@ -46,6 +55,15 @@ export class Theme {
         }
       });
     });
+  }
+
+  private _setGlobalStyles() {
+    jss.set('.mp-panel', this.panel);
+    jss.set('.mp-secondary-panel', this.secondaryPanel);
+    jss.set('.mp-row', this.row);
+    jss.set('.mp-row-selected', this.rowSelected);
+    jss.set('.mp-row:hover', this.rowHovered);
+    jss.set('.mp-row-hovered', this.rowHovered);
   }
 
 }
