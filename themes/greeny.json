@@ -1,10 +1,10 @@
 {
   "colors.font": "white",
   "panel": {
-    "background": "linear-gradient(to bottom left, #126532, #40727d)"
+    "background": "linear-gradient(to bottom left, #40727d, #126532)"
   },
   "secondaryPanel": {
-    "background": "linear-gradient(to left bottom, rgb(10, 76, 36), rgb(25, 85, 99))"
+    "background": "linear-gradient(to bottom, rgb(25, 85, 99), rgb(10, 76, 36))"
   },
   "row": {
     "borderColor": "rgba(255, 255, 255, 0.12)"
@@ -15,6 +15,9 @@
   },
   "rowHovered": {
     "background": "#4d7b4b"
+  },
+  "scrollbar": {
+    "background": "#77fd81"
   },
   "trackIndicator.color": "#e49f57",
   "trackIndicator.background": "#004e61",

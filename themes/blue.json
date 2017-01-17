@@ -4,7 +4,7 @@
     "background": "linear-gradient(to left bottom, rgb(44, 169, 163), rgb(26, 71, 97))"
   },
   "secondaryPanel": {
-    "background": "linear-gradient(to left bottom, rgb(23, 110, 136), rgb(11, 47, 68))"
+    "background": "linear-gradient(to bottom, rgb(23, 110, 136), rgb(11, 47, 68))"
   },
   "row": {
     "borderColor": "rgba(255, 255, 255, 0.12)"
@@ -15,6 +15,9 @@
   },
   "rowHovered": {
     "background": "#4d7b4b"
+  },
+  "scrollbar": {
+    "background": "#a1f9f5"
   },
   "trackIndicator.color": "#e49f57",
   "trackIndicator.background": "#004e61",

@@ -1,5 +1,5 @@
 {
-    "theme": "greeny",
+    "theme": "blue",
     "logFile": "player.log",
     "logLevel": "DEBUG",
     "debug": true,

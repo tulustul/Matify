@@ -1,5 +1,7 @@
 :host {
   min-width: 80px;
+  box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.37);
+  z-index: 1;
   .menu-item {
     display: flex;
     flex-direction: column;

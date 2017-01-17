@@ -16,6 +16,7 @@ export class Theme {
   rowSelected: any;
   rowHovered: any;
   secondaryPanel: any;
+  scrollbar: any;
 
   private _changes$ = new ReplaySubject<Theme>(1);
   changes$ = this._changes$.asObservable();
@@ -64,6 +65,7 @@ export class Theme {
     jss.set('.mp-row-selected', this.rowSelected);
     jss.set('.mp-row:hover', this.rowHovered);
     jss.set('.mp-row-hovered', this.rowHovered);
+    jss.set('::-webkit-scrollbar-thumb', this.scrollbar);
   }
 
 }
