@@ -2,7 +2,10 @@
 <notifications></notifications>
 
 <div class="view">
-  <sidebar></sidebar>
+  <sidebar (change)="showPage($event)"></sidebar>
+  <div class="page mp-panel" [hidden]="!pageVisible">
+    <div #page></div>
+  </div>
   <div class="content">
     <playlist></playlist>
   </div>

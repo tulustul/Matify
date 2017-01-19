@@ -1,0 +1,13 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  .results-wrapper {
+    overflow-y: auto;
+    position: relative;
+    flex-grow: 1;
+    .results {
+      position: absolute;
+    }
+  }
+}

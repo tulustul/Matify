@@ -12,6 +12,8 @@ import { CoreModule } from './core.module';
 
 import { MODULES } from './plugging';
 
+import { LibraryComponent } from 'app/plugins/library/library.component';
+
 @NgModule({
   declarations: [
     AppComponent,

@@ -10,6 +10,8 @@ import './app/plugins/notifications';
 import './app/plugins/bar';
 import './app/plugins/trackScheduler';
 import './app/plugins/themes';
+import './app/plugins/library';
+import './app/plugins/search';
 
 import { environment } from './environments/environment';
 import { AppModule } from './app/app.module';

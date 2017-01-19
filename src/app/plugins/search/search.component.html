@@ -1,0 +1,14 @@
+<input
+  type="text"
+  [(ngModel)]="searchTerm"
+  (change)="search()"
+  placeholder="Type in your search term"
+>
+
+<div class="results-wrapper">
+  <div class="results">
+    <div *ngFor="let track of tracks">
+      {{ track.title }}
+    </div>
+  </div>
+</div>
