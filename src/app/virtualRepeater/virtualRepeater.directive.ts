@@ -16,6 +16,8 @@ export class VirtualRepeater {
 
   BUFFER = 5;
 
+  ITEM_SIZE = 34;
+
   view: EmbeddedViewRef<any>;
 
   originalItems: any[];
@@ -29,6 +31,9 @@ export class VirtualRepeater {
 
   minIndex = 0;
   maxIndex = 0;
+
+  minBufferedIndex = 0;
+  maxBufferedIndex = 0;
 
   constructor(
     private elementRef: ElementRef,
@@ -62,28 +67,33 @@ export class VirtualRepeater {
     this.element = this.templateRef.elementRef.nativeElement.nextSibling;
 
     let itemsCount = this.originalItems.length;
-    let itemSize = 34;
     let height = this.container.clientHeight;
     let scroll = this.container.scrollTop;
 
-    let itemsPerPage = Math.ceil(height / itemSize);
+    let itemsPerPage = Math.ceil(height / this.ITEM_SIZE);
 
-    let minVisibleIndex = Math.floor(scroll / itemSize);
-    let maxVisibleIndex = minVisibleIndex + itemsPerPage;
+    this.minIndex = Math.floor(scroll / this.ITEM_SIZE);
+    this.maxIndex = this.minIndex + itemsPerPage;
 
-    if (minVisibleIndex < this.minIndex || maxVisibleIndex > this.maxIndex) {
-      this.minIndex = Math.max(0, minVisibleIndex - this.BUFFER);
-      this.maxIndex = Math.min(itemsCount, maxVisibleIndex + this.BUFFER);
+    if (
+      this.minIndex < this.minBufferedIndex ||
+      this.maxIndex > this.maxBufferedIndex
+    ) {
+      this.minBufferedIndex = Math.max(0, this.minIndex - this.BUFFER);
+      this.maxBufferedIndex = Math.min(itemsCount, this.maxIndex + this.BUFFER);
 
-      let slicedItems = this.originalItems.slice(this.minIndex, this.maxIndex);
+      let slicedItems = this.originalItems.slice(
+        this.minBufferedIndex,
+        this.maxBufferedIndex,
+      );
 
       this._slicedItems.next(slicedItems);
 
       this.element.style.paddingTop = (
-        `${(this.minIndex) * itemSize}px`
+        `${(this.minBufferedIndex) * this.ITEM_SIZE}px`
       );
       this.element.style.paddingBottom = (
-        `${(itemsCount - this.maxIndex) * itemSize}px`
+        `${(itemsCount - this.maxBufferedIndex) * this.ITEM_SIZE}px`
       );
     }
   }
@@ -92,6 +102,14 @@ export class VirtualRepeater {
   set virtualForOf(items: any[]) {
     this.originalItems = items;
     this.updateCollection();
+  }
+
+  scrollTo(index: number) {
+    if (index < this.minIndex) {
+      this.container.scrollTop -= (this.minIndex - index) * this.ITEM_SIZE;
+    } else if (index >= this.maxIndex - 1) {
+      this.container.scrollTop += (index - this.maxIndex + 2) * this.ITEM_SIZE;
+    }
   }
 
 }
