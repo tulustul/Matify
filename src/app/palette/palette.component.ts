@@ -85,11 +85,17 @@ export class PaletteComponent {
 
   previewItem(index: number) {
     this.currentIndex = index;
-    this.paletteService.preview$.next(this.filteredItems[index]);
+    let item = this.filteredItems[index];
+    if (item) {
+      this.paletteService.preview$.next(item);
+    }
   }
 
   selectItem(index: number) {
-    this.paletteService.selection$.next(this.filteredItems[index]);
+    let item = this.filteredItems[index];
+    if (item) {
+      this.paletteService.selection$.next(item);
+    }
     this.opened = false;
   }
 
