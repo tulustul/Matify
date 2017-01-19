@@ -3,19 +3,19 @@ import './polyfills.ts';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { enableProdMode } from '@angular/core';
 
-import './app/plugins/commands-palette';
-import './app/plugins/scan';
-import './app/plugins/playlist';
-import './app/plugins/notifications';
-import './app/plugins/bar';
-import './app/plugins/trackScheduler';
-import './app/plugins/themes';
-import './app/plugins/library';
-import './app/plugins/search';
+import './plugins/commands-palette';
+import './plugins/scan';
+import './plugins/playlist';
+import './plugins/notifications';
+import './plugins/bar';
+import './plugins/trackScheduler';
+import './plugins/themes';
+import './plugins/library';
+import './plugins/search';
 
 import { environment } from './environments/environment';
-import { AppModule } from './app/app.module';
-import { initDB } from './app/db';
+import { AppModule } from './core/app.module';
+import { initDB } from './core/db';
 
 initDB();
 
