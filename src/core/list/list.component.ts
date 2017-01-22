@@ -96,6 +96,10 @@ export class ListComponent {
     }
   }
 
+  scrollToTop() {
+    this.repeater.scrollTo(0);
+  }
+
   selectHighlightedItem() {
     this.selectItem(this.highlightedItem);
   }
@@ -141,7 +145,13 @@ export class ListComponent {
   @Input()
   set items(items: any[]) {
     this._items = items;
-    this.currentIndex = -1;
+    if (this.items.length) {
+      this.currentIndex = 0;
+      this.highlightedItem = this.items[0];
+    } else {
+      this.currentIndex = -1;
+      this.highlightedItem = null;
+    }
   }
   get items() {
     return this._items;

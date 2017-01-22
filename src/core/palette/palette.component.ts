@@ -54,6 +54,7 @@ export class PaletteComponent {
       this.fields = this.paletteService.fields;
 
       this.list.focus();
+      this.list.scrollToTop();
 
       this.columns = this.fields.map(f => {
         return {getter: item => item[f]};
