@@ -2,16 +2,21 @@ import {
   Component,
   ViewChild,
   ElementRef,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
 } from '@angular/core';
 
 import { ICommand } from 'core/commands';
-import { PaletteService } from './palette.service';
 import { Keybindings } from 'core/keybindings.service';
+import { Column, ListComponent } from 'core/list';
+
+import { PaletteService } from './palette.service';
 
 @Component({
   selector: 'palette',
   templateUrl: './palette.component.html',
   styleUrls: ['./palette.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaletteComponent {
 
@@ -27,10 +32,15 @@ export class PaletteComponent {
 
   fields: string[] = [];
 
+  columns: Column[] = [];
+
   @ViewChild('searchBox') searchBox: ElementRef;
+
+  @ViewChild(ListComponent) list: ListComponent;
 
   constructor(
     private paletteService: PaletteService,
+    changeDetectorRef: ChangeDetectorRef,
     keybindings: Keybindings,
   ) {
     this.paletteService.items$.subscribe(items => {
@@ -40,6 +50,15 @@ export class PaletteComponent {
       this.searchTerm = '';
       this.currentIndex = 0;
       this.fields = this.paletteService.fields;
+
+      this.list.focus();
+
+      this.columns = this.fields.map(f => {
+        return {getter: item => item[f]};
+      });
+
+      changeDetectorRef.markForCheck();
+
       setTimeout(
         () => (this.searchBox.nativeElement as HTMLElement).focus(),
       );
@@ -49,15 +68,9 @@ export class PaletteComponent {
       if (!this.opened) {
         return;
       }
-      if (combo === 'arrowdown') {
-        this.next();
-      } else if (combo === 'arrowup') {
-        this.previous();
-      } else if (combo === 'enter') {
-        this.selectItem(this.currentIndex);
+      if (combo === 'escape') {
         this.opened = false;
-      } else if (combo === 'escape') {
-        this.opened = false;
+        changeDetectorRef.markForCheck();
       }
     })
   }
@@ -83,37 +96,18 @@ export class PaletteComponent {
     });
   }
 
-  previewItem(index: number) {
-    this.currentIndex = index;
-    let item = this.filteredItems[index];
+  previewItem(item: any) {
     if (item) {
       this.paletteService.preview$.next(item);
     }
   }
 
-  selectItem(index: number) {
-    let item = this.filteredItems[index];
+  selectItem(item: any) {
     if (item) {
       this.paletteService.selection$.next(item);
     }
     this.opened = false;
-  }
-
-  next() {
-    this.step(1);
-  }
-
-  previous() {
-    this.step(-1);
-  }
-
-  step(offset: number) {
-    let newIndex = Math.max(
-      0, Math.min(
-        this.filteredItems.length - 1, this.currentIndex + offset
-      )
-    );
-    this.previewItem(newIndex);
+    this.list.blur();
   }
 
 }

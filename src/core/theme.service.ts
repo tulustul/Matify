@@ -62,9 +62,9 @@ export class Theme {
     jss.set('.mp-panel', this.panel);
     jss.set('.mp-secondary-panel', this.secondaryPanel);
     jss.set('.mp-row', this.row);
-    jss.set('.mp-row-selected', this.rowSelected);
-    jss.set('.mp-row:hover', this.rowHovered);
-    jss.set('.mp-row-hovered', this.rowHovered);
+    jss.set('.mp-row-selected', this['row.selected']);
+    jss.set('.mp-row-highlighted', this['row.highlighted']);
+    jss.set('.mp-row-marked', this['row.marked']);
     jss.set('.mp-button', this.secondaryPanel);
     jss.set('::-webkit-scrollbar-thumb', this.scrollbar);
   }

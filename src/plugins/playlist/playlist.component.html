@@ -1,27 +1,9 @@
-<div class="header">
-  <div class="mp-row">
-    <div
-      class="mp-cell"
-      *ngFor="let column of playlist.columns"
-      [style.width]="column.size"
-    >{{ column.displayName }}</div>
-  </div>
-</div>
-
-<div class="rows">
-  <div class="no-tracks" *ngIf="!((playlist.tracks$ | async) || []).length">
-    Playlist is empty.
-  </div>
-
-  <div *virtualFor="let tracks of playlist.tracks$ | async">
-    <div class="mp-row"
-      *ngFor="let track of tracks | async"
-      (click)="play(track)"
-      [class.mp-row-selected]="track === playingTrack"
-    >
-      <div class="mp-cell" *ngFor="let column of playlist.columns">
-        {{ column.getter(track) }}
-      </div>
-    </div>
-  </div>
-</div>
+<list
+  #list
+  id="playlist-list"
+  [columns]="playlist.columns"
+  [items]="playlist.tracks$ | async"
+  noItemsMessage="Playlist is empty"
+  [markedItem]="playingTrack"
+  (select)="play($event)"
+></list>

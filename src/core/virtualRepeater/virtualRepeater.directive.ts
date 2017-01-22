@@ -35,6 +35,8 @@ export class VirtualRepeater {
   minBufferedIndex = 0;
   maxBufferedIndex = 0;
 
+  itemsPerPage = 0;
+
   constructor(
     private elementRef: ElementRef,
     private viewContainer: ViewContainerRef,
@@ -70,10 +72,10 @@ export class VirtualRepeater {
     let height = this.container.clientHeight;
     let scroll = this.container.scrollTop;
 
-    let itemsPerPage = Math.ceil(height / this.ITEM_SIZE);
+    this.itemsPerPage = Math.ceil(height / this.ITEM_SIZE);
 
     this.minIndex = Math.floor(scroll / this.ITEM_SIZE);
-    this.maxIndex = this.minIndex + itemsPerPage;
+    this.maxIndex = this.minIndex + this.itemsPerPage;
 
     let shouldUpdate = (
       this.minIndex < this.minBufferedIndex ||
@@ -103,7 +105,9 @@ export class VirtualRepeater {
   @Input()
   set virtualForOf(items: any[]) {
     this.originalItems = items;
-    this.updateCollection(true);
+    if (this.container) {
+      this.updateCollection(true);
+    }
   }
 
   scrollTo(index: number) {

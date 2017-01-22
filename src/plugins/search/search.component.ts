@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { Track, TracksService } from 'core/tracks';
+import { Column } from 'core/list';
+
 import { PlaylistService } from 'plugins/playlist/playlist.service';
 
 @Component({
@@ -20,6 +22,10 @@ export class SearchComponent {
   searchTerm: string;
 
   tracks: Track[];
+
+  columns: Column[] = [
+    {getter: (item: Track) => `${item.title} - ${item.artist}`},
+  ];
 
   constructor(
     private tracksService: TracksService,

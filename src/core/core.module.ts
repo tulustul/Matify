@@ -14,6 +14,7 @@ import { SidebarComponent } from './sidebar';
 import { PaletteComponent, PaletteService } from './palette';
 import { TracksService } from './tracks';
 import { ModalsService, ModalComponent } from './modals';
+import { ListComponent, ListService, ListCommands } from './list';
 import {
   NotificationsComponent,
   NotificationsService,
@@ -32,6 +33,7 @@ import {
     PaletteComponent,
     ModalComponent,
     NotificationsComponent,
+    ListComponent
   ],
   providers: [
     Settings,
@@ -44,6 +46,8 @@ import {
     ModalsService,
     NotificationsService,
     CoreCommands,
+    ListService,
+    ListCommands,
   ],
   exports: [
     VirtualRepeater,
@@ -52,6 +56,7 @@ import {
     PaletteComponent,
     ModalComponent,
     NotificationsComponent,
+    ListComponent,
   ],
 })
 export class CoreModule { }

@@ -1,0 +1,39 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  .header, .rows {
+    width: 100%;
+    border-spacing: 0;
+    .mp-row {
+      cursor: pointer;
+      display: flex;
+      .mp-cell {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+    }
+  }
+  .header .mp-row {
+    z-index: 1;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+  }
+  .rows {
+    overflow-y: auto;
+    flex-grow: 1;
+    position: relative;
+    .no-items {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 25px;
+      font-weight: 100;
+      opacity: 0.5;
+      position: absolute;
+    }
+  }
+}

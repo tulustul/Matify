@@ -11,14 +11,12 @@
   </i>
 </div>
 
-<div class="results-wrapper">
-  <div class="results">
-    <div
-      class="mp-row"
-      *ngFor="let track of tracks"
-      (click)="addToPlaylist(track)"
-    >
-      <span class="mp-cell">{{ track.title }} - {{ track.album }}</span>
-    </div>
-  </div>
-</div>
+<list
+  #list
+  id="search-list"
+  [columns]="columns"
+  [headerEnabled]="false"
+  noItemsMessage="No results"
+  [items]="tracks"
+  (select)="addToPlaylist($event)"
+></list>

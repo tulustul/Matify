@@ -1,0 +1,30 @@
+<div class="header" *ngIf="headerEnabled">
+  <div class="mp-row">
+    <div
+      class="mp-cell"
+      *ngFor="let column of columns"
+      [style.width]="column.size"
+    >{{ column.displayName }}</div>
+  </div>
+</div>
+
+<div class="rows">
+  <div class="no-items" *ngIf="!(items || []).length">
+    {{ noItemsMessage }}
+  </div>
+
+  <div *virtualFor="let visibleItems of items">
+    <div class="mp-row"
+      *ngFor="let item of visibleItems | async"
+      (mouseenter)="highlightItem(item)"
+      (click)="selectItem(item)"
+      [class.mp-row-marked]="item === markedItem"
+      [class.mp-row-highlighted]="item === highlightedItem"
+      [class.mp-row-selected]="item === selectedItem"
+    >
+      <div class="mp-cell" *ngFor="let column of columns">
+        {{ column.getter(item) }}
+      </div>
+    </div>
+  </div>
+</div>

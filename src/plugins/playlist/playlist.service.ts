@@ -60,7 +60,6 @@ export class PlaylistService {
     private audio: AudioService,
     private notifications: NotificationsService,
   ) {
-    this._setColumnsSize();
     this._loadLastPlaylist();
   }
 
@@ -75,16 +74,6 @@ export class PlaylistService {
         this.playlist = lastPlaylist;
       }
     });
-  }
-
-  private _setColumnsSize() {
-    let i = 1;
-    for (let column of this.columns) {
-      jss.set(`playlist .mp-cell:nth-child(${i})`, {
-        width: column.size,
-      });
-      i++;
-    }
   }
 
   play(track: Track) {

@@ -9,11 +9,14 @@
   "row": {
     "borderColor": "rgba(255, 255, 255, 0.12)"
   },
-  "rowSelected": {
+  "row.selected": {
     "color": "#fcff1d",
     "fontWeight": "normal"
   },
-  "rowHovered": {
+  "row.highlighted": {
+    "background": "#4d7b4b"
+  },
+  "row.marked": {
     "background": "#4d7b4b"
   },
   "scrollbar": {

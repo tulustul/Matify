@@ -146,6 +146,26 @@
         {
             "keys": ["escape"],
             "command": "blur"
+        },
+        {
+            "keys": ["arrowdown"],
+            "command": "navigateListDown"
+        },
+        {
+            "keys": ["arrowup"],
+            "command": "navigateListUp"
+        },
+        {
+            "keys": ["pagedown"],
+            "command": "navigateListPageDown"
+        },
+        {
+            "keys": ["pageup"],
+            "command": "navigateListPageUp"
+        },
+        {
+            "keys": ["enter"],
+            "command": "listSelectItem"
         }
     ]
 }

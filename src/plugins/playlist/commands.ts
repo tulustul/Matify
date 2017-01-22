@@ -67,10 +67,31 @@ export class Commands {
     this.palette.openPalette(
       playlists,
       ['name'],
-      async playlist => this.playlist.load(playlist),
-      async playlist => this.playlist.load(playlist),
+      playlist => this.playlist.load(playlist),
+      playlist => this.playlist.load(playlist),
     );
   }
+
+  @Command()
+  test1() {}
+
+  @Command()
+  test2() {}
+
+  @Command()
+  tes3() {}
+
+  @Command()
+  tes4() {}
+
+  @Command()
+  test5() {}
+
+  @Command()
+  test6() {}
+
+  @Command()
+  test7() {}
 
 
 }
