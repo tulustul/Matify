@@ -170,6 +170,20 @@
         {
             "keys": ["delete"],
             "command": "listDeleteItem"
+        },
+        {
+            "keys": ["ctrl+w"],
+            "command": "closePlaylist"
+        },
+        {
+            "keys": ["ctrl+pageup"],
+            "command": "skipPlaylist",
+            "args": [-1]
+        },
+        {
+            "keys": ["ctrl+pagedown"],
+            "command": "skipPlaylist",
+            "args": [1]
         }
     ]
 }

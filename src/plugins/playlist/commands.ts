@@ -72,4 +72,18 @@ export class Commands {
     );
   }
 
+  @Command({displayName: 'Close playlist'})
+  closePlaylist() {
+    this.playlist.closePlaylist(this.playlist.playlist.name);
+  }
+
+  @Command({isVisibleInPallete: false})
+  skipPlaylist(offset: number) {
+    let playlists = this.playlist.openedPlaylists;
+    let currentPlaylist = this.playlist.playlist.name;
+    let index = playlists.indexOf(currentPlaylist);
+    index = Math.max(0, Math.min(index + offset, playlists.length - 1));
+    this.playlist.loadByName(playlists[index]);
+  }
+
 }
