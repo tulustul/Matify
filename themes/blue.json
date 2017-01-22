@@ -10,14 +10,14 @@
     "borderColor": "rgba(255, 255, 255, 0.12)"
   },
   "row.selected": {
-    "color": "#fcff1d",
-    "fontWeight": "normal"
+    "background": "rgb(75, 123, 112)"
   },
   "row.highlighted": {
     "background": "#4d7b4b"
   },
   "row.marked": {
-    "background": "#4d7b4b"
+    "color": "#fcff1d",
+    "fontWeight": "normal"
   },
   "scrollbar": {
     "background": "#a1f9f5"

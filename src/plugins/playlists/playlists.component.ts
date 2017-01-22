@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   ViewChild,
-  OnInit,
 } from '@angular/core';
 
 import { ListComponent, Column } from 'core/list';

@@ -34,4 +34,9 @@ export class ListCommands {
     this.listService.focusedList.selectHighlightedItem();
   }
 
+  @Command({isVisibleInPallete: false})
+  listDeleteItem() {
+    this.listService.focusedList.emitDelete();
+  }
+
 }

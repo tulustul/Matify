@@ -24,6 +24,8 @@ export class PlaylistService {
 
   OPENED_PLAYLIST_KEY = 'mpOpenedPlaylists';
 
+  _playlist$ = new ReplaySubject<Playlist>(1);
+  playlist$ = this._playlist$.asObservable();
   playlist: Playlist = {name: 'New playlist'};
 
   columns: Column[] = [
@@ -83,6 +85,7 @@ export class PlaylistService {
         this.load(lastPlaylist);
       } else {
         this.playlist = lastPlaylist;
+        this._playlist$.next(this.playlist);
       }
     });
   }
@@ -131,6 +134,7 @@ export class PlaylistService {
   async load(playlist: Playlist) {
     if (playlist) {
       this.playlist = playlist;
+      this._playlist$.next(this.playlist);
       let playlistTracks = await PlaylistTracks.store.get(playlist.id);
       this.tracks = playlistTracks.tracks;
       this._tracks$.next(this.tracks);
@@ -181,6 +185,7 @@ export class PlaylistService {
 
   create() {
     this.playlist = {name: 'New playlist'};
+    this._playlist$.next(this.playlist);
     this.tracks = [];
     this._tracks$.next(this.tracks);
     this._setLastPlaylist();
@@ -259,6 +264,15 @@ export class PlaylistService {
       this.OPENED_PLAYLIST_KEY,
       JSON.stringify(Array.from(this.openedPlaylists)),
     );
+  }
+
+  deleteTrack(track: Track) {
+    let index = this.tracks.indexOf(track);
+    if (index !== -1) {
+      this.tracks.splice(index, 1);
+      this._tracks$.next(this.tracks);
+      this._save();
+    }
   }
 
 }

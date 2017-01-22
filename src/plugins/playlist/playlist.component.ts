@@ -5,13 +5,11 @@ import {
   ViewChild,
   OnInit,
 } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 
 import { Track } from 'core/tracks';
 import { AudioService } from 'core/audio.service';
-import { Theme } from 'core/theme.service';
-import { VirtualRepeater } from 'core/virtualRepeater';
 import { ListComponent } from 'core/list';
+import { FilterService } from 'core/filter.service';
 
 import { PlaylistService } from './playlist.service';
 
@@ -29,20 +27,30 @@ export class PlaylistComponent implements OnInit {
 
   playingTrack: Track;
 
+  tracks: Track[] = [];
+
+  filteredTracks: Track[] = [];
+
+  searchQuery: string;
+
   @ViewChild(ListComponent)
   list: ListComponent;
 
   constructor(
     private playlist: PlaylistService,
     private audio: AudioService,
-    private theme: Theme,
-    private sanitizer: DomSanitizer,
-    changeDetectorRef: ChangeDetectorRef,
+    private filterService: FilterService,
+    private changeDetectorRef: ChangeDetectorRef,
   ) {
     audio.track$.subscribe(track => {
       this.playingTrack = track;
-      changeDetectorRef.markForCheck();
       this.list.scrollViewToItem(this.playingTrack);
+      changeDetectorRef.markForCheck();
+    });
+    playlist.tracks$.subscribe(tracks => {
+      this.tracks = tracks;
+      this.filteredTracks = this.tracks;
+      changeDetectorRef.markForCheck();
     });
   }
 
@@ -64,6 +72,13 @@ export class PlaylistComponent implements OnInit {
 
   closePlaylist(name: string) {
     this.playlist.closePlaylist(name);
+  }
+
+  search() {
+    this.filteredTracks = this.filterService.filter(
+      this.searchQuery, this.tracks, ['title', 'album', 'artist'],
+    );
+    this.changeDetectorRef.markForCheck();
   }
 
 }

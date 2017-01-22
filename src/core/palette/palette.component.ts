@@ -9,6 +9,7 @@ import {
 import { ICommand } from 'core/commands';
 import { Keybindings } from 'core/keybindings.service';
 import { Column, ListComponent } from 'core/list';
+import { FilterService } from 'core/filter.service';
 
 import { PaletteService } from './palette.service';
 
@@ -40,6 +41,7 @@ export class PaletteComponent {
 
   constructor(
     private paletteService: PaletteService,
+    private filterService: FilterService,
     changeDetectorRef: ChangeDetectorRef,
     keybindings: Keybindings,
   ) {
@@ -77,23 +79,9 @@ export class PaletteComponent {
 
   filterItems() {
     this.currentIndex = 0;
-    this.filteredItems = this.items.filter(item => {
-      let term = this.searchTerm.toLowerCase();
-      let itemName = item[this.fields[0]].toLowerCase();
-      let i = 0;
-      let ok = term.length === 0;
-      for (let ch of term) {
-        ok = false;
-        while (i < itemName.length) {
-          if (itemName[i] === ch) {
-            ok = true;
-            break;
-          }
-          i++;
-        }
-      }
-      return ok;
-    });
+    this.filteredItems = this.filterService.fuzzyFilter(
+      this.searchTerm, this.items, this.fields[0],
+    );
   }
 
   previewItem(item: any) {

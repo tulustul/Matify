@@ -166,6 +166,10 @@
         {
             "keys": ["enter"],
             "command": "listSelectItem"
+        },
+        {
+            "keys": ["delete"],
+            "command": "listDeleteItem"
         }
     ]
 }

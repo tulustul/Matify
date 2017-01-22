@@ -48,6 +48,9 @@ export class ListComponent {
   @Output()
   highlight = new EventEmitter<any>();
 
+  @Output()
+  delete = new EventEmitter<any>();
+
   currentIndex = -1;
 
   highlightedItem: any;
@@ -77,7 +80,7 @@ export class ListComponent {
   }
 
   selectItem(item: any) {
-    this.selectedItem = item;
+    // this.selectedItem = item;
     this.select.next(item);
   }
 
@@ -129,6 +132,10 @@ export class ListComponent {
     this.highlightItem(this.items[this.currentIndex]);
     this.scrollViewToItem(this.highlightedItem);
     this.cdr.markForCheck();
+  }
+
+  emitDelete() {
+    this.delete.next(this.highlightedItem);
   }
 
   @Input()

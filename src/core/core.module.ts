@@ -9,6 +9,7 @@ import { Keybindings } from './keybindings.service';
 import { CommandRunner, CoreCommands } from './commands';
 import { AudioService } from './audio.service';
 import { VirtualRepeater } from './virtualRepeater';
+import { FilterService } from './filter.service';
 import { BackgroundSliderComponent } from './backgroundSlider';
 import { SidebarComponent } from './sidebar';
 import { PaletteComponent, PaletteService } from './palette';
@@ -33,7 +34,7 @@ import {
     PaletteComponent,
     ModalComponent,
     NotificationsComponent,
-    ListComponent
+    ListComponent,
   ],
   providers: [
     Settings,
@@ -48,6 +49,7 @@ import {
     CoreCommands,
     ListService,
     ListCommands,
+    FilterService,
   ],
   exports: [
     VirtualRepeater,
