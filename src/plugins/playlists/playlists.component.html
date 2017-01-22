@@ -1,0 +1,9 @@
+<list
+  #list
+  id="playlists-list"
+  [headerEnabled]="false"
+  [columns]="columns"
+  [items]="playlists"
+  noItemsMessage="No playlists"
+  (select)="loadPlaylist($event)"
+></list>

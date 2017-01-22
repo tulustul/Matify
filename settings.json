@@ -126,12 +126,12 @@
             "command": "openCommandsPalette"
         },
         {
-            "keys": ["ctrl++"],
+            "keys": ["+"],
             "command": "volumeBy",
             "args": [0.05]
         },
         {
-            "keys": ["ctrl+-"],
+            "keys": ["-"],
             "command": "volumeBy",
             "args": [-0.05]
         },

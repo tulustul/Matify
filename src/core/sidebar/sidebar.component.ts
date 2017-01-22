@@ -2,6 +2,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 
 import { LibraryComponent } from 'plugins/library/library.component';
 import { SearchComponent } from 'plugins/search/search.component';
+import { PlaylistsComponent } from 'plugins/playlists/playlists.component';
 
 interface MenuItem {
   icon: string,
@@ -34,7 +35,7 @@ export class SidebarComponent {
     }, {
       icon: 'playlist_play',
       name: 'Playlists',
-      component: null,
+      component: PlaylistsComponent,
     }, {
       icon: 'library_music',
       name: 'Library',

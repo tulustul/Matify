@@ -44,7 +44,7 @@ export class SearchComponent {
   }
 
   addToPlaylist(track: Track) {
-    this.playlist.addTrack(track);
+    this.playlist.addTrack(Object.assign({}, track));
   }
 
   addAllToPlaylist() {

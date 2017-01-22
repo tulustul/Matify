@@ -22,7 +22,9 @@ export class PlaylistService {
 
   LAST_PLAYLIST_KEY = 'mpLastPlaylist';
 
-  playlist: Playlist;
+  OPENED_PLAYLIST_KEY = 'mpOpenedPlaylists';
+
+  playlist: Playlist = {name: 'New playlist'};
 
   columns: Column[] = [
     {
@@ -56,11 +58,20 @@ export class PlaylistService {
   _tracks$ = new ReplaySubject<Track[]>(1);
   tracks$ = this._tracks$.asObservable();
 
+  openedPlaylists: string[] = [];
+
   constructor(
     private audio: AudioService,
     private notifications: NotificationsService,
   ) {
     this._loadLastPlaylist();
+    this._loadOpenedPlaylists();
+  }
+
+  private _loadOpenedPlaylists() {
+    this.openedPlaylists = JSON.parse(
+      localStorage.getItem(this.OPENED_PLAYLIST_KEY),
+    ) || [];
   }
 
   private _loadLastPlaylist() {
@@ -124,7 +135,16 @@ export class PlaylistService {
       this.tracks = playlistTracks.tracks;
       this._tracks$.next(this.tracks);
       this._setLastPlaylist();
+      if (this.openedPlaylists.indexOf(this.playlist.name) === -1) {
+        this.openedPlaylists.push(this.playlist.name);
+      }
+      this._saveOpenedPlaylists();
     }
+  }
+
+  async loadByName(name: string) {
+    let playlist = await this.getByName(name);
+    this.load(playlist);
   }
 
   async rename(newName: string) {
@@ -215,6 +235,30 @@ export class PlaylistService {
 
   private _getLastPlaylist() {
     return JSON.parse(localStorage.getItem(this.LAST_PLAYLIST_KEY));
+  }
+
+  closePlaylist(playlistName: string) {
+    let index = this.openedPlaylists.indexOf(playlistName);
+    if (index !== -1) {
+      this.openedPlaylists.splice(index, 1);
+      this._saveOpenedPlaylists();
+      let removedCurrentPlaylist = playlistName === this.playlist.name;
+      if (removedCurrentPlaylist) {
+        if (this.openedPlaylists.length) {
+          let newIndex = Math.min(index, this.openedPlaylists.length - 1);
+          this.loadByName(this.openedPlaylists[newIndex]);
+        } else {
+          this.create();
+        }
+      }
+    }
+  }
+
+  private _saveOpenedPlaylists() {
+    localStorage.setItem(
+      this.OPENED_PLAYLIST_KEY,
+      JSON.stringify(Array.from(this.openedPlaylists)),
+    );
   }
 
 }

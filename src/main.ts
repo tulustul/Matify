@@ -12,6 +12,7 @@ import './plugins/trackScheduler';
 import './plugins/themes';
 import './plugins/library';
 import './plugins/search';
+import './plugins/playlists';
 
 import { environment } from './environments/environment';
 import { AppModule } from './core/app.module';

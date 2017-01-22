@@ -82,7 +82,7 @@ export class VirtualRepeater {
       this.maxIndex > this.maxBufferedIndex
     );
 
-    if (shouldUpdate || forceUpdate) {
+    if (this._slicedItems && (shouldUpdate || forceUpdate)) {
       this.minBufferedIndex = Math.max(0, this.minIndex - this.BUFFER);
       this.maxBufferedIndex = Math.min(itemsCount, this.maxIndex + this.BUFFER);
 

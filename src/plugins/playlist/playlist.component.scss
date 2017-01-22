@@ -2,38 +2,42 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  .header, .rows {
-    width: 100%;
-    border-spacing: 0;
-    .mp-row {
+  .controls {
+    display: flex;
+    input {
+      max-width: 300px;
+      background: rgb(20, 95, 119);
+    }
+    .tab {
+      padding: 7px 10px;
       cursor: pointer;
+      flex-grow: 1;
+      background: rgb(20, 95, 119);
       display: flex;
-      .mp-cell {
+      justify-content: space-between;
+      &:hover {
+        background: rgba(20, 95, 119, 0.5);
+        i {
+          opacity: 0.5;
+          &:hover {
+            opacity: 1;
+          }
+        }
+      }
+      &.selected {
+        background: transparent;
+      }
+      .name {
         white-space: nowrap;
-        text-overflow: ellipsis;
         overflow: hidden;
+        text-overflow: ellipsis;
+        flex-grow: 1;
+        text-align: center;
+      }
+      i {
+        font-size: 21px;
+        opacity: 0;
       }
     }
-  }
-  .header .mp-row {
-    z-index: 1;
-    border-bottom-style: solid;
-    border-bottom-width: 2px;
-  }
-  .rows {
-    overflow-y: auto;
-    flex-grow: 1;
-    position: relative;
-  }
-  .no-tracks {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 25px;
-    font-weight: 100;
-    opacity: 0.5;
-    position: absolute;
   }
 }

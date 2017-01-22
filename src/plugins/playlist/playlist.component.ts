@@ -54,4 +54,16 @@ export class PlaylistComponent implements OnInit {
     this.playlist.play(track);
   }
 
+  loadOrClosePlaylist(event: MouseEvent, name: string) {
+    if (event.button === 1) {
+      this.closePlaylist(name);
+    } else {
+      this.playlist.loadByName(name);
+    }
+  }
+
+  closePlaylist(name: string) {
+    this.playlist.closePlaylist(name);
+  }
+
 }
