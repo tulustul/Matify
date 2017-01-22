@@ -12,9 +12,6 @@ export class Keybindings {
 
   keys$ = Observable.fromEvent(
     window, 'keydown'
-  // )
-  // .filter(
-    // (event: KeyboardEvent) => document.activeElement.tagName !== 'INPUT'
   ).map((event: KeyboardEvent) => {
     let combo = '';
     if (event.ctrlKey) {
@@ -28,6 +25,11 @@ export class Keybindings {
     }
     combo += (event.key.trim() || event.code).toLowerCase();
     return combo;
+  }).filter(combo => {
+    if (document.activeElement.tagName === 'INPUT') {
+      return combo.length > 1;
+    };
+    return true;
   });
 
   constructor(

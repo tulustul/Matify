@@ -6,7 +6,7 @@ import { HttpModule } from '@angular/http';
 import { Settings } from './settings.service';
 import { Theme } from './theme.service';
 import { Keybindings } from './keybindings.service';
-import { CommandRunner } from './commands/runner';
+import { CommandRunner, CoreCommands } from './commands';
 import { AudioService } from './audio.service';
 import { VirtualRepeater } from './virtualRepeater';
 import { BackgroundSliderComponent } from './backgroundSlider';
@@ -43,6 +43,7 @@ import {
     TracksService,
     ModalsService,
     NotificationsService,
+    CoreCommands,
   ],
   exports: [
     VirtualRepeater,

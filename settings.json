@@ -142,6 +142,10 @@
         {
             "keys": ["ctrl+n"],
             "command": "newPlaylist"
+        },
+        {
+            "keys": ["escape"],
+            "command": "blur"
         }
     ]
 }
