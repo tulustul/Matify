@@ -5,10 +5,20 @@
   placeholder="Type in your search term"
 >
 
+<div class="header">
+  <i class="material-icons" (click)="addAllToPlaylist()">
+    keyboard_arrow_right
+  </i>
+</div>
+
 <div class="results-wrapper">
   <div class="results">
-    <div *ngFor="let track of tracks">
-      {{ track.title }}
+    <div
+      class="mp-row"
+      *ngFor="let track of tracks"
+      (click)="addToPlaylist(track)"
+    >
+      <span class="mp-cell">{{ track.title }} - {{ track.album }}</span>
     </div>
   </div>
 </div>

@@ -3,10 +3,10 @@ import './polyfills.ts';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { enableProdMode } from '@angular/core';
 
-import './plugins/commands-palette';
-import './plugins/scan';
+import './plugins/commandsPalette';
+import './plugins/localTracks';
+import './plugins/SoundCloud';
 import './plugins/playlist';
-import './plugins/notifications';
 import './plugins/bar';
 import './plugins/trackScheduler';
 import './plugins/themes';

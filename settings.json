@@ -94,45 +94,6 @@
 
     "keybindings": [
         {
-            "keys": ["ctrl+q"],
-            "command": "quit"
-        },
-        {
-            "keys": ["<home>"],
-            "command": "navigate_list_top"
-        },
-        {
-            "keys": ["<end>"],
-            "command": "navigate_list_bottom"
-        },
-        {
-            "keys": ["<pagedown>"],
-            "command": "navigate_next_page"
-        },
-        {
-            "keys": ["<pageup>"],
-            "command": "navigate_previous_page"
-        },
-        {
-            "keys": ["<arrowdown>"],
-            "command": "navigate_list_by",
-            "args": [1]
-        },
-        {
-            "keys": ["<arrowup>"],
-            "command": "navigate_list_by",
-            "args": [-1]
-        },
-        {
-            "keys": ["<arrowright>"],
-            "command": "autocomplete_input"
-        },
-        {
-            "keys": ["<enter>"],
-            "command": "play_track",
-            "context": "playlist"
-        },
-        {
             "keys": ["space"],
             "command": "togglePause"
         },
@@ -161,30 +122,8 @@
             "command": "randomTrack"
         },
         {
-            "keys": ["/"],
-            "command": "search"
-        },
-        {
-            "keys": ["<enter>"],
-            "command": "commit_search",
-            "context": "search"
-        },
-        {
-            "keys": [":", "ctrl+shift+p"],
+            "keys": [";", "ctrl+shift+p"],
             "command": "openCommandsPalette"
-        },
-        {
-            "keys": ["<enter>"],
-            "command": "run_command",
-            "context": "palette"
-        },
-        {
-            "keys": ["<esc>", "<interrupt>"],
-            "command": "pop_context"
-        },
-        {
-            "keys": ["<resize>"],
-            "command": "refresh"
         },
         {
             "keys": ["ctrl++"],
@@ -195,6 +134,14 @@
             "keys": ["ctrl+-"],
             "command": "volumeBy",
             "args": [-0.05]
+        },
+        {
+            "keys": ["ctrl+p"],
+            "command": "loadPlaylist"
+        },
+        {
+            "keys": ["ctrl+n"],
+            "command": "newPlaylist"
         }
     ]
 }

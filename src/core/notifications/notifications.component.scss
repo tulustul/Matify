@@ -4,10 +4,14 @@
   right: 10px;
   display: flex;
   flex-direction: column;
+  z-index: 10;
   .notification {
     background-color: #808080;
     color: white;
     padding: 20px;
     margin-bottom: 10px;
+    &.error {
+      background-color: red;
+    }
   }
 }

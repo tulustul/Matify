@@ -59,7 +59,7 @@ export class VirtualRepeater {
     this.updateCollection();
   }
 
-  updateCollection() {
+  updateCollection(forceUpdate = false) {
     if (!this.originalItems) {
       return;
     }
@@ -75,10 +75,12 @@ export class VirtualRepeater {
     this.minIndex = Math.floor(scroll / this.ITEM_SIZE);
     this.maxIndex = this.minIndex + itemsPerPage;
 
-    if (
+    let shouldUpdate = (
       this.minIndex < this.minBufferedIndex ||
       this.maxIndex > this.maxBufferedIndex
-    ) {
+    );
+
+    if (shouldUpdate || forceUpdate) {
       this.minBufferedIndex = Math.max(0, this.minIndex - this.BUFFER);
       this.maxBufferedIndex = Math.min(itemsCount, this.maxIndex + this.BUFFER);
 
@@ -101,7 +103,7 @@ export class VirtualRepeater {
   @Input()
   set virtualForOf(items: any[]) {
     this.originalItems = items;
-    this.updateCollection();
+    this.updateCollection(true);
   }
 
   scrollTo(index: number) {

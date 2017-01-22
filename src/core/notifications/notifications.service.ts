@@ -7,6 +7,7 @@ export interface Notification {
   args?: any,
   secondaryContent?: (args: any) => string,
   disposable?: boolean;
+  type?: 'success' | 'warn' | 'error' | 'info';
 }
 
 @Injectable()

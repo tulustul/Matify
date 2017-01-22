@@ -1,7 +1,7 @@
 <div class="header">
   <div class="mp-row">
     <div
-      class="cell"
+      class="mp-cell"
       *ngFor="let column of playlist.columns"
       [style.width]="column.size"
     >{{ column.displayName }}</div>
@@ -9,13 +9,17 @@
 </div>
 
 <div class="rows">
+  <div class="no-tracks" *ngIf="!((playlist.tracks$ | async) || []).length">
+    Playlist is empty.
+  </div>
+
   <div *virtualFor="let tracks of playlist.tracks$ | async">
     <div class="mp-row"
       *ngFor="let track of tracks | async"
       (click)="play(track)"
       [class.mp-row-selected]="track === playingTrack"
     >
-      <div class="cell" *ngFor="let column of playlist.columns">
+      <div class="mp-cell" *ngFor="let column of playlist.columns">
         {{ column.getter(track) }}
       </div>
     </div>

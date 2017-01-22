@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
-import { Track } from 'core/track';
+import { Track } from 'core/tracks';
 import { AudioService } from 'core/audio.service';
 import { Theme } from 'core/theme.service';
 import { VirtualRepeater } from 'core/virtualRepeater';

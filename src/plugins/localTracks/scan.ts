@@ -9,9 +9,11 @@ import { remote } from 'electron';
 
 import { deleteDB } from 'core/db';
 import { Command } from 'core/commands';
-import { Track } from 'core/track';
+import { ModalsService } from 'core/modals';
 
-import { NotificationsService, Notification } from 'plugins/notifications';
+import { NotificationsService, Notification } from 'core/notifications';
+
+import { LocalTrack, LocalTrackWord } from './localTrack.model';
 
 const dialog = remote.dialog;
 
@@ -25,15 +27,25 @@ export class Scan {
     gathering: false,
   };
 
-  tracks: Track[];
+  tracks: LocalTrack[];
 
-  constructor(private notifications: NotificationsService) {}
+  constructor(
+    private notifications: NotificationsService,
+    private modals: ModalsService,
+  ) {}
 
   @Command()
-  deleteDB() {
-    deleteDB();
-    this.notifications.push({message: 'DB deleted'})
+  async deleteDB() {
+    let remove = await this.modals.ask(
+      'Are you sure you want delete your database? ' +
+      'All your playlists and library will be gone.'
+    );
+    if (remove) {
+      deleteDB();
+      this.notifications.push({message: 'DB deleted'})
+    }
   }
+
   @Command({
     displayName: 'Add directory to library',
   })
@@ -87,10 +99,39 @@ export class Scan {
       }
     }
 
-    Track.store.bulkAdd(this.tracks);
+    await LocalTrack.store.bulkAdd(this.tracks);
+
+    this.index(notification);
 
     notification.message = 'Scanning finished';
     this.notifications.scheduleDispose(notification);
+  }
+
+  async index(notification: Notification) {
+    notification.message = 'Indexing...';
+    let tracks = await LocalTrack.store.toArray();
+
+    let localTrackWords: LocalTrackWord[] = [];
+    for (let track of tracks) {
+      let words = this.getTrackWords(track, 'title');
+      words = words.concat(this.getTrackWords(track, 'album'));
+      words = words.concat(this.getTrackWords(track, 'artist'));
+      words = words.concat(this.getTrackWords(track, 'genre'));
+
+      for (let word of words) {
+        localTrackWords.push({
+          localTrackId: track.id,
+          word: word,
+        });
+      }
+    }
+
+    await LocalTrackWord.store.bulkAdd(localTrackWords);
+  }
+
+  getTrackWords(track: LocalTrack, property: string) {
+    let phrase = (track[property] || '').trim();
+    return phrase ? phrase.split(' ') : [];
   }
 
   handleFile(filepath: string) {

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { AudioService } from 'core/audio.service';
-import { Track } from 'core/track';
+import { Track } from 'core/tracks';
 import { formatSeconds } from 'core/utils';
 
 @Component({

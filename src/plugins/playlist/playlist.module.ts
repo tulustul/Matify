@@ -9,7 +9,7 @@ import { Commands } from './commands';
 
 @NgModule({
   declarations: [
-    PlaylistComponent
+    PlaylistComponent,
   ],
   imports: [CommonModule, CoreModule],
   exports: [PlaylistComponent],

@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { Track } from 'core/track';
+import { Track, TracksService } from 'core/tracks';
+import { PlaylistService } from 'plugins/playlist/playlist.service';
 
 @Component({
   selector: 'search',
@@ -14,14 +15,34 @@ import { Track } from 'core/track';
 })
 export class SearchComponent {
 
+  waiting = false;
+
   searchTerm: string;
 
   tracks: Track[];
 
-  async search() {
-    this.tracks = await Track.store
-      .where('artist')
-      .startsWithIgnoreCase(this.searchTerm).toArray();
+  constructor(
+    private tracksService: TracksService,
+    private playlist: PlaylistService,
+  ) {}
+
+  search() {
+    this.waiting = true;
+    this.tracks = [];
+
+    this.tracksService.search(this.searchTerm).subscribe(
+      tracks => this.tracks = this.tracks.concat(tracks),
+      () => {},
+      () => this.waiting = false,
+    );
+  }
+
+  addToPlaylist(track: Track) {
+    this.playlist.addTrack(track);
+  }
+
+  addAllToPlaylist() {
+    this.playlist.addTracks(this.tracks);
   }
 
 }

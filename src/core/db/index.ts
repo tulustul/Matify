@@ -22,10 +22,13 @@ function buildSchema() {
   STORES_REGISTRY.forEach((clazz, storeName) => {
     stores[storeName] = buildFields(storeName);
   });
-  console.log(stores);
   return stores;
 }
 
 function buildFields(storeName: string) {
-  return FIELDS_REGISTRY.get(storeName).join(',');
+  let fields = FIELDS_REGISTRY.get(storeName).join(',');
+  if (fields.indexOf('++') === -1) {
+    fields = '++,' + fields
+  }
+  return fields;
 }

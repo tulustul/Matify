@@ -12,6 +12,9 @@ export class Keybindings {
 
   keys$ = Observable.fromEvent(
     window, 'keydown'
+  // )
+  // .filter(
+    // (event: KeyboardEvent) => document.activeElement.tagName !== 'INPUT'
   ).map((event: KeyboardEvent) => {
     let combo = '';
     if (event.ctrlKey) {

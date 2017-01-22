@@ -5,9 +5,10 @@ import { FormsModule } from '@angular/forms';
 import { MODULES } from 'core/plugging';
 
 import { SearchComponent } from './search.component';
+import { PlaylistModule } from 'plugins/playlist';
 
 @NgModule({
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PlaylistModule],
   declarations: [SearchComponent],
   exports: [SearchComponent],
   entryComponents: [SearchComponent],

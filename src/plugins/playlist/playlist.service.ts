@@ -5,8 +5,11 @@ import * as jss from 'jss/jss';
 import { ReplaySubject } from 'rxjs';
 
 import { AudioService } from 'core/audio.service';
-import { Track } from 'core/track';
+import { Track } from 'core/tracks';
 import { formatSeconds } from 'core/utils';
+import { NotificationsService } from 'core/notifications';
+
+import { Playlist, PlaylistTracks } from './models';
 
 interface Column {
   displayName: string,
@@ -16,6 +19,10 @@ interface Column {
 
 @Injectable()
 export class PlaylistService {
+
+  LAST_PLAYLIST_KEY = 'mpLastPlaylist';
+
+  playlist: Playlist;
 
   columns: Column[] = [
     {
@@ -45,16 +52,35 @@ export class PlaylistService {
     },
   ];
 
-  tracks: Track[];
+  tracks: Track[] = [];
   _tracks$ = new ReplaySubject<Track[]>(1);
   tracks$ = this._tracks$.asObservable();
 
-  constructor(private audio: AudioService) {
-    this.fetchTracks();
+  constructor(
+    private audio: AudioService,
+    private notifications: NotificationsService,
+  ) {
+    this._setColumnsSize();
+    this._loadLastPlaylist();
+  }
 
+  private _loadLastPlaylist() {
+    setTimeout(() => {
+      let lastPlaylist = this._getLastPlaylist();
+      if (!lastPlaylist) {
+        this.create();
+      } else if (lastPlaylist.id) {
+        this.load(lastPlaylist);
+      } else {
+        this.playlist = lastPlaylist;
+      }
+    });
+  }
+
+  private _setColumnsSize() {
     let i = 1;
     for (let column of this.columns) {
-      jss.set(`playlist .cell:nth-child(${i})`, {
+      jss.set(`playlist .mp-cell:nth-child(${i})`, {
         width: column.size,
       });
       i++;
@@ -71,11 +97,6 @@ export class PlaylistService {
     }
   }
 
-  async fetchTracks() {
-    this.tracks = await Track.store.toArray();
-    this._tracks$.next(this.tracks);
-  }
-
   skipTrackBy(offset: number) {
       let index = this.tracks.indexOf(this.audio.track);
       if (index === -1) {
@@ -89,6 +110,122 @@ export class PlaylistService {
         }
         this.play(this.tracks[index]);
       }
+  }
+
+  addTrack(track: Track) {
+    this.addTracks([track]);
+  }
+
+  addTracks(tracks: Track[]) {
+    this.tracks = this.tracks.concat(tracks);
+    this._tracks$.next(this.tracks);
+    this._save();
+  }
+
+  clear() {
+    this.tracks = [];
+    this._tracks$.next(this.tracks);
+    this._save();
+  }
+
+  async load(playlist: Playlist) {
+    if (playlist) {
+      this.playlist = playlist;
+      let playlistTracks = await PlaylistTracks.store.get(playlist.id);
+      this.tracks = playlistTracks.tracks;
+      this._tracks$.next(this.tracks);
+      this._setLastPlaylist();
+    }
+  }
+
+  async rename(newName: string) {
+    let existingPlaylist = await this.getByName(newName);
+
+    if (existingPlaylist) {
+      this.notifications.push({
+        message: `Playlist with name ${newName} already exists`,
+        type: 'error',
+      });
+    } else {
+      let oldName = this.playlist.name;
+      this.playlist.name = newName;
+      await Playlist.store.update(this.playlist.id, this.playlist);
+
+      this.notifications.push({
+        message: `Renamed "${oldName}" to "${newName}"`,
+      });
+    }
+  }
+
+  async remove() {
+    if (this.playlist.id) {
+      await PlaylistTracks.store.delete(this.playlist.id);
+      await Playlist.store.delete(this.playlist.id);
+
+      this.notifications.push({
+        message: `Playlist ${this.playlist.name} has been removed`,
+      });
+
+      this.create();
+    }
+  }
+
+  create() {
+    this.playlist = {name: 'New playlist'};
+    this.tracks = [];
+    this._tracks$.next(this.tracks);
+    this._setLastPlaylist();
+  }
+
+  private async getByName(name: string) {
+    return await Playlist.store
+      .where('name')
+      .equalsIgnoreCase(name)
+      .first();
+  }
+
+  private _save() {
+    if (!this.playlist.id) {
+      this._saveNewPlaylist();
+    } else {
+      this._updatePlaylist();
+    }
+  }
+
+  private async _saveNewPlaylist() {
+    let existingPlaylist = await this.getByName(this.playlist.name);
+
+    if (existingPlaylist) {
+      this.playlist.name += ` ${Math.floor(Date.now() / 1000)}`;
+    }
+
+    this.playlist.id = await Playlist.store.add({
+      name: this.playlist.name,
+    });
+
+    PlaylistTracks.store.add({
+      playlistId: this.playlist.id,
+      tracks: this.tracks,
+    });
+
+    this._setLastPlaylist();
+  }
+
+  private _updatePlaylist() {
+    PlaylistTracks.store.update(this.playlist.id, {
+      tracks: this.tracks,
+    });
+  }
+
+  private _setLastPlaylist() {
+    localStorage.setItem(
+      this.LAST_PLAYLIST_KEY,
+      JSON.stringify(this.playlist),
+    );
+  }
+
+  private _getLastPlaylist() {
+    return JSON.parse(localStorage.getItem(this.LAST_PLAYLIST_KEY));
   }
 
 }

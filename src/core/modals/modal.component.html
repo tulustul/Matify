@@ -1,0 +1,18 @@
+<div class="modal mp-panel">
+  <p>
+    {{ question }}
+  </p>
+
+  <input
+    #input
+    [(ngModel)]="value"
+    [placeholder]="question"
+    *ngIf="isInputVisible"
+  >
+
+  <div class="controls">
+    <div class="mp-button" (click)="reject()">Cancel</div>
+    <div class="mp-button" (click)="resolve()">OK</div>
+  </div>
+
+</div>

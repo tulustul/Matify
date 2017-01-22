@@ -1,7 +1,7 @@
 import { register } from './registry';
 import { ICommand } from './command.interface';
 
-export function Command(commandDef: ICommand={}) {
+export function Command(commandDef: ICommand = {}) {
   return (
     target: any,
     propertyKey: string,
@@ -22,8 +22,6 @@ export function Command(commandDef: ICommand={}) {
       commandDef.isVisibleInPallete = true;
     }
 
-    console.debug(`Registering command "${commandDef.name}"`);
-
     register(commandDef);
-  }
+  };
 }

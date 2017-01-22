@@ -65,6 +65,7 @@ export class Theme {
     jss.set('.mp-row-selected', this.rowSelected);
     jss.set('.mp-row:hover', this.rowHovered);
     jss.set('.mp-row-hovered', this.rowHovered);
+    jss.set('.mp-button', this.secondaryPanel);
     jss.set('::-webkit-scrollbar-thumb', this.scrollbar);
   }
 

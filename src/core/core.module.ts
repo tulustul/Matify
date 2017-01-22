@@ -12,6 +12,12 @@ import { VirtualRepeater } from './virtualRepeater';
 import { BackgroundSliderComponent } from './backgroundSlider';
 import { SidebarComponent } from './sidebar';
 import { PaletteComponent, PaletteService } from './palette';
+import { TracksService } from './tracks';
+import { ModalsService, ModalComponent } from './modals';
+import {
+  NotificationsComponent,
+  NotificationsService,
+} from './notifications';
 
 @NgModule({
   imports: [
@@ -24,6 +30,8 @@ import { PaletteComponent, PaletteService } from './palette';
     BackgroundSliderComponent,
     SidebarComponent,
     PaletteComponent,
+    ModalComponent,
+    NotificationsComponent,
   ],
   providers: [
     Settings,
@@ -32,12 +40,17 @@ import { PaletteComponent, PaletteService } from './palette';
     CommandRunner,
     AudioService,
     PaletteService,
+    TracksService,
+    ModalsService,
+    NotificationsService,
   ],
   exports: [
     VirtualRepeater,
     BackgroundSliderComponent,
     SidebarComponent,
     PaletteComponent,
+    ModalComponent,
+    NotificationsComponent,
   ],
 })
 export class CoreModule { }

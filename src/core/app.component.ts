@@ -4,6 +4,7 @@ import {
   ViewContainerRef,
   ComponentFactoryResolver,
   ComponentRef,
+  HostBinding,
 } from '@angular/core';
 
 import { Keybindings } from './keybindings.service';
