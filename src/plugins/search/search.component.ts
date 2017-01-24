@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+} from '@angular/core';
 
 import { Observable } from 'rxjs';
 
 import { Track, TracksService } from 'core/tracks';
-import { Column } from 'core/list';
 
 import { PlaylistService } from 'plugins/playlist/playlist.service';
 
@@ -14,6 +17,7 @@ import { PlaylistService } from 'plugins/playlist/playlist.service';
   host: {
     '[hidden]': '!opened',
   },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchComponent {
 
@@ -23,13 +27,10 @@ export class SearchComponent {
 
   tracks: Track[] = [];
 
-  columns: Column[] = [
-    {getter: (item: Track) => `${item.title} - ${item.artist}`},
-  ];
-
   constructor(
     private tracksService: TracksService,
     private playlist: PlaylistService,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   search() {
@@ -37,9 +38,15 @@ export class SearchComponent {
     this.tracks = [];
 
     this.tracksService.search(this.searchTerm).subscribe(
-      tracks => this.tracks = this.tracks.concat(tracks),
+      tracks => {
+        this.tracks = this.tracks.concat(tracks);
+        this.cdr.markForCheck();
+      },
       () => {},
-      () => this.waiting = false,
+      () => {
+        this.waiting = false;
+        this.cdr.markForCheck();
+      },
     );
   }
 

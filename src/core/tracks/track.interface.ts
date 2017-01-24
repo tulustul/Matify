@@ -7,4 +7,6 @@ export interface Track {
   year: number,
   genre: string,
   length: number,
+  artworkUri: string,
+  videoUri?: string,
 }

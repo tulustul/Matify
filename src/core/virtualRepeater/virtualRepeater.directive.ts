@@ -16,7 +16,7 @@ export class VirtualRepeater {
 
   BUFFER = 5;
 
-  ITEM_SIZE = 34;
+  itemSize = 34;
 
   view: EmbeddedViewRef<any>;
 
@@ -73,12 +73,12 @@ export class VirtualRepeater {
     let scroll = this.container.scrollTop;
 
     if (height === 0) {
-      height = this.ITEM_SIZE * itemsCount;
+      height = this.itemSize * itemsCount;
     }
 
-    this.itemsPerPage = Math.ceil(height / this.ITEM_SIZE);
+    this.itemsPerPage = Math.ceil(height / this.itemSize);
 
-    this.minIndex = Math.floor(scroll / this.ITEM_SIZE);
+    this.minIndex = Math.floor(scroll / this.itemSize);
     this.maxIndex = this.minIndex + this.itemsPerPage;
 
     let shouldUpdate = (
@@ -98,10 +98,10 @@ export class VirtualRepeater {
       this._slicedItems.next(slicedItems);
 
       this.element.style.paddingTop = (
-        `${(this.minBufferedIndex) * this.ITEM_SIZE}px`
+        `${(this.minBufferedIndex) * this.itemSize}px`
       );
       this.element.style.paddingBottom = (
-        `${(itemsCount - this.maxBufferedIndex) * this.ITEM_SIZE}px`
+        `${(itemsCount - this.maxBufferedIndex) * this.itemSize}px`
       );
     }
   }
@@ -118,9 +118,9 @@ export class VirtualRepeater {
     if (index === 0) {
       this.container.scrollTop = 0;
     } else if (index < this.minIndex) {
-      this.container.scrollTop -= (this.minIndex - index) * this.ITEM_SIZE;
+      this.container.scrollTop -= (this.minIndex - index) * this.itemSize;
     } else if (index >= this.maxIndex - 1) {
-      this.container.scrollTop += (index - this.maxIndex + 2) * this.ITEM_SIZE;
+      this.container.scrollTop += (index - this.maxIndex + 2) * this.itemSize;
     }
   }
 

@@ -14,9 +14,19 @@
 <list
   #list
   id="search-list"
-  [columns]="columns"
   [headerEnabled]="false"
   noItemsMessage="No results"
   [items]="tracks"
+  [itemSize]="41"
   (select)="addToPlaylist($event)"
-></list>
+>
+  <template let-item="item">
+    <div
+      class="artwork"
+      [style.backgroundImage]="item.artworkUri ? ('url(' + item.artworkUri + ')') : ''"
+    ></div>
+    <div class="mp-cell">
+      {{ item.title }} - {{ item.artist }}
+    </div>
+  </template>
+</list>

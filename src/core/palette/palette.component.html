@@ -17,6 +17,12 @@
     [columns]="columns"
     (select)="selectItem($event)"
     (highlight)="previewItem($event)"
-  ></list>
+  >
+    <template let-item="item" let-columns="columns">
+      <div class="mp-cell">
+        {{ columns[0].getter(item) }}
+      </div>
+    </template>
+  </list>
 
 </div>

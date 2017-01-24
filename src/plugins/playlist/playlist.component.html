@@ -29,4 +29,10 @@
   [markedItem]="playingTrack"
   (select)="play($event)"
   (delete)="playlist.deleteTrack($event)"
-></list>
+>
+  <template let-item="item" let-columns="columns">
+    <div class="mp-cell" *ngFor="let column of columns">
+      {{ column.getter(item) }}
+    </div>
+  </template>
+</list>

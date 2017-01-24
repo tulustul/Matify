@@ -154,6 +154,7 @@ export class Scan {
             year: tag.tags.year || null,
             track: tag.tags.track || null,
             genre: tag.tags.genre || null,
+            artworkUri: '',
             length: null,
           });
           resolve();

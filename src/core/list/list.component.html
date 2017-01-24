@@ -23,9 +23,13 @@
       [class.mp-row-highlighted]="item === highlightedItem"
       [class.mp-row-selected]="item === selectedItem"
     >
-      <div class="mp-cell" *ngFor="let column of columns">
-        {{ column.getter(item) }}
-      </div>
+      <template
+        [ngTemplateOutlet]="template"
+        [ngOutletContext]="{
+          item: item,
+          columns: columns
+        }"
+      ></template>
     </div>
   </div>
 </div>

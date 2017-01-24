@@ -8,11 +8,7 @@
     .mp-row {
       cursor: pointer;
       display: flex;
-      .mp-cell {
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-      }
+      align-items: center;
     }
   }
   .header .mp-row {

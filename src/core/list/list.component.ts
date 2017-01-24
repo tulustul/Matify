@@ -2,10 +2,12 @@ import {
   Component,
   ChangeDetectionStrategy,
   ViewChild,
+  ContentChild,
   Input,
   Output,
   EventEmitter,
   ChangeDetectorRef,
+  TemplateRef,
 } from '@angular/core';
 
 import * as jss from 'jss/jss';
@@ -37,10 +39,15 @@ export class ListComponent {
   @Input()
   noItemsMessage: string;
 
+  private _itemSize = 34;
+
   private _columns: Column[];
 
   @ViewChild(VirtualRepeater)
   repeater: VirtualRepeater;
+
+  @ContentChild(TemplateRef)
+  template: TemplateRef<any>;
 
   @Output()
   select = new EventEmitter<any>();
@@ -80,7 +87,6 @@ export class ListComponent {
   }
 
   selectItem(item: any) {
-    // this.selectedItem = item;
     this.select.next(item);
   }
 
@@ -155,6 +161,11 @@ export class ListComponent {
   }
   get items() {
     return this._items;
+  }
+
+  @Input()
+  set itemSize(size: number) {
+    this.repeater.itemSize = size;
   }
 
 }

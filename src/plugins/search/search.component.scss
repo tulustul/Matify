@@ -2,12 +2,14 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  .results-wrapper {
-    overflow-y: auto;
-    position: relative;
-    flex-grow: 1;
-    .results {
-      position: absolute;
-    }
+  .artwork {
+    height: 40px;
+    width: 40px;
+    min-width: 40px;
+    margin-right: 10px;
+    background-size: contain;
+  }
+  .mp-cell {
+    padding: 0;
   }
 }

@@ -32,6 +32,7 @@ export class LocalTracksStore implements TracksStore {
     await LocalTrackWord.store
       .where('word')
       .startsWithAnyOfIgnoreCase(token)
+      .limit(30)
       .each(w => trackIdsForToken.add(w.localTrackId));
     return trackIdsForToken;
   }

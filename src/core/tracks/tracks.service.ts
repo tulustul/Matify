@@ -20,7 +20,8 @@ export class TracksService {
 
       this.stores.forEach(async store => {
         try {
-          observer.next(await store.search(term));
+          let tracks = await store.search(term);
+          observer.next(tracks);
         } catch (e) {
           console.error(
             `Failed to search tracks for provider "${store.name}". Reason: ${e}`
