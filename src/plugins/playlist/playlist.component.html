@@ -8,7 +8,7 @@
 
   <div
     class="tab"
-    *ngFor="let playlistName of playlist.openedPlaylists"
+    *ngFor="let playlistName of playlists.openedPlaylists$ | async"
     [class.selected]="playlistName == playlist.playlist.name"
     (click)="loadOrClosePlaylist($event, playlistName)"
   >

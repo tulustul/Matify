@@ -12,6 +12,7 @@ import { ListComponent } from 'core/list';
 import { FilterService } from 'core/filter.service';
 
 import { PlaylistService } from './playlist.service';
+import { PlaylistsService } from './playlists.service';
 
 @Component({
   selector: 'playlist',
@@ -38,6 +39,7 @@ export class PlaylistComponent implements OnInit {
 
   constructor(
     private playlist: PlaylistService,
+    private playlists: PlaylistsService,
     private audio: AudioService,
     private filterService: FilterService,
     private changeDetectorRef: ChangeDetectorRef,
@@ -66,12 +68,12 @@ export class PlaylistComponent implements OnInit {
     if (event.button === 1) {
       this.closePlaylist(name);
     } else {
-      this.playlist.loadByName(name);
+      this.playlists.openPlaylist(name);
     }
   }
 
   closePlaylist(name: string) {
-    this.playlist.closePlaylist(name);
+    this.playlists.closePlaylist(name);
   }
 
   search() {

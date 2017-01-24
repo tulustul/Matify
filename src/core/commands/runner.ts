@@ -17,7 +17,7 @@ export class CommandRunner {
     } catch (e) {
       console.error(
         `Error while executing command "${command.name} ${args}". ` +
-        `Reason: ${e}`
+        `Reason: ${e}. Stack trace: ${e.stack}`
       )
     }
   }

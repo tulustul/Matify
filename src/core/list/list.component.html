@@ -8,10 +8,11 @@
   </div>
 </div>
 
+<div class="no-items" *ngIf="!(items || []).length">
+  {{ noItemsMessage }}
+</div>
+
 <div class="rows">
-  <div class="no-items" *ngIf="!(items || []).length">
-    {{ noItemsMessage }}
-  </div>
 
   <div *virtualFor="let visibleItems of items">
     <div class="mp-row"

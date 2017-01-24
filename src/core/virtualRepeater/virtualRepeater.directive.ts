@@ -72,6 +72,10 @@ export class VirtualRepeater {
     let height = this.container.clientHeight;
     let scroll = this.container.scrollTop;
 
+    if (height === 0) {
+      height = this.ITEM_SIZE * itemsCount;
+    }
+
     this.itemsPerPage = Math.ceil(height / this.ITEM_SIZE);
 
     this.minIndex = Math.floor(scroll / this.ITEM_SIZE);
@@ -111,7 +115,9 @@ export class VirtualRepeater {
   }
 
   scrollTo(index: number) {
-    if (index < this.minIndex) {
+    if (index === 0) {
+      this.container.scrollTop = 0;
+    } else if (index < this.minIndex) {
       this.container.scrollTop -= (this.minIndex - index) * this.ITEM_SIZE;
     } else if (index >= this.maxIndex - 1) {
       this.container.scrollTop += (index - this.maxIndex + 2) * this.ITEM_SIZE;

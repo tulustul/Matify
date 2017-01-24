@@ -1,7 +1,10 @@
 <div
-  class="notification {{ notification.type }}"
+  class="notification mp-panel"
   *ngFor="let notification of notifications"
 >
+
+  <i class="material-icons type {{ notification.type }}"></i>
+
   <span>{{ notification.message }}</span>
   <p
     *ngIf="notification.secondaryContent"

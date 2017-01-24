@@ -59,6 +59,10 @@ export class AudioService {
   }
 
   play(track: Track) {
+    if (!track) {
+      return;
+    }
+
     this.track = track;
     this._track$.next(this.track);
     if (this.track.length) {

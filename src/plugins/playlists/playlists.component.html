@@ -4,7 +4,7 @@
   [headerEnabled]="false"
   [columns]="columns"
   [items]="playlists"
-  [markedItem]="playlist.playlist$ | async"
+  [markedItem]="playlistService.playlist$ | async"
   noItemsMessage="No playlists"
   (select)="loadPlaylist($event)"
 ></list>

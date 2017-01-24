@@ -21,7 +21,7 @@ export class SearchComponent {
 
   searchTerm: string;
 
-  tracks: Track[];
+  tracks: Track[] = [];
 
   columns: Column[] = [
     {getter: (item: Track) => `${item.title} - ${item.artist}`},

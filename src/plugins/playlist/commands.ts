@@ -6,6 +6,7 @@ import { NotificationsService } from 'core/notifications';
 import { PaletteService } from 'core/palette';
 
 import { PlaylistService } from './playlist.service';
+import { PlaylistsService } from './playlists.service';
 import { Playlist, PlaylistTracks } from './models';
 
 @Injectable()
@@ -13,6 +14,7 @@ export class Commands {
 
   constructor(
     private playlist: PlaylistService,
+    private playlists: PlaylistsService,
     private modals: ModalsService,
     private notifications: NotificationsService,
     private palette: PaletteService,
@@ -37,7 +39,7 @@ export class Commands {
 
   @Command({displayName: 'New playlist'})
   newPlaylist() {
-    this.playlist.create();
+    this.playlists.createPlaylist();
   }
 
   @Command({displayName: 'Delete playlist'})
@@ -47,7 +49,7 @@ export class Commands {
       `Are you sure you want to delete playlist "${name}"?`,
     )
     if (remove) {
-      this.playlist.remove();
+      this.playlists.deletePlaylist(this.playlist.playlist.name);
     }
   }
 
@@ -57,33 +59,43 @@ export class Commands {
       'Enter new playlist name'
     );
     if (!!newPlaylistName) {
-      this.playlist.rename(newPlaylistName as string)
+      this.playlists.renamePlaylist(
+        this.playlist.playlist, newPlaylistName as string,
+      );
     };
   }
 
   @Command({displayName: 'Load playlist'})
   async loadPlaylist() {
     let playlists = await Playlist.store.toArray();
+    let playlistPreview: Playlist;
+    let originallyOpened = this.playlists.openedPlaylists.splice(0);
     this.palette.openPalette(
       playlists,
       ['name'],
-      playlist => this.playlist.load(playlist),
-      playlist => this.playlist.load(playlist),
+      (playlist: Playlist) => this.playlists.openPlaylist(playlist.name),
+      (playlist: Playlist) => {
+        if (playlistPreview && originallyOpened.indexOf(playlistPreview.name) === -1) {
+          this.playlists.closePlaylist(playlistPreview.name);
+        }
+        playlistPreview = playlist;
+        this.playlists.openPlaylist(playlist.name);
+      },
     );
   }
 
   @Command({displayName: 'Close playlist'})
   closePlaylist() {
-    this.playlist.closePlaylist(this.playlist.playlist.name);
+    this.playlists.closePlaylist(this.playlist.playlist.name);
   }
 
   @Command({isVisibleInPallete: false})
   skipPlaylist(offset: number) {
-    let playlists = this.playlist.openedPlaylists;
+    let playlists = this.playlists.openedPlaylists;
     let currentPlaylist = this.playlist.playlist.name;
     let index = playlists.indexOf(currentPlaylist);
     index = Math.max(0, Math.min(index + offset, playlists.length - 1));
-    this.playlist.loadByName(playlists[index]);
+    this.playlists.openPlaylist(playlists[index]);
   }
 
 }

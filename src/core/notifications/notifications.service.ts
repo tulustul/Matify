@@ -21,6 +21,9 @@ export class NotificationsService {
   disposeTime = 5000;
 
   push(notification: Notification) {
+    if (!notification.type) {
+      notification.type = 'info';
+    }
     this._notifications.push(notification);
     if (notification.disposable !== false) {
       this.scheduleDispose(notification);
