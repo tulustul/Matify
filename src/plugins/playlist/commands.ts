@@ -98,4 +98,9 @@ export class Commands {
     this.playlists.openPlaylist(playlists[index]);
   }
 
+  @Command({isVisibleInPallete: false})
+  searchPlaylist() {
+    this.playlist.focusSearch();
+  }
+
 }

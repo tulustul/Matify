@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   ViewChild,
   OnInit,
+  ElementRef,
 } from '@angular/core';
 
 import { Track } from 'core/tracks';
@@ -37,6 +38,9 @@ export class PlaylistComponent implements OnInit {
   @ViewChild(ListComponent)
   list: ListComponent;
 
+  @ViewChild('searchBox')
+  searchBox: ElementRef;
+
   constructor(
     private playlist: PlaylistService,
     private playlists: PlaylistsService,
@@ -50,6 +54,7 @@ export class PlaylistComponent implements OnInit {
       changeDetectorRef.markForCheck();
     });
     playlist.tracks$.subscribe(tracks => {
+      this.searchQuery = '';
       this.tracks = tracks;
       this.filteredTracks = this.tracks;
       changeDetectorRef.markForCheck();
@@ -58,6 +63,7 @@ export class PlaylistComponent implements OnInit {
 
   ngOnInit() {
     this.list.focus();
+    this.playlist.searchFocus$.subscribe(() => this.focusSearch());
   }
 
   play(track: Track) {
@@ -81,6 +87,11 @@ export class PlaylistComponent implements OnInit {
       this.searchQuery, this.tracks, ['title', 'album', 'artist'],
     );
     this.changeDetectorRef.markForCheck();
+  }
+
+  focusSearch() {
+    let searchBox = this.searchBox.nativeElement as HTMLElement;
+    searchBox.focus();
   }
 
 }

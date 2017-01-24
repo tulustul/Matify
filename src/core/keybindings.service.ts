@@ -28,7 +28,9 @@ export class Keybindings {
   }).filter(combo => {
     if (document.activeElement.tagName === 'INPUT') {
       return combo.length > 1;
-    };
+    } else {
+      event.preventDefault();
+    }
     return true;
   });
 

@@ -20,9 +20,16 @@ interface Column {
 @Injectable()
 export class PlaylistService {
 
-  _playlist$ = new ReplaySubject<Playlist>(1);
+  private _playlist$ = new ReplaySubject<Playlist>(1);
   playlist$ = this._playlist$.asObservable();
   playlist: Playlist = {name: 'New playlist'};
+
+  tracks: Track[] = [];
+  private _tracks$ = new ReplaySubject<Track[]>(1);
+  tracks$ = this._tracks$.asObservable();
+
+  private _searchFocus$ = new ReplaySubject<void>(1);
+  searchFocus$ = this._searchFocus$.asObservable();
 
   columns: Column[] = [
     {
@@ -51,10 +58,6 @@ export class PlaylistService {
       getter: track => formatSeconds(track.length),
     },
   ];
-
-  tracks: Track[] = [];
-  _tracks$ = new ReplaySubject<Track[]>(1);
-  tracks$ = this._tracks$.asObservable();
 
   constructor(
     private audio: AudioService,
@@ -131,6 +134,10 @@ export class PlaylistService {
     if (index !== -1) {
       this._updateTracks(this.tracks.splice(index, 1));
     }
+  }
+
+  focusSearch() {
+    this._searchFocus$.next(null);
   }
 
 }

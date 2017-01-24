@@ -184,6 +184,10 @@
             "keys": ["ctrl+pagedown"],
             "command": "skipPlaylist",
             "args": [1]
+        },
+        {
+            "keys": ["ctrl+f", "/"],
+            "command": "searchPlaylist"
         }
     ]
 }
