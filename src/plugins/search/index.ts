@@ -6,6 +6,7 @@ import { MODULES } from 'core/plugging';
 import { CoreModule } from 'core/core.module';
 
 import { SearchComponent } from './search.component';
+import { SearchService } from './search.service';
 import { PlaylistModule } from 'plugins/playlist';
 
 @NgModule({
@@ -18,6 +19,7 @@ import { PlaylistModule } from 'plugins/playlist';
   declarations: [SearchComponent],
   exports: [SearchComponent],
   entryComponents: [SearchComponent],
+  providers: [SearchService],
 })
 export class SearchModule { }
 

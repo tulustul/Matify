@@ -7,4 +7,10 @@
   [markedItem]="playlistService.playlist$ | async"
   noItemsMessage="No playlists"
   (select)="loadPlaylist($event)"
-></list>
+>
+  <template let-item="item">
+    <div class="mp-cell">
+      {{ item.name }}
+    </div>
+  </template>
+</list>

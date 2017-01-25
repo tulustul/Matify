@@ -10,6 +10,8 @@ import { Track, TracksService } from 'core/tracks';
 
 import { PlaylistService } from 'plugins/playlist/playlist.service';
 
+import { SearchService } from './search.service';
+
 @Component({
   selector: 'search',
   templateUrl: './search.component.html',
@@ -23,23 +25,22 @@ export class SearchComponent {
 
   waiting = false;
 
-  searchTerm: string;
-
-  tracks: Track[] = [];
-
   constructor(
     private tracksService: TracksService,
     private playlist: PlaylistService,
+    private searchService: SearchService,
     private cdr: ChangeDetectorRef,
   ) {}
 
   search() {
     this.waiting = true;
-    this.tracks = [];
+    this.searchService.tracks = [];
 
-    this.tracksService.search(this.searchTerm).subscribe(
+    this.tracksService.search(this.searchService.searchTerm).subscribe(
       tracks => {
-        this.tracks = this.tracks.concat(tracks);
+        this.searchService.tracks = (
+          this.searchService.tracks.concat(tracks)
+        );
         this.cdr.markForCheck();
       },
       () => {},
@@ -55,7 +56,7 @@ export class SearchComponent {
   }
 
   addAllToPlaylist() {
-    this.playlist.addTracks(this.tracks);
+    this.playlist.addTracks(this.searchService.tracks);
   }
 
 }
