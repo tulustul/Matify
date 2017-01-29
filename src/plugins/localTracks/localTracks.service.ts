@@ -6,6 +6,8 @@ export class LocalTracksStore implements TracksStore {
 
   name = 'local tracks';
 
+  init() {}
+
   async search(term: string) {
     let tokens = term.split(' ');
     tokens = tokens.map(t => t.trim()).filter(t => !!t);

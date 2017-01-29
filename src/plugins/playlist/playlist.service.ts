@@ -115,7 +115,7 @@ export class PlaylistService {
 
   private _updateTracks(tracks: Track[]) {
     this.tracks = tracks;
-    this._tracks$.next(this.tracks);
+    this._tracks$.next(this.tracks.slice());
     this._save();
   }
 
@@ -132,7 +132,8 @@ export class PlaylistService {
   deleteTrack(track: Track) {
     let index = this.tracks.indexOf(track);
     if (index !== -1) {
-      this._updateTracks(this.tracks.splice(index, 1));
+      this.tracks.splice(index, 1)
+      this._updateTracks(this.tracks);
     }
   }
 

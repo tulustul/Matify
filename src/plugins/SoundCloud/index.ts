@@ -1,5 +1,3 @@
-export * from './soundCloud.service';
-
 import { NgModule } from '@angular/core';
 
 import { MODULES, TRACK_STORES } from 'core/plugging';

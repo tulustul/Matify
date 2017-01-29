@@ -23,7 +23,7 @@ export class Theme {
 
   currentTheme: string;
 
-  constructor(settings: Settings) {
+  constructor(private settings: Settings) {
     settings.changes$.subscribe(() => {
       this.loadTheme(settings.theme);
     });
@@ -56,6 +56,11 @@ export class Theme {
         }
       });
     });
+  }
+
+  saveThemeToSettings() {
+    this.settings.userSettings.theme = this.currentTheme;
+    this.settings.saveUserSettings();
   }
 
   private _setGlobalStyles() {

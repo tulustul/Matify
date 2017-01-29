@@ -7,8 +7,13 @@ import {
   HostBinding,
 } from '@angular/core';
 
-import { Keybindings } from './keybindings.service';
-import { Theme } from './theme.service';
+
+import { TracksService } from 'core/tracks';
+import { Keybindings } from 'core/keybindings.service';
+import { Theme } from 'core/theme.service';
+import { ProxyServerService } from 'core/proxyServer.service';
+import { Settings } from 'core/settings.service';
+
 import { TrackSchedulerService } from 'plugins/trackScheduler';
 
 @Component({
@@ -30,12 +35,25 @@ export class AppComponent {
   @ViewChild('page', { read: ViewContainerRef })
   page: ViewContainerRef;
 
+  initialized = false;
+
   constructor(
     private cfr: ComponentFactoryResolver,
     private keybindings: Keybindings,
     trackSchedulerService: TrackSchedulerService,
     private theme: Theme,
-  ) {}
+    tracksService: TracksService,
+    proxyServerService: ProxyServerService,
+    settings: Settings,
+  ) {
+    settings.changes$.subscribe(() => {
+      if (!this.initialized) {
+        tracksService.init();
+        proxyServerService.runProxyServer();
+        this.initialized = true;
+      }
+    });
+  }
 
   showPage(componentClass: any) {
     if (this.component) {

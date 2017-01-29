@@ -38,7 +38,7 @@ export class TrackIndicatorComponent {
   }
 
   get progress() {
-    return (this._elapsed / this._duration * 100) || 0;
+    return Math.min((this._elapsed / this._duration * 100) || 0, 100);
   }
 
   seek(progress: number) {

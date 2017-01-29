@@ -6,4 +6,6 @@ export interface TracksStore {
 
   search(term: string): Promise<Track[]>;
 
+  init();
+
 }

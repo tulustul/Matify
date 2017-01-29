@@ -14,6 +14,10 @@ export class TracksService {
     this.stores = TRACK_STORES.map(store_class => injector.get(store_class));
   }
 
+  init() {
+    this.stores.forEach(store => store.init());
+  }
+
   search(term: string) {
     return <Observable<Track[]>>Observable.create((observer: Observer<Track[]>) => {
       let remaining = this.stores.length;

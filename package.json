@@ -34,6 +34,7 @@
     "jss": "git+https://git@github.com/Box9/jss.git",
     "rxjs": "^5.0.1",
     "soundcloud": "^3.1.2",
+    "spotify-web-api-js": "^0.21.2",
     "sqlite3": "^3.1.8",
     "ts-helpers": "^1.1.1",
     "typeorm": "0.0.5",

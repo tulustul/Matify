@@ -6,6 +6,8 @@ import { enableProdMode } from '@angular/core';
 import './plugins/commandsPalette';
 import './plugins/localTracks';
 import './plugins/SoundCloud';
+import './plugins/Spotify';
+import './plugins/Youtube';
 import './plugins/playlist';
 import './plugins/bar';
 import './plugins/trackScheduler';

@@ -3,11 +3,7 @@
     "logFile": "player.log",
     "logLevel": "DEBUG",
     "debug": true,
-    "plugins_reload_debounce_time": 0.3,
-    "plugins_paths": [
-        "~/.config/player/"
-    ],
-    "default_context": "playlist",
+    "proxyServerPort": 5000,
 
     "plugins": [
         "test_plug",
@@ -20,77 +16,6 @@
         "track_scheduler",
         "tray_menu"
     ],
-
-    "layout": {
-        "class": "Layout",
-        "direction": "vertical",
-        "components": [
-            {
-                "class": "Layout",
-                "direction": "horizontal",
-                "components": [
-                    {
-                        "class": "Layout",
-                        "id": "mainview",
-                        "color": "test2"
-                    }
-                ]
-            },
-            {
-                "class": "Layout",
-                "id": "bottomview",
-                "desired_size": 5
-            },
-            {
-                "class": "Bar",
-                "id": "bar",
-                "desired_size": 1,
-                "color": "bar"
-            }
-        ]
-    },
-
-    "playlist": {
-        "open_in": "mainview",
-        "columns": [
-            {
-                "field": "track_number",
-                "name": "NO",
-                "priority": 1,
-                "size": 3
-            },
-            {
-                "field": "title",
-                "name": "TITLE",
-                "priority": 1
-            },
-            {
-                "field": "album",
-                "name": "ALBUM",
-                "priority": 1
-            },
-            {
-                "field": "artist",
-                "name": "ARTIST",
-                "priority": 1
-            },
-            {
-                "field": "length",
-                "name": "LENGTH",
-                "priority": 1,
-                "size": 6,
-                "format": "time"
-            }
-        ]
-    },
-
-    "palette": {
-        "open_in": "bottomview"
-    },
-
-    "errors": {
-        "open_in": "bottomview"
-    },
 
     "keybindings": [
         {

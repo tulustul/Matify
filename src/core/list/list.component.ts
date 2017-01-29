@@ -152,8 +152,8 @@ export class ListComponent {
   set items(items: any[]) {
     this._items = items;
     if (this.items.length) {
-      this.currentIndex = 0;
-      this.highlightedItem = this.items[0];
+      this.currentIndex = Math.min(this.currentIndex, this.items.length);
+      this.highlightedItem = this.items[this.currentIndex];
     } else {
       this.currentIndex = -1;
       this.highlightedItem = null;

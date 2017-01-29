@@ -10,6 +10,7 @@ import { CommandRunner, CoreCommands } from './commands';
 import { AudioService } from './audio.service';
 import { VirtualRepeater } from './virtualRepeater';
 import { FilterService } from './filter.service';
+import { ProxyServerService } from './proxyServer.service';
 import { BackgroundSliderComponent } from './backgroundSlider';
 import { SidebarComponent } from './sidebar';
 import { PaletteComponent, PaletteService } from './palette';
@@ -50,6 +51,7 @@ import {
     ListService,
     ListCommands,
     FilterService,
+    ProxyServerService,
   ],
   exports: [
     VirtualRepeater,

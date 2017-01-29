@@ -33,6 +33,7 @@ export class Commands {
 
   saveTheme(theme: string) {
     this.themeService.loadTheme(theme);
+    this.themeService.saveThemeToSettings();
   }
 
 }

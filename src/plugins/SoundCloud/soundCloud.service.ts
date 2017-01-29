@@ -19,6 +19,8 @@ export class SoundCloudStore implements TracksStore {
     });
   }
 
+  init() {}
+
   search(term: string) {
     return new Promise<Track[]>(async (resolve, reject) => {
       let _tracks = await this.SC.get('/tracks', {
