@@ -8,6 +8,13 @@ import { getCommandByName, ICommand, CommandRunner } from './commands';
 @Injectable()
 export class Keybindings {
 
+  INPUT_BLACK_LIST = [
+    'arrowleft',
+    'arrowright',
+    'space',
+    'delete',
+  ];
+
   bindings: Map<string, {command: ICommand, args: any[]}>;
 
   keys$ = Observable.fromEvent(
@@ -28,7 +35,7 @@ export class Keybindings {
   }).filter(combo => {
     let el = document.activeElement;
     if (el.tagName === 'INPUT' && el.getAttribute('type') === 'text') {
-      return combo.startsWith('ctrl') || combo === 'escape';
+      return combo.length > 1 && this.INPUT_BLACK_LIST.indexOf(combo) === -1;
     } else {
       event.preventDefault();
     }
