@@ -26,8 +26,9 @@ export class Keybindings {
     combo += (event.key.trim() || event.code).toLowerCase();
     return combo;
   }).filter(combo => {
-    if (document.activeElement.tagName === 'INPUT') {
-      return combo.length > 1;
+    let el = document.activeElement;
+    if (el.tagName === 'INPUT' && el.getAttribute('type') === 'text') {
+      return combo.startsWith('ctrl') || combo === 'escape';
     } else {
       event.preventDefault();
     }
