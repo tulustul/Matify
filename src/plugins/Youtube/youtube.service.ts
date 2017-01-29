@@ -42,6 +42,7 @@ export class YoutubeStore implements TracksStore {
             length: null,
             artworkUri: t.snippet.thumbnails.default.url,
             track: null,
+            source: 'youtube',
           };
         });
         resolve(tracks);

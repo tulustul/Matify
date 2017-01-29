@@ -9,4 +9,5 @@ export interface Track {
   length: number,
   artworkUri: string,
   videoUri?: string,
+  source: string,
 }

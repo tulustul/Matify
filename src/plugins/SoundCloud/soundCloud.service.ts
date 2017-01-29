@@ -39,6 +39,7 @@ export class SoundCloudStore implements TracksStore {
           artworkUri: t.artwork_url || '',
           genre: t.genre,
           year: t.release_year,
+          source: 'soundcloud',
         };
       });
 

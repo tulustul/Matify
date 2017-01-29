@@ -7,6 +7,7 @@ import { CoreModule } from 'core/core.module';
 import { BarComponent } from './bar.component';
 import { PlaybackControlsComponent } from './playbackControls';
 import { TrackIndicatorComponent } from './trackIndicator';
+import { SourceIndicatorComponent } from './sourceIndicator';
 import { VolumeControlComponent } from './volumeControl';
 import { Commands } from './commands';
 
@@ -16,6 +17,7 @@ import { Commands } from './commands';
     PlaybackControlsComponent,
     TrackIndicatorComponent,
     VolumeControlComponent,
+    SourceIndicatorComponent,
   ],
   imports: [CommonModule, CoreModule],
   exports: [BarComponent],

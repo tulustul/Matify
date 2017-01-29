@@ -50,6 +50,7 @@ export class SpotifyStore implements TracksStore {
           length: t.duration_ms / 1000,
           artworkUri: t.album.images.length ? t.album.images[0].url : '',
           track: t.track_number.toString(),
+          source: 'spotify',
         };
       });
 
