@@ -10,7 +10,7 @@ import { PlaylistsService } from './playlists.service';
 import { Playlist, PlaylistTracks } from './models';
 
 @Injectable()
-export class Commands {
+export class PlaylistCommands {
 
   constructor(
     private playlist: PlaylistService,

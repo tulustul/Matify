@@ -30,6 +30,7 @@ export class YoutubeStore implements TracksStore {
       var request = this.gapi.client.youtube.search.list({
         q: term,
         part: 'snippet',
+        type: 'video',
       });
 
       request.execute(response => {

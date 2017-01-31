@@ -7,7 +7,6 @@ import {
   HostBinding,
 } from '@angular/core';
 
-
 import { TracksService } from 'core/tracks';
 import { Keybindings } from 'core/keybindings.service';
 import { Theme } from 'core/theme.service';
@@ -15,6 +14,7 @@ import { ProxyServerService } from 'core/proxyServer.service';
 import { Settings } from 'core/settings.service';
 
 import { TrackSchedulerService } from 'plugins/trackScheduler';
+import { TrayService } from 'plugins/tray';
 
 @Component({
   selector: 'app-root',
@@ -41,6 +41,7 @@ export class AppComponent {
     private cfr: ComponentFactoryResolver,
     private keybindings: Keybindings,
     trackSchedulerService: TrackSchedulerService,
+    trayService: TrayService,
     private theme: Theme,
     tracksService: TracksService,
     proxyServerService: ProxyServerService,
