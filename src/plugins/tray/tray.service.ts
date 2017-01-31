@@ -10,6 +10,8 @@ const {Tray, Menu, app} = require('electron').remote;
 @Injectable()
 export class TrayService {
 
+  tray: any;
+
   constructor(
     private playlistCommands: PlaylistCommands,
     private audio: AudioService,
@@ -18,7 +20,7 @@ export class TrayService {
   }
 
   createTray() {
-    let appIcon = new Tray('src/assets/tray.png');
+    this.tray = new Tray('src/assets/tray.png');
 
     var contextMenu = Menu.buildFromTemplate([
       {
@@ -43,8 +45,8 @@ export class TrayService {
       },
     ]);
 
-    appIcon.setToolTip('Music Player');
-    appIcon.setContextMenu(contextMenu);
+    this.tray.setToolTip('Music Player');
+    this.tray.setContextMenu(contextMenu);
   }
 
 }
