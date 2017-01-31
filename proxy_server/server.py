@@ -41,3 +41,5 @@ if __name__ == '__main__':
     app.run(port=args.arguments.port)
   except OSError as e:
     app.logger.error('Unable to start server: {}'.format(e))
+  except Exception as e:
+    app.logger.error('Unexpected error: {}'.format(e))
