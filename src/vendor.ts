@@ -13,4 +13,3 @@ import 'jss/jss';
 import 'hammerjs';
 // import 'soundcloud';
 import 'spotify-web-api-js';
-import 'comment-json';
