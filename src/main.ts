@@ -9,12 +9,15 @@ import './plugins/SoundCloud';
 import './plugins/Spotify';
 import './plugins/Youtube';
 import './plugins/playlist';
-import './plugins/bar';
 import './plugins/trackScheduler';
 import './plugins/themes';
 import './plugins/library';
 import './plugins/search';
 import './plugins/playlists';
+import './plugins/playbackControls';
+import './plugins/trackIndicator';
+import './plugins/volumeControl';
+import './plugins/barSourceIndicator';
 
 import { environment } from './environments/environment';
 import { AppModule } from './core/app.module';

@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
+import { BarComponent } from './bar';
 import { Settings } from './settings.service';
 import { Keybindings } from './keybindings.service';
 import { CommandRunner } from './commands';
@@ -17,6 +18,7 @@ import { LibraryComponent } from 'plugins/library/library.component';
 @NgModule({
   declarations: [
     AppComponent,
+    BarComponent,
   ],
   imports: [
     BrowserModule,
