@@ -1,14 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 
-import { LibraryComponent } from 'plugins/library/library.component';
-import { SearchComponent } from 'plugins/search/search.component';
-import { PlaylistsComponent } from 'plugins/playlists/playlists.component';
-
-interface MenuItem {
-  icon: string,
-  name: string,
-  component: Function,
-}
+import { PAGES, MenuItem } from 'core/plugging';
 
 @Component({
   selector: 'sidebar',
@@ -23,38 +15,10 @@ export class SidebarComponent {
   @Output()
   change = new EventEmitter<Function>();
 
-  items: MenuItem[] = [
-    {
-      icon: 'search',
-      name: 'Search',
-      component: SearchComponent,
-    }, {
-      icon: 'thumb_up',
-      name: 'Feed',
-      component: null,
-    }, {
-      icon: 'playlist_play',
-      name: 'Playlists',
-      component: PlaylistsComponent,
-    }, {
-      icon: 'library_music',
-      name: 'Library',
-      component: LibraryComponent,
-    }, {
-      icon: 'font_download',
-      name: 'Lyrics',
-      component: null,
-    }, {
-      icon: 'info',
-      name: 'Song Info',
-      component: null,
-    },
-  ];
+  pages = PAGES;
 
-  constructor() {}
-
-  selectItem(item: MenuItem) {
-    this.change.next(item.component);
+  selectPage(page: MenuItem) {
+    this.change.next(page.component);
   }
 
 }

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { MODULES } from 'core/plugging';
+import { MODULES, PAGES } from 'core/plugging';
 import { LibraryComponent } from './library.component';
 
 @NgModule({
@@ -13,3 +13,8 @@ import { LibraryComponent } from './library.component';
 export class LibraryModule { }
 
 MODULES.push(LibraryModule);
+PAGES.push({
+  icon: 'library_music',
+  name: 'Library',
+  component: LibraryComponent,
+});

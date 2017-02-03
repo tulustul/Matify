@@ -1,8 +1,8 @@
 <div
   class="menu-item"
-  (click)="selectItem(item)"
-  *ngFor="let item of items"
+  (click)="selectPage(page)"
+  *ngFor="let page of pages"
 >
-  <i class="material-icons">{{ item.icon }}</i>
-  {{ item.name }}
+  <i class="material-icons">{{ page.icon }}</i>
+  {{ page.name }}
 </div>
