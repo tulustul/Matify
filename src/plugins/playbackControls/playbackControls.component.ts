@@ -9,7 +9,7 @@ import { PlaylistService } from 'plugins/playlist';
   templateUrl: './playbackControls.component.html',
   styleUrls: ['./playbackControls.component.scss'],
   host: {
-    'class': 'mp-panel',
+    'class': 'mp-primary',
   },
 })
 export class PlaybackControlsComponent {

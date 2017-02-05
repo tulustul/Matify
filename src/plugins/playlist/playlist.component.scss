@@ -6,38 +6,6 @@
     display: flex;
     input {
       max-width: 200px;
-      background: rgb(20, 95, 119);
-    }
-    .tab {
-      padding: 7px 10px;
-      cursor: pointer;
-      flex-grow: 1;
-      background: rgb(20, 95, 119);
-      display: flex;
-      justify-content: space-between;
-      &:hover {
-        background: rgba(20, 95, 119, 0.5);
-        i {
-          opacity: 0.5;
-          &:hover {
-            opacity: 1;
-          }
-        }
-      }
-      &.selected {
-        background: transparent;
-      }
-      .name {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        flex-grow: 1;
-        text-align: center;
-      }
-      i {
-        font-size: 21px;
-        opacity: 0;
-      }
     }
   }
 }

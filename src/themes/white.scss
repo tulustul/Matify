@@ -1,0 +1,31 @@
+@import '../styles/colorize-theme-mixin';
+
+$primary-color: #ffffff;
+$secondary-color: #ffd5d5;
+$tertiary-color: #da0000;
+
+@include colorize-theme($primary-color, $secondary-color, $tertiary-color);
+
+body {
+  color: black;
+}
+
+::-webkit-input-placeholder {
+ color: #666;
+}
+
+.mp-row {
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+volume-control {
+  background: darken($primary-color, 10%);
+}
+
+::-webkit-scrollbar-thumb {
+  background: darken($primary-color, 20%);
+}
+
+input {
+  color: black;
+}

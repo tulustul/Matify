@@ -27,7 +27,7 @@ export class VolumeControlComponent {
   get volumeIcon() {
     if (this.volume > 70) {
       return 'volume_up';
-    } else if (this.volume > 30) {
+    } else if (this.volume > 25) {
       return 'volume_down';
     } else if (this.volume > 0) {
       return 'volume_mute';

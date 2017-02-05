@@ -8,7 +8,7 @@ import { Track } from 'core/tracks';
   templateUrl: './sourceIndicator.component.html',
   styleUrls: ['./sourceIndicator.component.scss'],
   host: {
-    'class': 'mp-panel',
+    'class': 'mp-primary',
   },
 })
 export class SourceIndicatorComponent {

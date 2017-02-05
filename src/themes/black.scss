@@ -1,0 +1,7 @@
+@import '../styles/colorize-theme-mixin';
+
+$primary-color: #222222;
+$secondary-color: #218C41;
+$tertiary-color: #f3ff3e;
+
+@include colorize-theme($primary-color, $secondary-color, $tertiary-color);

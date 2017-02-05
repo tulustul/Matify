@@ -5,18 +5,6 @@
     "debug": true,
     "proxyServerPort": 5000,
 
-    "plugins": [
-        "test_plug",
-        "bar",
-        "library",
-        "playlist",
-        "errors_view",
-        "commands_palette",
-        "scan",
-        "track_scheduler",
-        "tray_menu"
-    ],
-
     "keybindings": [
         {
             "keys": ["space"],
