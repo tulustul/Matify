@@ -101,6 +101,10 @@
         {
             "keys": ["ctrl+f", "/"],
             "command": "searchPlaylist"
+        },
+        {
+            "keys": ["v"],
+            "command": "toogleVisualization"
         }
     ]
 }

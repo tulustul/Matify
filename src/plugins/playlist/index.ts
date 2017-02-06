@@ -16,11 +16,18 @@ import { PlaylistService } from './playlist.service';
 import { PlaylistsService } from './playlists.service';
 import { PlaylistCommands } from './commands';
 
+import { EqualizerVisualizationModule } from 'plugins/equalizerVisualization';
+
 @NgModule({
   declarations: [
     PlaylistComponent,
   ],
-  imports: [CommonModule, CoreModule, FormsModule],
+  imports: [
+    CommonModule,
+    CoreModule,
+    FormsModule,
+    EqualizerVisualizationModule,
+  ],
   exports: [PlaylistComponent],
   providers: [PlaylistService, PlaylistsService, PlaylistCommands],
 })

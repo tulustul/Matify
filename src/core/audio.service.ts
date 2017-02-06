@@ -72,24 +72,23 @@ export class AudioService {
     this.audio.src = this.track.uri;
     this.audio.load();
     this.audio.play();
-    this._state$.next(AudioState.playing);
+    this.setState(AudioState.playing);
   }
 
   stop() {
     this.audio.pause();
     this.audio.currentTime = 0;
-    this._state$.next(AudioState.stopped);
+    this.setState(AudioState.stopped);
   }
 
   togglePause() {
     if (this.audio.paused) {
       this.audio.play();
-      this.state = AudioState.playing;
+      this.setState(AudioState.playing);
     } else {
       this.audio.pause();
-      this.state = AudioState.paused;
+      this.setState(AudioState.paused);
     }
-    this._state$.next(this.state);
   }
 
   seek(position: number) {
@@ -107,6 +106,11 @@ export class AudioService {
   }
   get volume() {
     return this.audio.volume;
+  }
+
+  private setState(state: AudioState) {
+    this.state = state;
+    this._state$.next(this.state);
   }
 
 }
