@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  .header, .rows {
+  .mp-header, .rows {
     width: 100%;
     border-spacing: 0;
     .mp-row {
@@ -11,7 +11,7 @@
       align-items: center;
     }
   }
-  .header .mp-row {
+  .mp-header .mp-row {
     z-index: 1;
     border-bottom-style: solid;
     border-bottom-width: 2px;
