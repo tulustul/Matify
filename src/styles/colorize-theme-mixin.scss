@@ -1,23 +1,8 @@
-@mixin row($primary-color, $tertiary-color) {
-  .mp-row {
-    &.mp-row-highlighted {
-      background-color: darken($primary-color, 3%);
-    }
-
-    &.mp-row-marked {
-      color: $tertiary-color;
-      font-weight: bold;
-    }
-  }
-}
-
 @mixin colorize-theme(
   $primary-color,
   $secondary-color,
   $tertiary-color
 ) {
-  @include row($primary-color, $tertiary-color);
-
   .mp-primary {
     background: $primary-color;
   }
@@ -36,7 +21,17 @@
 
   .mp-secondary-panel {
     background: linear-gradient(to left bottom, darken($primary-color, 5%), lighten($primary-color, 5%));
-    @include row(darken($primary-color, 5%), $tertiary-color);
+  }
+
+  .mp-row {
+    &.mp-row-highlighted {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    &.mp-row-marked {
+      color: $tertiary-color;
+      font-weight: bold;
+    }
   }
 
   .mp-tab {
@@ -52,6 +47,10 @@
 
   ::-webkit-scrollbar-thumb {
     background: lighten($primary-color, 20%);
+  }
+
+  ::-webkit-scrollbar {
+    background: darken($primary-color, 5%);
   }
 
   track-indicator {

@@ -14,14 +14,15 @@ import { PlaylistService } from 'plugins/playlist';
 })
 export class PlaybackControlsComponent {
 
-  playPauseIcon = 'play_arrow';
+  playPauseIcon = 'play_circle_outline';
 
   constructor(
     private audio: AudioService,
     private playlist: PlaylistService,
   ) {
     this.audio.state$.subscribe(state => {
-      this.playPauseIcon = state === AudioState.playing ? 'pause' : 'play_arrow'
+      this.playPauseIcon = state === AudioState.playing ?
+        'pause_circle_outline' : 'play_circle_outline'
     });
   }
 

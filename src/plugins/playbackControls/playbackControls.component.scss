@@ -3,6 +3,9 @@
   align-items: center;
   i {
     cursor: pointer;
+    &:first-child {
+      font-size: 35px;
+    }
     &:hover {
       color: #bbbbbb;
     }
