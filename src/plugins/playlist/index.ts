@@ -16,7 +16,7 @@ import { PlaylistService } from './playlist.service';
 import { PlaylistsService } from './playlists.service';
 import { PlaylistCommands } from './commands';
 
-import { EqualizerVisualizationModule } from 'plugins/equalizerVisualization';
+import { VisualizationModule } from 'plugins/visualization';
 
 @NgModule({
   declarations: [
@@ -26,7 +26,7 @@ import { EqualizerVisualizationModule } from 'plugins/equalizerVisualization';
     CommonModule,
     CoreModule,
     FormsModule,
-    EqualizerVisualizationModule,
+    VisualizationModule,
   ],
   exports: [PlaylistComponent],
   providers: [PlaylistService, PlaylistsService, PlaylistCommands],

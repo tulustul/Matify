@@ -8,6 +8,7 @@ import { Theme } from './theme.service';
 import { Keybindings } from './keybindings.service';
 import { CommandRunner, CoreCommands } from './commands';
 import { AudioService } from './audio.service';
+import { AudioAnalyserService } from './audioAnalyser.service';
 import { VirtualRepeater } from './virtualRepeater';
 import { FilterService } from './filter.service';
 import { ProxyServerService } from './proxyServer.service';
@@ -43,6 +44,7 @@ import {
     Keybindings,
     CommandRunner,
     AudioService,
+    AudioAnalyserService,
     PaletteService,
     TracksService,
     ModalsService,

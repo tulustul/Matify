@@ -15,6 +15,8 @@ export class Settings {
 
   theme: string;
 
+  visualization: string;
+
   userSettings: any = {};
 
   private _changes$ = new ReplaySubject<Settings>(1);

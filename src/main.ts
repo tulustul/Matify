@@ -18,7 +18,7 @@ import './plugins/playbackControls';
 import './plugins/trackIndicator';
 import './plugins/volumeControl';
 import './plugins/barSourceIndicator';
-import './plugins/equalizerVisualization';
+import './plugins/visualization';
 
 import { environment } from './environments/environment';
 import { AppModule } from './core/app.module';
