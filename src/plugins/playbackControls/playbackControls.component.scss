@@ -1,10 +1,25 @@
 :host {
+  $primary-icon-size: 50px;
   display: flex;
   align-items: center;
+  padding-left: $primary-icon-size;
+  .primary-icon-background {
+    box-shadow: 0 0 7px 1px rgba(0, 0, 0, 0.45);
+    border-radius: 100%;
+    height: $primary-icon-size;
+    width: $primary-icon-size;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: -1;
+  }
   i {
     cursor: pointer;
     &:first-child {
-      font-size: 35px;
+      font-size: $primary-icon-size;
+      position: absolute;
+      left: 0;
+      bottom: 0px;
     }
     &:hover {
       color: #bbbbbb;
