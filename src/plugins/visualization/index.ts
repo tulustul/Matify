@@ -55,7 +55,7 @@ VISUALIZATIONS.push({
 VISUALIZATIONS.push({
   name: 'Two way equalizer',
   fragmentShaderPath: 'src/plugins/visualization/shaders/twoWayEqualizer.glsl',
-  fftSize: 128,
+  fftSize: 1024,
   dataInterpolation: false,
 });
 
