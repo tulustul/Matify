@@ -74,19 +74,35 @@
         },
         {
             "keys": ["arrowdown"],
-            "command": "navigateListDown"
+            "command": "listDown"
         },
         {
             "keys": ["arrowup"],
-            "command": "navigateListUp"
+            "command": "listUp"
         },
         {
             "keys": ["pagedown"],
-            "command": "navigateListPageDown"
+            "command": "listPageDown"
         },
         {
             "keys": ["pageup"],
-            "command": "navigateListPageUp"
+            "command": "listPageUp"
+        },
+        {
+            "keys": ["shift+arrowdown"],
+            "command": "listAddToSelectionDown"
+        },
+        {
+            "keys": ["shift+arrowup"],
+            "command": "listAddToSelectionUp"
+        },
+        {
+            "keys": ["shift+pagedown"],
+            "command": "listAddPageToSelectionDown"
+        },
+        {
+            "keys": ["shift+pageup"],
+            "command": "listAddPageToSelectionUp"
         },
         {
             "keys": ["enter"],

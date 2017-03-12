@@ -61,11 +61,11 @@ export class ListComponent {
   @ContentChild(TemplateRef)
   template: TemplateRef<any>;
 
-  currentIndex = -1;
+  cursor = -1;
 
-  highlightedItem: any;
+  cursorItem: any;
 
-  selectedItem: any;
+  selectedItems = new Set<any>();
 
   constructor(
     private listService: ListService,
@@ -93,8 +93,8 @@ export class ListComponent {
     this.select.next(item);
   }
 
-  highlightItem(item: any) {
-    this.highlightedItem = item;
+  setCursorItem(item: any) {
+    this.cursorItem = item;
     this.highlight.next(item);
   }
 
@@ -106,8 +106,9 @@ export class ListComponent {
   }
 
   reset() {
-    this.currentIndex = -1;
-    this.highlightedItem = null;
+    this.cursor = -1;
+    this.cursorItem = null;
+    this.selectedItems.clear();
     this.scrollToTop();
   }
 
@@ -115,8 +116,8 @@ export class ListComponent {
     this.repeater.scrollTo(0);
   }
 
-  selectHighlightedItem() {
-    this.selectItem(this.highlightedItem);
+  selectCursorItem() {
+    this.selectItem(this.cursorItem);
   }
 
   focus() {
@@ -127,50 +128,71 @@ export class ListComponent {
     this.listService.blur();
   }
 
-  next() {
-    this.step(1);
+  next(addToSelection=false) {
+    this.step(1, addToSelection);
   }
 
-  previous() {
-    this.step(-1);
+  previous(addToSelection=false) {
+    this.step(-1, addToSelection);
   }
 
-  nextPage() {
-    this.step(this.repeater.itemsPerPage);
+  nextPage(addToSelection=false) {
+    this.step(this.repeater.itemsPerPage, addToSelection);
   }
 
-  previousPage() {
-    this.step(-this.repeater.itemsPerPage);
+  previousPage(addToSelection=false) {
+    this.step(-this.repeater.itemsPerPage, addToSelection);
   }
 
-  step(offset: number) {
-    this.currentIndex += offset;
-    this.currentIndex = Math.max(
-      0, Math.min(this.items.length - 1, this.currentIndex)
+  step(offset: number, addToSelection=false) {
+    const oldCursor = this.cursor;
+
+    this.cursor += offset;
+    this.cursor = Math.max(
+      0, Math.min(this.items.length - 1, this.cursor)
     );
-    this.highlightItem(this.items[this.currentIndex]);
-    this.scrollViewToItem(this.highlightedItem);
+    this.setCursorItem(this.items[this.cursor]);
+    this.scrollViewToItem(this.cursorItem);
+
+    if (addToSelection) {
+      let start = Math.min(oldCursor, this.cursor);
+      const end = Math.max(oldCursor, this.cursor);
+      if (this.selectedItems.size) {
+        start++;
+      }
+      console.log(start, end);
+      for (let item of this.items.slice(start, end)) {
+        if (this.selectedItems.has(item)) {
+          this.selectedItems.delete(item);
+        } else {
+          this.selectedItems.add(item);
+        }
+      }
+      this.selectedItems.add(this.cursorItem);
+    } else {
+      this.selectedItems.clear();
+    }
     this.cdr.markForCheck();
   }
 
   emitDelete() {
-    this.delete.next(this.highlightedItem);
+    this.delete.next(this.cursorItem);
   }
 
   @Input()
   set items(items: any[]) {
     this._items = items;
     if (this.items.length) {
-      if (this.currentIndex !== -1) {
-        this.currentIndex = Math.min(this.currentIndex, this.items.length);
-        this.highlightedItem = this.items[this.currentIndex];
+      if (this.cursor !== -1) {
+        this.cursor = Math.min(this.cursor, this.items.length);
+        this.cursorItem = this.items[this.cursor];
       } else {
-        this.currentIndex = 0;
-        this.highlightItem(this.items[this.currentIndex]);
+        this.cursor = 0;
+        this.setCursorItem(this.items[this.cursor]);
       }
     } else {
-      this.currentIndex = -1;
-      this.highlightedItem = null;
+      this.cursor = -1;
+      this.cursorItem = null;
     }
   }
   get items() {

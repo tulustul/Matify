@@ -17,11 +17,10 @@
   <div *virtualFor="let visibleItems of items">
     <div class="mp-row"
       *ngFor="let item of visibleItems | async"
-      (mouseenter)="highlightItem(item)"
       (click)="selectItem(item)"
       [class.mp-row-marked]="itemsEqualityFn(item, markedItem)"
-      [class.mp-row-highlighted]="itemsEqualityFn(item, highlightedItem)"
-      [class.mp-row-selected]="itemsEqualityFn(item, selectedItem)"
+      [class.mp-row-highlighted]="itemsEqualityFn(item, cursorItem)"
+      [class.mp-row-selected]="selectedItems.has(item)"
     >
       <template
         [ngTemplateOutlet]="template"

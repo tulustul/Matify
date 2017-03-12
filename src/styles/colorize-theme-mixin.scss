@@ -24,7 +24,11 @@
   }
 
   .mp-row {
-    &.mp-row-highlighted {
+    &.mp-row-selected {
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    &.mp-row-highlighted, &:hover {
       background-color: rgba(0, 0, 0, 0.1);
     }
 
