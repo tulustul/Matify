@@ -4,4 +4,5 @@ export interface ICommand {
     service?: any,
     property?: string,
     isVisibleInPallete?: boolean,
+    keybindings?: string[],
 }

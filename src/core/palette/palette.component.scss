@@ -14,8 +14,11 @@
     &.visible {
       display: flex;
     }
-    .mp-row {
-      padding: 7px 15px;
+    .mp-cell:not(:first-child) {
+      flex-grow: 1;
+      text-align: right;
+      opacity: 0.5;
+      font-size: 13px;
     }
     input {
       padding: 10px 15px;

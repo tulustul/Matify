@@ -54,7 +54,6 @@ export class PaletteComponent {
       this.fields = this.paletteService.fields;
 
       this.list.focus();
-      this.list.reset();
 
       this.columns = this.fields.map(f => {
         return {getter: item => item[f]};
@@ -73,6 +72,7 @@ export class PaletteComponent {
       }
       if (combo === 'escape') {
         this.opened = false;
+        this.list.reset();
         changeDetectorRef.markForCheck();
       }
     })

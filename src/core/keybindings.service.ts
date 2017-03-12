@@ -57,6 +57,7 @@ export class Keybindings {
       if (!command) {
         console.error(`keybindings: unknown command "${binding.command}"`);
       } else {
+        command.keybindings = binding.keys;
         for (let key of binding.keys) {
           this.bindings.set(key, {
             command: command,

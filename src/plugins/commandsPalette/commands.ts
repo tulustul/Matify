@@ -19,7 +19,7 @@ export class Commands {
 
     this.paletteService.openPalette(
       commands,
-      ['displayName'],
+      ['displayName', 'keybindings'],
       command => this.commandRunner.runCommand(command),
     )
   }

@@ -19,8 +19,8 @@
     (highlight)="previewItem($event)"
   >
     <template let-item="item" let-columns="columns">
-      <div class="mp-cell">
-        {{ columns[0].getter(item) }}
+      <div class="mp-cell" *ngFor="let column of columns">
+        {{ column.getter(item) }}
       </div>
     </template>
   </list>
