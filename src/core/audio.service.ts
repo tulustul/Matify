@@ -1,6 +1,11 @@
-import { ReplaySubject } from 'rxjs';
+import { Subject, ReplaySubject } from 'rxjs';
 
 import { Track } from './tracks';
+
+export interface AudioError {
+  message: string,
+  description: string,
+}
 
 export enum AudioState {
   playing,
@@ -33,6 +38,9 @@ export class AudioService {
   private _trackend$ = new ReplaySubject<void>(1);
   trackend$ = this._trackend$.asObservable();
 
+  private _errors$ = new Subject<AudioError>();
+  errors$ = this._errors$.asObservable();
+
   audio = new Audio();
 
   constructor() {
@@ -54,14 +62,38 @@ export class AudioService {
     });
 
     this.audio.addEventListener('ended', () => {
-      this._trackend$.next(null);
+      this.end();
     });
+
+    this.audio.addEventListener('error', () => {
+      let error = {
+        message: 'Unable to play track',
+        description: this.getErrorMessage(this.audio.error.code),
+      };
+      this._errors$.next(error);
+      console.error(`${error.message}: ${error.description}`);
+      this.end();
+    });
+  }
+
+  private end() {
+    this._trackend$.next(null);
+    this.resetTracking();
+  }
+
+  private resetTracking() {
+    this.position = 0;
+    this.duration = 0;
+    this._position$.next(this.position);
+    this._duration$.next(this.duration);
   }
 
   play(track: Track) {
     if (!track) {
       return;
     }
+
+    this.resetTracking();
 
     this.track = track;
     this._track$.next(this.track);
@@ -111,6 +143,21 @@ export class AudioService {
   private setState(state: AudioState) {
     this.state = state;
     this._state$.next(this.state);
+  }
+
+  private getErrorMessage(errorCode: number) {
+    return {
+      [this.audio.error.MEDIA_ERR_ABORTED]:
+        'You aborted the video playback.',
+      [this.audio.error.MEDIA_ERR_NETWORK]:
+        'A network error caused the audio download to fail.',
+      [this.audio.error.MEDIA_ERR_DECODE]:
+        'The audio playback was aborted due to a corruption problem or ' +
+        'because the video used features your browser did not support.',
+      [this.audio.error.MEDIA_ERR_SRC_NOT_SUPPORTED]:
+        'The video audio not be loaded, either because the server or ' +
+        'network failed or because the format is not supported.',
+    }[errorCode] || 'An unknown error occurred.';
   }
 
 }

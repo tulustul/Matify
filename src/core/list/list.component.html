@@ -19,9 +19,9 @@
       *ngFor="let item of visibleItems | async"
       (mouseenter)="highlightItem(item)"
       (click)="selectItem(item)"
-      [class.mp-row-marked]="item === markedItem"
-      [class.mp-row-highlighted]="item === highlightedItem"
-      [class.mp-row-selected]="item === selectedItem"
+      [class.mp-row-marked]="itemsEqualityFn(item, markedItem)"
+      [class.mp-row-highlighted]="itemsEqualityFn(item, highlightedItem)"
+      [class.mp-row-selected]="itemsEqualityFn(item, selectedItem)"
     >
       <template
         [ngTemplateOutlet]="template"

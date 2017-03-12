@@ -13,6 +13,7 @@ import { Theme } from 'core/theme.service';
 import { ProxyServerService } from 'core/proxyServer.service';
 import { Settings } from 'core/settings.service';
 
+import { AudioErrorsNotifier } from 'plugins/audioErrorsNotifier';
 import { TrackSchedulerService } from 'plugins/trackScheduler';
 import { TrayService } from 'plugins/tray';
 
@@ -41,6 +42,7 @@ export class AppComponent {
     private cfr: ComponentFactoryResolver,
     private keybindings: Keybindings,
     trackSchedulerService: TrackSchedulerService,
+    audioErrorsNotifier: AudioErrorsNotifier,
     trayService: TrayService,
     private theme: Theme,
     tracksService: TracksService,

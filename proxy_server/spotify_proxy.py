@@ -18,6 +18,8 @@ spotify_session = spotify.Session()
 
 logged_in_event = threading.Event()
 
+audio_format = None
+
 def init():
   login = args.arguments.spotify_login
   password = args.arguments.spotify_password
@@ -48,9 +50,26 @@ is_end = threading.Event()
 frames_queue = Queue()
 
 wav = None
+track = None
+buffer = None
 
 
-def on_delivery(session, audio_format, frames, num_frames):
+def on_delivery(session, new_audio_format, frames, num_frames):
+  global audio_format
+  global track
+  global wav
+  global buffer
+
+  if not wav:
+    audio_format = new_audio_format
+    wav = wave.open(buffer, 'wb')
+    wav.setparams((
+      audio_format.channels, 2, audio_format.sample_rate,
+      0, 'NONE', 'not compressed',
+    ))
+    frame_number = track.duration // 1000 * audio_format.sample_rate
+    wav.setnframes(frame_number)
+
   wav.writeframesraw(frames)
   return num_frames
 
@@ -69,26 +88,47 @@ spotify_session.on(
 )
 
 
-@app.route('/spotify/<string:track>', methods=['GET'])
-def spotify_proxy(track):
+@app.route('/spotify/<string:track_key>', methods=['GET'])
+def spotify_proxy(track_key):
   global wav
+  global track
+  global buffer
+
+  frame_size = 2
+  frame_number = None
 
   if not logged_in_event.is_set():
     return Response('Spotify not logged in', status=401)
 
+  from flask import request
+  range_ = request.headers.get('Range')
+
+  range_in_bytes = 0
+  if range_:
+    try:
+      range_in_bytes = int(range_.split('=')[1].split('-')[0])
+    except ValueError:
+      range_in_bytes = 0
+    # position = range_in_bytes * 1000 // audio_format.sample_rate // audio_format.frame_size() // audio_format.channels
+    position = range_in_bytes * 1000 // 44100 // 4 // 2
+  else:
+    position = 0
+
+  # is_end.set()
+  # time.sleep(0.02)
+
   is_end.clear()
-  frame_size = 2
-  frame_number = None
   buffer = io.BytesIO()
-  wav = wave.open(buffer, 'wb')
-  wav.setparams((2, 2, 44100, 0, 'NONE', 'not compressed'))
+  wav = None
   pointer = 0
   spotify_session.player.play(False)
   try:
-    track = spotify_session.get_track(track).load()
-    frame_number = int(track.duration / 1000 * 44100)
-    wav.setnframes(frame_number)
+    track = spotify_session.get_track(track_key).load()
+    # frame_number = track.duration // 1000 * audio_format.sample_rate
+    # wav.setnframes(frame_number)
     spotify_session.player.load(track)
+    if position:
+      spotify_session.player.seek(position)
     spotify_session.player.play()
   except Exception as e:
     app.logger.error(str(e))
@@ -106,17 +146,18 @@ def spotify_proxy(track):
         pointer = buffer_pointer
       time.sleep(0.01)
 
-  content_size = frame_number * frame_size * 2
+  # content_size = track.duration // 1000 * audio_format.sample_rate * frame_size * 2
+  content_size = track.duration // 1000 * 44100 * 4 * 2
 
   return Response(
     generate(),
     mimetype='audio/wav',
-    # status=206,
+    status=206,
     headers={
       'Accept-Ranges': 'bytes',
-      'Content-Length': content_size,
-      'Content-Range': 'bytes 0-{}/{}'.format(
-        content_size, content_size - 1,
+      'Content-Length': content_size - range_in_bytes - 20,
+      'Content-Range': 'bytes {}-{}/{}'.format(
+        range_in_bytes, content_size, content_size + 1,
       ),
     },
   )

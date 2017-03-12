@@ -1,8 +1,8 @@
 import pafy
 
-from app import app
-
 from flask import Response
+
+from app import app
 
 
 @app.route('/youtube/<string:track>', methods=['GET'])
@@ -13,7 +13,7 @@ def youtube_proxy(track):
 
   def generate():
     audiostream.download('audio.tmp', quiet=True)
-    with open("audio.tmp", "rb") as audiofile:
+    with open('audio.tmp', 'rb') as audiofile:
       with app.test_request_context():
         from flask import request
         range_ = request.headers.get('Range')

@@ -38,7 +38,7 @@ if __name__ == '__main__':
   spotify_proxy.init()
 
   try:
-    app.run(port=args.arguments.port)
+    app.run(port=args.arguments.port, threaded=True)
   except OSError as e:
     app.logger.error('Unable to start server: {}'.format(e))
   except Exception as e:

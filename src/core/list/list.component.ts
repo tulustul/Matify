@@ -25,6 +25,12 @@ import { Column } from './column.interface';
 })
 export class ListComponent {
 
+  private _itemSize = 34;
+
+  private _columns: Column[];
+
+  private _items: any[];
+
   @Input()
   id: string;
 
@@ -34,20 +40,11 @@ export class ListComponent {
   @Input()
   markedItem: any;
 
-  _items: any[];
-
   @Input()
   noItemsMessage: string;
 
-  private _itemSize = 34;
-
-  private _columns: Column[];
-
-  @ViewChild(VirtualRepeater)
-  repeater: VirtualRepeater;
-
-  @ContentChild(TemplateRef)
-  template: TemplateRef<any>;
+  @Input()
+  itemsEqualityFn = (itemA: any, itemB: any) => itemA === itemB;
 
   @Output()
   select = new EventEmitter<any>();
@@ -57,6 +54,12 @@ export class ListComponent {
 
   @Output()
   delete = new EventEmitter<any>();
+
+  @ViewChild(VirtualRepeater)
+  repeater: VirtualRepeater;
+
+  @ContentChild(TemplateRef)
+  template: TemplateRef<any>;
 
   currentIndex = -1;
 
@@ -100,6 +103,12 @@ export class ListComponent {
     if (index !== -1) {
       this.repeater.scrollTo(index);
     }
+  }
+
+  reset() {
+    this.currentIndex = -1;
+    this.highlightedItem = null;
+    this.scrollToTop();
   }
 
   scrollToTop() {
@@ -152,8 +161,13 @@ export class ListComponent {
   set items(items: any[]) {
     this._items = items;
     if (this.items.length) {
-      this.currentIndex = Math.min(this.currentIndex, this.items.length);
-      this.highlightedItem = this.items[this.currentIndex];
+      if (this.currentIndex !== -1) {
+        this.currentIndex = Math.min(this.currentIndex, this.items.length);
+        this.highlightedItem = this.items[this.currentIndex];
+      } else {
+        this.currentIndex = 0;
+        this.highlightItem(this.items[this.currentIndex]);
+      }
     } else {
       this.currentIndex = -1;
       this.highlightedItem = null;
@@ -166,6 +180,10 @@ export class ListComponent {
   @Input()
   set itemSize(size: number) {
     this.repeater.itemSize = size;
+  }
+
+  trackItem(index: number, item: any) {
+    return item.id;
   }
 
 }

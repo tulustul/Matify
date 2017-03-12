@@ -26,10 +26,11 @@
 <list
   #list
   id="playlist-list"
+  noItemsMessage="Playlist is empty"
   [columns]="playlist.columns"
   [items]="filteredTracks"
-  noItemsMessage="Playlist is empty"
   [markedItem]="playingTrack"
+  [itemsEqualityFn]="tracksEqual"
   (select)="play($event)"
   (delete)="playlist.deleteTrack($event)"
 >

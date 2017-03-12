@@ -94,4 +94,10 @@ export class PlaylistComponent implements OnInit {
     searchBox.focus();
   }
 
+  tracksEqual(trackA: Track, trackB: Track) {
+    if (trackA && trackB) {
+      return trackA.uri === trackB.uri;
+    }
+  }
+
 }
