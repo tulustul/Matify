@@ -23,6 +23,16 @@
             "args": [20]
         },
         {
+            "keys": ["ctrl+arrowleft"],
+            "command": "seekBy",
+            "args": [-120]
+        },
+        {
+            "keys": ["ctrl+arrowright"],
+            "command": "seekBy",
+            "args": [120]
+        },
+        {
             "keys": ["p"],
             "command": "skipTrackBy",
             "args": [-1]
