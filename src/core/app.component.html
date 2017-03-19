@@ -1,15 +1,15 @@
-<palette></palette>
-<notifications></notifications>
-<modal></modal>
+<mp-palette></mp-palette>
+<mp-notifications></mp-notifications>
+<mp-modal></mp-modal>
 
 <div class="view">
-  <sidebar (change)="showPage($event)"></sidebar>
+  <mp-sidebar (change)="showPage($event)"></mp-sidebar>
   <div class="page mp-panel" [hidden]="!pageVisible">
     <div #page></div>
   </div>
   <div class="content">
-    <playlist></playlist>
+    <mp-playlist></mp-playlist>
   </div>
 </div>
 
-<bar></bar>
+<mp-bar></mp-bar>

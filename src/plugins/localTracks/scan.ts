@@ -9,9 +9,9 @@ import { remote } from 'electron';
 
 import { deleteDB } from 'core/db';
 import { Command } from 'core/commands';
-import { ModalsService } from 'core/modals';
 
-import { NotificationsService, Notification } from 'core/notifications';
+import { ModalsService } from 'core/ui/modals';
+import { NotificationsService, Notification } from 'core/ui/notifications';
 
 import { LocalTrack, LocalTrackWord } from './localTrack.model';
 
@@ -42,7 +42,7 @@ export class Scan {
     );
     if (remove) {
       deleteDB();
-      this.notifications.push({message: 'DB deleted'})
+      this.notifications.push({message: 'DB deleted'});
     }
   }
 
@@ -70,7 +70,7 @@ export class Scan {
         args: this.status,
         secondaryContent: status => {
           if (status.gathering) {
-            `Gathering files...`
+            return `Gathering files...`;
           } else {
             return (
               `${status.files} / ${status.total} ` +
@@ -168,7 +168,7 @@ export class Scan {
   }
 }
 
-function walk(path: string, fileslist=[]) {
+function walk(path: string, fileslist = []) {
   return new Promise<string[]>((resolve, reject) => {
     fs.readdir(path, async (err, files) => {
       if (err) {
@@ -178,8 +178,7 @@ function walk(path: string, fileslist=[]) {
           let nextPath = path + '/' + file;
           if (fs.statSync(nextPath).isDirectory()) {
             await walk(nextPath, fileslist);
-          }
-          else {
+          } else {
             fileslist.push(nextPath);
           }
         }

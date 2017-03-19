@@ -1,4 +1,4 @@
-import { ListComponent } from './'
+import { ListComponent } from './';
 
 export class ListService {
 

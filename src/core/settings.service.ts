@@ -27,7 +27,7 @@ export class Settings {
     command: string,
     context: string,
     args: (string | number | boolean)[],
-  }[]
+  }[];
 
   constructor() {
     this.loadSettings();
@@ -69,13 +69,13 @@ export class Settings {
   }
 
   private createUserSettings() {
-     mkdirp(path.dirname(this.USER_SETTINGS_PATH), err => {
-      if (err) {
-        this.logCreatingUserSettingsError(err);
+     mkdirp(path.dirname(this.USER_SETTINGS_PATH), dirError => {
+      if (dirError) {
+        this.logCreatingUserSettingsError(dirError);
       } else {
-        fs.writeFile(this.USER_SETTINGS_PATH, '{\n\n}', err => {
-          if (err) {
-            this.logCreatingUserSettingsError(err);
+        fs.writeFile(this.USER_SETTINGS_PATH, '{\n\n}', writeErr => {
+          if (writeErr) {
+            this.logCreatingUserSettingsError(writeErr);
           }
         });
       }

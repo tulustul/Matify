@@ -35,8 +35,8 @@ export class VisualizationService {
       this.visualizationsMap.set(vis.name, vis);
     }
 
-    settings.changes$.subscribe(settings => {
-      let visName = settings.visualization;
+    settings.changes$.subscribe(newSettings => {
+      let visName = newSettings.visualization;
       if (visName) {
         if (!this.visualizationsMap.has(visName)) {
           console.error(`Unknown visualization: ${visName}`);

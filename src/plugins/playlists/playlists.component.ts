@@ -5,14 +5,14 @@ import {
   ViewChild,
 } from '@angular/core';
 
-import { ListComponent, Column } from 'core/list';
+import { ListComponent, Column } from 'core/ui/list';
 
 import { PlaylistService } from 'plugins/playlist/playlist.service';
 import { PlaylistsService } from 'plugins/playlist/playlists.service';
 import { Playlist } from 'plugins/playlist/models';
 
 @Component({
-  selector: 'playlists',
+  selector: 'mp-playlists',
   templateUrl: './playlists.component.html',
   styleUrls: ['./playlists.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,7 +29,7 @@ export class PlaylistsComponent {
   list: ListComponent;
 
   constructor(
-    private playlistService: PlaylistService,
+    public playlistService: PlaylistService,
     private playlistsService: PlaylistsService,
     private cdr: ChangeDetectorRef,
   ) {

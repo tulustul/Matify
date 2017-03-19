@@ -2,10 +2,10 @@
   {{ trackName }}
 </div>
 
-<background-slider
+<mp-background-slider
   [value]="progress"
   (change)="seek($event)"
-></background-slider>
+></mp-background-slider>
 
 <div class="right">
   {{ elapsed }} / {{ duration }} {{ progress.toFixed(0) }}%

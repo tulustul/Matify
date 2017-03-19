@@ -8,8 +8,6 @@ export class CommandRunner {
   constructor(private injector: Injector) {}
 
   runCommand(command: ICommand, ...args) {
-    console.debug(`Invoking command "${command.name} ${args}"`);
-
     try {
       this.injector.get(
         command.service.constructor
@@ -18,7 +16,7 @@ export class CommandRunner {
       console.error(
         `Error while executing command "${command.name} ${args}". ` +
         `Reason: ${e}. Stack trace: ${e.stack}`
-      )
+      );
     }
   }
 

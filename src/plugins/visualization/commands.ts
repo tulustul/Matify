@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Command } from 'core/commands';
-import { PaletteService } from 'core/palette';
+import { PaletteService } from 'core/ui/palette';
 import { VISUALIZATIONS } from 'core/plugging';
 import { Settings } from 'core/settings.service';
 

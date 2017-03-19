@@ -28,7 +28,7 @@ function buildSchema() {
 function buildFields(storeName: string) {
   let fields = FIELDS_REGISTRY.get(storeName).join(',');
   if (fields.indexOf('++') === -1) {
-    fields = '++,' + fields
+    fields = '++,' + fields;
   }
   return fields;
 }

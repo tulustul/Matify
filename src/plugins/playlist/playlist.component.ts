@@ -5,27 +5,26 @@ import {
   ViewChild,
   OnInit,
   ElementRef,
+  HostBinding,
 } from '@angular/core';
 
 import { Track } from 'core/tracks';
 import { AudioService } from 'core/audio.service';
-import { ListComponent } from 'core/list';
 import { FilterService } from 'core/filter.service';
+import { ListComponent } from 'core/ui/list';
 
 import { PlaylistService } from './playlist.service';
 import { PlaylistsService } from './playlists.service';
 
 @Component({
-  selector: 'playlist',
+  selector: 'mp-playlist',
   templateUrl: './playlist.component.html',
   styleUrls: ['./playlist.component.scss'],
-  host: {
-    '[hidden]': '!opened',
-    'class': 'mp-panel',
-  },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlaylistComponent implements OnInit {
+
+  @HostBinding('class') cssClass = 'mp-panel';
 
   playingTrack: Track;
 
@@ -42,7 +41,7 @@ export class PlaylistComponent implements OnInit {
   searchBox: ElementRef;
 
   constructor(
-    private playlist: PlaylistService,
+    public playlist: PlaylistService,
     private playlists: PlaylistsService,
     private audio: AudioService,
     private filterService: FilterService,

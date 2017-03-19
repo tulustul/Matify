@@ -1,16 +1,20 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Output,
+  EventEmitter,
+  HostBinding,
+} from '@angular/core';
 
 import { PAGES, MenuItem } from 'core/plugging';
 
 @Component({
-  selector: 'sidebar',
+  selector: 'mp-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
-  host: {
-    'class': 'mp-secondary-panel',
-  },
 })
 export class SidebarComponent {
+
+  @HostBinding('class') cssClass = 'mp-secondary-panel';
 
   @Output()
   change = new EventEmitter<Function>();

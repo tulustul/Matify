@@ -15,5 +15,5 @@ export function formatSeconds(seconds: number) {
     formatted = `${hours.toFixed(0)}:${formatted}`;
   }
 
-  return formatted
+  return formatted;
 }

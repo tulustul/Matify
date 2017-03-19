@@ -7,14 +7,14 @@ import { ReplaySubject } from 'rxjs';
 import { AudioService } from 'core/audio.service';
 import { Track } from 'core/tracks';
 import { formatSeconds } from 'core/utils';
-import { NotificationsService } from 'core/notifications';
+import { NotificationsService } from 'core/ui/notifications';
 
 import { Playlist, PlaylistTracks } from './models';
 
 interface Column {
-  displayName: string,
-  size: string,
-  getter: (track: Track) => any,
+  displayName: string;
+  size: string;
+  getter: (track: Track) => any;
 }
 
 @Injectable()
@@ -95,7 +95,7 @@ export class PlaylistService {
   }
 
   addTracks(tracks: Track[]) {
-    this._updateTracks(this.tracks.concat(tracks))
+    this._updateTracks(this.tracks.concat(tracks));
   }
 
   clear() {
@@ -132,7 +132,7 @@ export class PlaylistService {
   deleteTrack(track: Track) {
     let index = this.tracks.indexOf(track);
     if (index !== -1) {
-      this.tracks.splice(index, 1)
+      this.tracks.splice(index, 1);
       this._updateTracks(this.tracks);
     }
   }

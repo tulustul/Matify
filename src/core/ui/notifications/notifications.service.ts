@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 
 export interface Notification {
-  message: string,
-  args?: any,
-  secondaryContent?: (args: any) => string,
+  message: string;
+  args?: any;
+  secondaryContent?: (args: any) => string;
   disposable?: boolean;
   type?: 'success' | 'warn' | 'error' | 'info';
 }

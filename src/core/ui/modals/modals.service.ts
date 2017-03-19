@@ -1,9 +1,9 @@
 import { Subject } from 'rxjs';
 
 export interface State {
-  isOpened: boolean,
-  isInputVisible: boolean,
-  question: string,
+  isOpened: boolean;
+  isInputVisible: boolean;
+  question: string;
 }
 
 export class ModalsService {

@@ -9,7 +9,7 @@ import {
 import { BAR_COMPONENTS } from 'core/plugging';
 
 @Component({
-  selector: 'bar',
+  selector: 'mp-bar',
   templateUrl: './bar.component.html',
   styleUrls: ['./bar.component.scss'],
 })

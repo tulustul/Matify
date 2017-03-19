@@ -8,13 +8,14 @@ import {
 
 import { ICommand } from 'core/commands';
 import { Keybindings } from 'core/keybindings.service';
-import { Column, ListComponent } from 'core/list';
 import { FilterService } from 'core/filter.service';
+
+import { Column, ListComponent } from 'core/ui/list';
 
 import { PaletteService } from './palette.service';
 
 @Component({
-  selector: 'palette',
+  selector: 'mp-palette',
   templateUrl: './palette.component.html',
   styleUrls: ['./palette.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -76,7 +77,7 @@ export class PaletteComponent {
         this.list.blur();
         changeDetectorRef.markForCheck();
       }
-    })
+    });
   }
 
   filterItems() {

@@ -22,7 +22,7 @@ export class TrayService {
   createTray() {
     this.tray = new Tray('src/assets/tray.png');
 
-    var contextMenu = Menu.buildFromTemplate([
+    const contextMenu = Menu.buildFromTemplate([
       {
         label: 'Pause',
         click: () => this.audio.togglePause(),

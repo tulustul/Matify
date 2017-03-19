@@ -57,14 +57,14 @@
     background: darken($primary-color, 5%);
   }
 
-  track-indicator {
+  mp-track-indicator {
     background: $primary-color;
     .level {
       background: darken($primary-color, 10%);
     }
   }
 
-  volume-control {
+  mp-volume-control {
     background: desaturate(lighten($primary-color, 10%), 30%);
     .level {
       background: $primary-color;

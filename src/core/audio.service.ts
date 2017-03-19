@@ -3,8 +3,8 @@ import { Subject, ReplaySubject } from 'rxjs';
 import { Track } from './tracks';
 
 export interface AudioError {
-  message: string,
-  description: string,
+  message: string;
+  description: string;
 }
 
 export enum AudioState {

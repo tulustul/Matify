@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 
 import { Command } from 'core/commands';
-import { ModalsService } from 'core/modals';
-import { NotificationsService } from 'core/notifications';
-import { PaletteService } from 'core/palette';
+import { ModalsService } from 'core/ui/modals';
+import { NotificationsService } from 'core/ui/notifications';
+import { PaletteService } from 'core/ui/palette';
 
 import { PlaylistService } from './playlist.service';
 import { PlaylistsService } from './playlists.service';
@@ -44,10 +44,10 @@ export class PlaylistCommands {
 
   @Command({displayName: 'Delete playlist'})
   async deletePlaylist() {
-    let name = this.playlist.playlist.name;
-    let remove = await this.modals.ask(
+    const name = this.playlist.playlist.name;
+    const remove = await this.modals.ask(
       `Are you sure you want to delete playlist "${name}"?`,
-    )
+    );
     if (remove) {
       this.playlists.deletePlaylist(this.playlist.playlist.name);
     }
@@ -55,7 +55,7 @@ export class PlaylistCommands {
 
   @Command({displayName: 'Rename playlist'})
   async renamePlaylist() {
-    let newPlaylistName = await this.modals.getInput(
+    const newPlaylistName = await this.modals.getInput(
       'Enter new playlist name'
     );
     if (!!newPlaylistName) {
@@ -67,9 +67,9 @@ export class PlaylistCommands {
 
   @Command({displayName: 'Load playlist'})
   async loadPlaylist() {
-    let playlists = await Playlist.store.toArray();
+    const playlists = await Playlist.store.toArray();
+    const originallyOpened = this.playlists.openedPlaylists.splice(0);
     let playlistPreview: Playlist;
-    let originallyOpened = this.playlists.openedPlaylists.splice(0);
     this.palette.openPalette(
       playlists,
       ['name'],
@@ -91,8 +91,8 @@ export class PlaylistCommands {
 
   @Command({isVisibleInPallete: false})
   skipPlaylist(offset: number) {
-    let playlists = this.playlists.openedPlaylists;
-    let currentPlaylist = this.playlist.playlist.name;
+    const playlists = this.playlists.openedPlaylists;
+    const currentPlaylist = this.playlist.playlist.name;
     let index = playlists.indexOf(currentPlaylist);
     index = Math.max(0, Math.min(index + offset, playlists.length - 1));
     this.playlists.openPlaylist(playlists[index]);

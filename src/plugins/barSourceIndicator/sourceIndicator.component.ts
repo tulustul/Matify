@@ -1,17 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 
 import { AudioService } from 'core/audio.service';
 import { Track } from 'core/tracks';
 
 @Component({
-  selector: 'source-indicator',
+  selector: 'mp-source-indicator',
   templateUrl: './sourceIndicator.component.html',
   styleUrls: ['./sourceIndicator.component.scss'],
-  host: {
-    'class': 'mp-primary',
-  },
 })
 export class SourceIndicatorComponent {
+
+  @HostBinding('class') cssClass = 'mp-primary';
 
   track: Track;
 

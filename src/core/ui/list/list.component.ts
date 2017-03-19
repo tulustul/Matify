@@ -12,13 +12,13 @@ import {
 
 import * as jss from 'jss/jss';
 
-import { VirtualRepeater } from 'core/virtualRepeater';
+import { VirtualRepeaterDirective } from 'core/ui/virtualRepeater';
 
 import { ListService } from './list.service';
 import { Column } from './column.interface';
 
 @Component({
-  selector: 'list',
+  selector: 'mp-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -43,9 +43,6 @@ export class ListComponent {
   @Input()
   noItemsMessage: string;
 
-  @Input()
-  itemsEqualityFn = (itemA: any, itemB: any) => itemA === itemB;
-
   @Output()
   select = new EventEmitter<any>();
 
@@ -55,8 +52,8 @@ export class ListComponent {
   @Output()
   delete = new EventEmitter<any>();
 
-  @ViewChild(VirtualRepeater)
-  repeater: VirtualRepeater;
+  @ViewChild(VirtualRepeaterDirective)
+  repeater: VirtualRepeaterDirective;
 
   @ContentChild(TemplateRef)
   template: TemplateRef<any>;
@@ -67,10 +64,13 @@ export class ListComponent {
 
   selectedItems = new Set<any>();
 
+  @Input()
+  itemsEqualityFn = (itemA: any, itemB: any) => itemA === itemB;
+
   constructor(
     private listService: ListService,
     private cdr: ChangeDetectorRef,
-  ) {}
+  ) { }
 
   @Input()
   set columns(columns: Column[]) {
@@ -128,23 +128,23 @@ export class ListComponent {
     this.listService.blur();
   }
 
-  next(addToSelection=false) {
+  next(addToSelection = false) {
     this.step(1, addToSelection);
   }
 
-  previous(addToSelection=false) {
+  previous(addToSelection = false) {
     this.step(-1, addToSelection);
   }
 
-  nextPage(addToSelection=false) {
+  nextPage(addToSelection = false) {
     this.step(this.repeater.itemsPerPage, addToSelection);
   }
 
-  previousPage(addToSelection=false) {
+  previousPage(addToSelection = false) {
     this.step(-this.repeater.itemsPerPage, addToSelection);
   }
 
-  step(offset: number, addToSelection=false) {
+  step(offset: number, addToSelection = false) {
     const oldCursor = this.cursor;
 
     this.cursor += offset;

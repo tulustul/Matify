@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { AudioService } from 'core/audio.service';
-import { NotificationsService } from 'core/notifications';
+import { NotificationsService } from 'core/ui/notifications';
 
 @Injectable()
 export class AudioErrorsNotifier {

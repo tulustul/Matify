@@ -5,7 +5,7 @@ import { Track } from 'core/tracks';
 import { formatSeconds } from 'core/utils';
 
 @Component({
-  selector: 'track-indicator',
+  selector: 'mp-track-indicator',
   templateUrl: './trackIndicator.component.html',
   styleUrls: ['./trackIndicator.component.scss'],
 })

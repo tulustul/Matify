@@ -5,6 +5,7 @@ import {
   ElementRef,
   EmbeddedViewRef,
   Input,
+  OnInit,
 } from '@angular/core';
 
 import { Observable, Observer } from 'rxjs';
@@ -12,7 +13,7 @@ import { Observable, Observer } from 'rxjs';
 @Directive({
   selector: '[virtualFor][virtualForOf]',
 })
-export class VirtualRepeater {
+export class VirtualRepeaterDirective implements OnInit {
 
   BUFFER = 5;
 

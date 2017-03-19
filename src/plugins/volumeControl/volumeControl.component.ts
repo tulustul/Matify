@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { AudioService } from 'core/audio.service';
 
 @Component({
-  selector: 'volume-control',
+  selector: 'mp-volume-control',
   templateUrl: './volumeControl.component.html',
   styleUrls: ['./volumeControl.component.scss'],
 })

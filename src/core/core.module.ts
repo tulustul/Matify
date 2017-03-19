@@ -9,19 +9,20 @@ import { Keybindings } from './keybindings.service';
 import { CommandRunner, CoreCommands } from './commands';
 import { AudioService } from './audio.service';
 import { AudioAnalyserService } from './audioAnalyser.service';
-import { VirtualRepeater } from './virtualRepeater';
 import { FilterService } from './filter.service';
 import { ProxyServerService } from './proxyServer.service';
-import { BackgroundSliderComponent } from './backgroundSlider';
-import { SidebarComponent } from './sidebar';
-import { PaletteComponent, PaletteService } from './palette';
 import { TracksService } from './tracks';
-import { ModalsService, ModalComponent } from './modals';
-import { ListComponent, ListService, ListCommands } from './list';
+
+import { BackgroundSliderComponent } from './ui/backgroundSlider';
+import { SidebarComponent } from './ui/sidebar';
+import { PaletteComponent, PaletteService } from './ui/palette';
+import { ModalsService, ModalComponent } from './ui/modals';
+import { ListComponent, ListService, ListCommands } from './ui/list';
+import { VirtualRepeaterDirective } from './ui/virtualRepeater';
 import {
   NotificationsComponent,
   NotificationsService,
-} from './notifications';
+} from './ui/notifications';
 
 @NgModule({
   imports: [
@@ -30,7 +31,7 @@ import {
     FormsModule,
   ],
   declarations: [
-    VirtualRepeater,
+    VirtualRepeaterDirective,
     BackgroundSliderComponent,
     SidebarComponent,
     PaletteComponent,
@@ -56,7 +57,7 @@ import {
     ProxyServerService,
   ],
   exports: [
-    VirtualRepeater,
+    VirtualRepeaterDirective,
     BackgroundSliderComponent,
     SidebarComponent,
     PaletteComponent,

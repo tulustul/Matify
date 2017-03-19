@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Command } from 'core/commands';
 import { Theme } from 'core/theme.service';
-import { PaletteService } from 'core/palette';
+import { PaletteService } from 'core/ui/palette';
 
 @Injectable()
 export class Commands {
@@ -21,7 +21,9 @@ export class Commands {
       themeNames.splice(themeNames.indexOf(currentTheme), 1);
       themeNames = [currentTheme].concat(themeNames);
 
-      let themes = themeNames.map(name => {return {name}});
+      let themes = themeNames.map(name => {
+        return {name};
+      });
       this.palette.openPalette(
         themes,
         ['name'],

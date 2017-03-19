@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'background-slider',
+  selector: 'mp-background-slider',
   templateUrl: './backgroundSlider.component.html',
   styleUrls: ['./backgroundSlider.component.scss'],
 })
@@ -53,9 +53,9 @@ export class BackgroundSliderComponent implements OnInit, OnDestroy {
     this.wheelHandler = (event: WheelEvent) => {
       let newValue = this.value;
       if (event.wheelDeltaY > 0) {
-        newValue += 5;
-      } else if (event.wheelDeltaY < 0) {
         newValue -= 5;
+      } else if (event.wheelDeltaY < 0) {
+        newValue += 5;
       }
       this.setValue(newValue);
     };

@@ -126,8 +126,16 @@ export class VisualizationRenderer {
     this.tex = this.ctx.createTexture();
     this.ctx.bindTexture(this.ctx.TEXTURE_2D, this.tex);
 
-    this.ctx.texParameteri(this.ctx.TEXTURE_2D, this.ctx.TEXTURE_WRAP_S, this.ctx.CLAMP_TO_EDGE);
-    this.ctx.texParameteri(this.ctx.TEXTURE_2D, this.ctx.TEXTURE_WRAP_T, this.ctx.CLAMP_TO_EDGE)
+    this.ctx.texParameteri(
+      this.ctx.TEXTURE_2D,
+      this.ctx.TEXTURE_WRAP_S,
+      this.ctx.CLAMP_TO_EDGE,
+    );
+    this.ctx.texParameteri(
+      this.ctx.TEXTURE_2D,
+      this.ctx.TEXTURE_WRAP_T,
+      this.ctx.CLAMP_TO_EDGE,
+    );
 
     this.ctx.viewport(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
   }

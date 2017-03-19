@@ -39,7 +39,7 @@ export class PaletteService {
     onPreview: PaletteListener = null,
   ) {
     this.onSelect = onSelect;
-    this.onPreview = onPreview
+    this.onPreview = onPreview;
     this.fields = fields;
 
     this._items$.next(items);

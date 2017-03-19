@@ -13,12 +13,9 @@ import { PlaylistService } from 'plugins/playlist/playlist.service';
 import { SearchService } from './search.service';
 
 @Component({
-  selector: 'search',
+  selector: 'mp-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
-  host: {
-    '[hidden]': '!opened',
-  },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchComponent {
@@ -28,7 +25,7 @@ export class SearchComponent {
   constructor(
     private tracksService: TracksService,
     private playlist: PlaylistService,
-    private searchService: SearchService,
+    public searchService: SearchService,
     private cdr: ChangeDetectorRef,
   ) {}
 

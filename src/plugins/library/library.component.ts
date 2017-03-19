@@ -3,12 +3,9 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'library',
+  selector: 'mp-library',
   templateUrl: './library.component.html',
   styleUrls: ['./library.component.scss'],
-  host: {
-    '[hidden]': '!opened',
-  },
 })
 export class LibraryComponent {
 

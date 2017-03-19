@@ -4,23 +4,19 @@ import {
   ChangeDetectorRef,
   ViewChild,
   ElementRef,
+  HostBinding,
 } from '@angular/core';
 
 import { ModalsService } from './modals.service';
 import { Keybindings } from 'core/keybindings.service';
 
 @Component({
-  selector: 'modal',
+  selector: 'mp-modal',
   templateUrl: './modal.component.html',
   styleUrls: ['./modal.component.scss'],
   // changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    '[class.visible]': 'isOpened',
-  },
 })
 export class ModalComponent {
-
-  isOpened = false;
 
   isInputVisible = false;
 
@@ -29,6 +25,8 @@ export class ModalComponent {
   value: string;
 
   @ViewChild('input') input: ElementRef;
+
+  @HostBinding('class.visible') isOpened = false;
 
   constructor(
     private cdr: ChangeDetectorRef,

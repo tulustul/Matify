@@ -4,7 +4,6 @@ import {
   ViewContainerRef,
   ComponentFactoryResolver,
   ComponentRef,
-  HostBinding,
 } from '@angular/core';
 
 import { TracksService } from 'core/tracks';
@@ -18,12 +17,9 @@ import { TrackSchedulerService } from 'plugins/trackScheduler';
 import { TrayService } from 'plugins/tray';
 
 @Component({
-  selector: 'app-root',
+  selector: 'mp-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  host: {
-    '[style.color]': 'theme["colors.font"]',
-  },
 })
 export class AppComponent {
 
@@ -33,10 +29,10 @@ export class AppComponent {
 
   component: ComponentRef<any>;
 
+  initialized = false;
+
   @ViewChild('page', { read: ViewContainerRef })
   page: ViewContainerRef;
-
-  initialized = false;
 
   constructor(
     private cfr: ComponentFactoryResolver,

@@ -1,9 +1,9 @@
 import { Visualization } from 'plugins/visualization';
 
 export interface MenuItem {
-  icon: string,
-  name: string,
-  component: Function,
+  icon: string;
+  name: string;
+  component: Function;
 }
 
 export const MODULES: any[] = [];

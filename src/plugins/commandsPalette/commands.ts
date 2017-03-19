@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Command, getCommands, CommandRunner } from 'core/commands';
-import { PaletteService } from 'core/palette';
+import { PaletteService } from 'core/ui/palette';
 
 @Injectable()
 export class Commands {
@@ -21,7 +21,7 @@ export class Commands {
       commands,
       ['displayName', 'keybindings'],
       command => this.commandRunner.runCommand(command),
-    )
+    );
   }
 
 }

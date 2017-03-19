@@ -4,6 +4,8 @@ import {
   ChangeDetectorRef,
   ViewChild,
   ElementRef,
+  HostBinding,
+  OnInit,
 } from '@angular/core';
 
 import { AudioService, AudioState } from 'core/audio.service';
@@ -13,15 +15,12 @@ import { VisualizationService } from './visualization.service';
 import { VisualizationRenderer } from './visualizationRenderer.service';
 
 @Component({
-  selector: 'visualization',
+  selector: 'mp-visualization',
   templateUrl: './visualization.component.html',
   styleUrls: ['./visualization.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    '[hidden]': '!enabled',
-  }
 })
-export class VisualizationComponent {
+export class VisualizationComponent implements OnInit {
 
   @ViewChild('canvas')
   canvas: ElementRef;
@@ -32,9 +31,10 @@ export class VisualizationComponent {
 
   HEIGHT = 250;
 
-  enabled = false;
+  @HostBinding('hidden') disabled = true;
 
-  interval: number;
+  interval: any;
+
   constructor(
     private audio: AudioService,
     private equalizerVisualization: VisualizationService,
@@ -43,9 +43,9 @@ export class VisualizationComponent {
     private cdr: ChangeDetectorRef,
   ) {
     equalizerVisualization.enabled$.subscribe(enabled => {
-      this.enabled = enabled;
+      this.disabled = !enabled;
       this.cdr.markForCheck();
-      if (this.enabled) {
+      if (!this.disabled) {
         this.start();
       } else {
         this.stop();
@@ -64,7 +64,7 @@ export class VisualizationComponent {
 
   start() {
     this.interval = setInterval(() => {
-      if (this.enabled && this.audio.state === AudioState.playing) {
+      if (!this.disabled && this.audio.state === AudioState.playing) {
         this.renderer.requestFrame(this.audioAnalyser.getData());
       }
     }, 33);
