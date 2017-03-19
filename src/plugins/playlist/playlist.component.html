@@ -10,17 +10,12 @@
     (ngModelChange)="search()"
   >
 
-  <div
-    class="mp-tab"
-    *ngFor="let playlistName of playlists.openedPlaylists$ | async"
-    [class.selected]="playlistName == playlist.playlist.name"
-    (click)="loadOrClosePlaylist($event, playlistName)"
-  >
-    <span class="name">{{ playlistName }}</span>
-    <i class="material-icons" (click)="closePlaylist(playlistName)">
-      close
-    </i>
-  </div>
+  <mp-tabs
+    [items]="playlists.openedPlaylists$ | async"
+    [selectedItem]="playlist.playlist.name"
+    (select)="loadPlaylist($event)"
+    (close)="closePlaylist($event)"
+  ></mp-tabs>
 </div>
 
 <mp-list

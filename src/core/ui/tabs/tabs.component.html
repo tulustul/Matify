@@ -1,0 +1,11 @@
+<div
+  class="mp-tab"
+  *ngFor="let item of items"
+  [class.selected]="item == selectedItem"
+  (click)="selectOrCloseItem($event, item)"
+>
+  <span class="name">{{ item }}</span>
+  <i class="material-icons" (click)="closeItem(item)">
+    close
+  </i>
+</div>

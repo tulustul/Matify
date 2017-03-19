@@ -42,7 +42,7 @@ export class PlaylistComponent implements OnInit {
 
   constructor(
     public playlist: PlaylistService,
-    private playlists: PlaylistsService,
+    public playlists: PlaylistsService,
     private audio: AudioService,
     private filterService: FilterService,
     private changeDetectorRef: ChangeDetectorRef,
@@ -69,12 +69,8 @@ export class PlaylistComponent implements OnInit {
     this.playlist.play(track);
   }
 
-  loadOrClosePlaylist(event: MouseEvent, name: string) {
-    if (event.button === 1) {
-      this.closePlaylist(name);
-    } else {
-      this.playlists.openPlaylist(name);
-    }
+  loadPlaylist(name: string) {
+    this.playlists.openPlaylist(name);
   }
 
   closePlaylist(name: string) {

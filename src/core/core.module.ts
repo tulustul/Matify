@@ -15,6 +15,7 @@ import { TracksService } from './tracks';
 
 import { BackgroundSliderComponent } from './ui/backgroundSlider';
 import { SidebarComponent } from './ui/sidebar';
+import { TabsComponent } from './ui/tabs';
 import { PaletteComponent, PaletteService } from './ui/palette';
 import { ModalsService, ModalComponent } from './ui/modals';
 import { ListComponent, ListService, ListCommands } from './ui/list';
@@ -38,6 +39,7 @@ import {
     ModalComponent,
     NotificationsComponent,
     ListComponent,
+    TabsComponent,
   ],
   providers: [
     Settings,
@@ -64,6 +66,7 @@ import {
     ModalComponent,
     NotificationsComponent,
     ListComponent,
+    TabsComponent,
   ],
 })
 export class CoreModule { }
