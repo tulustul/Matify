@@ -6,7 +6,7 @@ import { ipcRenderer } from 'electron';
 
 import { AudioAnalyserService } from 'core/audioAnalyser.service';
 import { Settings } from 'core/settings.service';
-import { VISUALIZATIONS } from 'core/plugging';
+import { PLUGGINS_DATA } from 'core/plugging';
 
 import { Visualization } from './visualization.interface';
 import { VisualizationRenderer } from './visualizationRenderer.service';
@@ -31,7 +31,7 @@ export class VisualizationService {
     private audioAnalyser: AudioAnalyserService,
     private renderer: VisualizationRenderer,
   ) {
-    for (let vis  of VISUALIZATIONS) {
+    for (let vis  of PLUGGINS_DATA.visualizations) {
       this.visualizationsMap.set(vis.name, vis);
     }
 

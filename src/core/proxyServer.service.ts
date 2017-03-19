@@ -4,7 +4,7 @@ import * as childProcess from 'child_process';
 import * as process from 'process';
 
 
-import { PROXY_SERVER_PARAMS } from 'core/plugging';
+import { PLUGGINS_DATA } from 'core/plugging';
 import { Settings } from 'core/settings.service';
 
 @Injectable()
@@ -17,10 +17,10 @@ export class ProxyServerService {
   runProxyServer() {
     let port = this.settings['proxyServerPort'];
 
-    PROXY_SERVER_PARAMS.push(`--port=${port}`);
+    PLUGGINS_DATA.proxyServerParams.push(`--port=${port}`);
 
     this.proxyServerProcess = childProcess.spawn(
-      'proxy_server/server.py', PROXY_SERVER_PARAMS,
+      'proxy_server/server.py', PLUGGINS_DATA.proxyServerParams,
     );
 
     process.on('exit', () => this.proxyServerProcess.kill());

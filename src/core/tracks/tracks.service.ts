@@ -2,7 +2,7 @@ import { Injectable, Injector } from '@angular/core';
 
 import { Observable, Observer } from 'rxjs';
 
-import { TRACK_STORES } from 'core/plugging';
+import { PLUGGINS_DATA } from 'core/plugging';
 import { TracksStore, Track } from 'core/tracks';
 
 @Injectable()
@@ -11,7 +11,9 @@ export class TracksService {
   stores: TracksStore[];
 
   constructor(injector: Injector) {
-    this.stores = TRACK_STORES.map(store_class => injector.get(store_class));
+    this.stores = PLUGGINS_DATA.trackStores.map(
+      store_class => injector.get(store_class)
+    );
   }
 
   init() {

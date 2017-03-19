@@ -6,7 +6,7 @@ import {
   ViewChild
 } from '@angular/core';
 
-import { BAR_COMPONENTS } from 'core/plugging';
+import { PLUGGINS_DATA } from 'core/plugging';
 
 @Component({
   selector: 'mp-bar',
@@ -21,7 +21,7 @@ export class BarComponent implements OnInit {
   constructor(private cfr: ComponentFactoryResolver) {}
 
   ngOnInit() {
-    for (let componentClass of BAR_COMPONENTS) {
+    for (let componentClass of PLUGGINS_DATA.barComponents) {
       let factory = this.cfr.resolveComponentFactory(componentClass);
       this.componentsRef.createComponent(factory);
     }

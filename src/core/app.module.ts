@@ -11,7 +11,7 @@ import { Keybindings } from './keybindings.service';
 import { CommandRunner } from './commands';
 import { CoreModule } from './core.module';
 
-import { MODULES } from './plugging';
+import { PLUGGINS_DATA } from './plugging';
 
 import { LibraryComponent } from 'plugins/library/library.component';
 
@@ -23,7 +23,7 @@ import { LibraryComponent } from 'plugins/library/library.component';
   imports: [
     BrowserModule,
     CoreModule,
-    ...MODULES
+    ...PLUGGINS_DATA.modules,
   ],
   bootstrap: [AppComponent],
 })

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { Command } from 'core/commands';
 import { PaletteService } from 'core/ui/palette';
-import { VISUALIZATIONS } from 'core/plugging';
+import { PLUGGINS_DATA } from 'core/plugging';
 import { Settings } from 'core/settings.service';
 
 import { VisualizationService } from './visualization.service';
@@ -26,7 +26,7 @@ export class Commands {
   changeVisualization() {
     setTimeout(() => {
       this.palette.openPalette(
-        VISUALIZATIONS,
+        PLUGGINS_DATA.visualizations,
         ['name'],
         vis => this.saveVisualization(vis),
         vis => this.visualization.visualization = vis,

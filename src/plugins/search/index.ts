@@ -2,13 +2,20 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { MODULES, PAGES } from 'core/plugging';
+import { Plugin } from 'core/plugging';
 import { CoreModule } from 'core/core.module';
 
 import { SearchComponent } from './search.component';
 import { SearchService } from './search.service';
-import { PlaylistModule } from 'plugins/playlist';
+import { Module as PlaylistModule } from 'plugins/playlist';
 
+@Plugin({
+  menuItems: [{
+    icon: 'search',
+    name: 'Search',
+    component: SearchComponent,
+  }],
+})
 @NgModule({
   imports: [
     CommonModule,
@@ -21,11 +28,4 @@ import { PlaylistModule } from 'plugins/playlist';
   entryComponents: [SearchComponent],
   providers: [SearchService],
 })
-export class SearchModule { }
-
-MODULES.push(SearchModule);
-PAGES.push({
-  icon: 'search',
-  name: 'Search',
-  component: SearchComponent,
-});
+export class Module { }

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import * as SpotifyWebApi from 'spotify-web-api-js';
 
 import { TracksStore, Track } from 'core/tracks';
-import { PROXY_SERVER_PARAMS } from 'core/plugging';
+import { PLUGGINS_DATA } from 'core/plugging';
 import { Settings } from 'core/settings.service';
 
 @Injectable()
@@ -25,8 +25,8 @@ export class SpotifyStore implements TracksStore {
     this.enabled = login && password;
 
     if (this.enabled) {
-      PROXY_SERVER_PARAMS.push(`--spotify-login=${login}`);
-      PROXY_SERVER_PARAMS.push(`--spotify-password=${password}`);
+      PLUGGINS_DATA.proxyServerParams.push(`--spotify-login=${login}`);
+      PLUGGINS_DATA.proxyServerParams.push(`--spotify-password=${password}`);
     }
   }
 

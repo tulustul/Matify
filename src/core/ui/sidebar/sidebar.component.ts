@@ -5,7 +5,7 @@ import {
   HostBinding,
 } from '@angular/core';
 
-import { PAGES, MenuItem } from 'core/plugging';
+import { PLUGGINS_DATA, MenuItem } from 'core/plugging';
 
 @Component({
   selector: 'mp-sidebar',
@@ -19,7 +19,7 @@ export class SidebarComponent {
   @Output()
   change = new EventEmitter<Function>();
 
-  pages = PAGES;
+  pages = PLUGGINS_DATA.menuItems;
 
   selectPage(page: MenuItem) {
     this.change.next(page.component);

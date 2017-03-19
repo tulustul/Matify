@@ -9,15 +9,16 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { CoreModule } from 'core/core.module';
-import { MODULES } from 'core/plugging';
+import { Plugin } from 'core/plugging';
 
 import { PlaylistComponent } from './playlist.component';
 import { PlaylistService } from './playlist.service';
 import { PlaylistsService } from './playlists.service';
 import { PlaylistCommands } from './commands';
 
-import { VisualizationModule } from 'plugins/visualization';
+import { Module as VisualizationModule } from 'plugins/visualization';
 
+@Plugin()
 @NgModule({
   declarations: [
     PlaylistComponent,
@@ -31,7 +32,4 @@ import { VisualizationModule } from 'plugins/visualization';
   exports: [PlaylistComponent],
   providers: [PlaylistService, PlaylistsService, PlaylistCommands],
 })
-export class PlaylistModule { }
-
-
-MODULES.push(PlaylistModule);
+export class Module { }

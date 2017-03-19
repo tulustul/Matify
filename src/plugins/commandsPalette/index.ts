@@ -1,13 +1,12 @@
 import { NgModule } from '@angular/core';
 
-import { MODULES } from 'core/plugging';
+import { Plugin } from 'core/plugging';
 import { CoreModule } from 'core/core.module';
 import { Commands } from './commands';
 
+@Plugin()
 @NgModule({
   imports: [CoreModule],
   providers: [Commands],
 })
-export class CommandPaletteModule { }
-
-MODULES.push(CommandPaletteModule);
+export class Module { }
