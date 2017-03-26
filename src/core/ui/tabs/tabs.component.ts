@@ -6,8 +6,6 @@ import {
   HostBinding,
 } from '@angular/core';
 
-import { PLUGGINS_DATA, MenuItem } from 'core/plugging';
-
 @Component({
   selector: 'mp-tabs',
   templateUrl: './tabs.component.html',
@@ -15,15 +13,15 @@ import { PLUGGINS_DATA, MenuItem } from 'core/plugging';
 })
 export class TabsComponent {
 
-  @Input() items: string[];
+  @Input() items: any[];
 
-  @Input() selectedItem: string;
+  @Input() selectedItem: any;
 
-  @Output() select = new EventEmitter<string>();
+  @Output() select = new EventEmitter<any>();
 
-  @Output() close = new EventEmitter<string>();
+  @Output() close = new EventEmitter<any>();
 
-  selectOrCloseItem(event: MouseEvent, item: string) {
+  selectOrCloseItem(event: MouseEvent, item: any) {
     if (event.button === 1) {
       this.closeItem(item);
     } else {
@@ -31,7 +29,7 @@ export class TabsComponent {
     }
   }
 
-  closeItem(item: string) {
+  closeItem(item: any) {
     this.close.next(item);
   }
 

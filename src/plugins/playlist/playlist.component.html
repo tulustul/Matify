@@ -1,5 +1,5 @@
-<mp-visualization></mp-visualization>
-
+<!--<mp-visualization></mp-visualization>-->
+<!--
 <div class="controls">
   <input
     class="mp-darken"
@@ -16,18 +16,19 @@
     (select)="loadPlaylist($event)"
     (close)="closePlaylist($event)"
   ></mp-tabs>
-</div>
+</div>-->
+
 
 <mp-list
   #list
   id="playlist-list"
   noItemsMessage="Playlist is empty"
-  [columns]="playlist.columns"
-  [items]="filteredTracks"
+  [columns]="playlistService.columns"
+  [items]="tracks"
   [markedItem]="playingTrack"
   [itemsEqualityFn]="tracksEqual"
   (select)="play($event)"
-  (delete)="playlist.deleteTrack($event)"
+  (delete)="playlistService.deleteTrack($event)"
 >
   <template let-item="item" let-columns="columns">
     <div class="mp-cell" *ngFor="let column of columns">

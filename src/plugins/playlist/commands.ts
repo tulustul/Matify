@@ -4,10 +4,12 @@ import { Command } from 'core/commands';
 import { ModalsService } from 'core/ui/modals';
 import { NotificationsService } from 'core/ui/notifications';
 import { PaletteService } from 'core/ui/palette';
+import { PaneService } from 'core/ui/pane';
 
 import { PlaylistService } from './playlist.service';
-import { PlaylistsService } from './playlists.service';
+import { PlaylistsService, PlaylistWithTracks } from './playlists.service';
 import { Playlist, PlaylistTracks } from './models';
+import { PlaylistComponent } from './playlist.component';
 
 @Injectable()
 export class PlaylistCommands {
@@ -18,6 +20,7 @@ export class PlaylistCommands {
     private modals: ModalsService,
     private notifications: NotificationsService,
     private palette: PaletteService,
+    private pane: PaneService,
   ) {}
 
   @Command({isVisibleInPallete: false})
@@ -38,8 +41,10 @@ export class PlaylistCommands {
   }
 
   @Command({displayName: 'New playlist'})
-  newPlaylist() {
-    this.playlists.createPlaylist();
+  async newPlaylist() {
+    await this.playlists.createPlaylist();
+    const playlistView = this.pane.openNewView(PlaylistComponent) as PlaylistComponent;
+        playlistView.setPlaylist(this.playlist.playlist.name);
   }
 
   @Command({displayName: 'Delete playlist'})
@@ -65,42 +70,20 @@ export class PlaylistCommands {
     };
   }
 
-  @Command({displayName: 'Load playlist'})
-  async loadPlaylist() {
+  @Command({displayName: 'Open playlist'})
+  async openPlaylist() {
     const playlists = await Playlist.store.toArray();
-    const originallyOpened = this.playlists.openedPlaylists.splice(0);
     let playlistPreview: Playlist;
     this.palette.openPalette(
       playlists,
       ['name'],
-      (playlist: Playlist) => this.playlists.openPlaylist(playlist.name),
-      (playlist: Playlist) => {
-        if (playlistPreview && originallyOpened.indexOf(playlistPreview.name) === -1) {
-          this.playlists.closePlaylist(playlistPreview.name);
-        }
-        playlistPreview = playlist;
-        this.playlists.openPlaylist(playlist.name);
+      async (playlist: Playlist) => {
+        const playlistView = (
+          this.pane.openNewView(PlaylistComponent) as PlaylistComponent
+        );
+        playlistView.setPlaylist(playlist.name);
       },
     );
-  }
-
-  @Command({displayName: 'Close playlist'})
-  closePlaylist() {
-    this.playlists.closePlaylist(this.playlist.playlist.name);
-  }
-
-  @Command({isVisibleInPallete: false})
-  skipPlaylist(offset: number) {
-    const playlists = this.playlists.openedPlaylists;
-    const currentPlaylist = this.playlist.playlist.name;
-    let index = playlists.indexOf(currentPlaylist);
-    index = Math.max(0, Math.min(index + offset, playlists.length - 1));
-    this.playlists.openPlaylist(playlists[index]);
-  }
-
-  @Command({isVisibleInPallete: false})
-  searchPlaylist() {
-    this.playlist.focusSearch();
   }
 
 }

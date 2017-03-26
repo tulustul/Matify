@@ -22,7 +22,7 @@ export class BarComponent implements OnInit {
 
   ngOnInit() {
     for (let componentClass of PLUGGINS_DATA.barComponents) {
-      let factory = this.cfr.resolveComponentFactory(componentClass);
+      const factory = this.cfr.resolveComponentFactory(componentClass);
       this.componentsRef.createComponent(factory);
     }
   }

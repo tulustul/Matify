@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import * as jss from 'jss/jss';
 
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, Observable } from 'rxjs';
 
 import { AudioService } from 'core/audio.service';
 import { Track } from 'core/tracks';
@@ -10,6 +10,7 @@ import { formatSeconds } from 'core/utils';
 import { NotificationsService } from 'core/ui/notifications';
 
 import { Playlist, PlaylistTracks } from './models';
+import { PlaylistWithTracks } from './playlists.service';
 
 interface Column {
   displayName: string;
@@ -22,7 +23,7 @@ export class PlaylistService {
 
   private _playlist$ = new ReplaySubject<Playlist>(1);
   playlist$ = this._playlist$.asObservable();
-  playlist: Playlist = {name: 'New playlist'};
+  playlist: PlaylistWithTracks;
 
   tracks: Track[] = [];
   private _tracks$ = new ReplaySubject<Track[]>(1);
@@ -102,15 +103,15 @@ export class PlaylistService {
     this._updateTracks([]);
   }
 
-  async setPlaylist(playlist: Playlist) {
+  async setPlaylist(playlist: PlaylistWithTracks) {
     this.playlist = playlist;
     this._playlist$.next(this.playlist);
-
-    let playlistTracks = await PlaylistTracks.store.get(playlist.id);
-    if (playlistTracks) {
-      this.tracks = playlistTracks.tracks;
+    // this.tra
+    // let playlistTracks = await PlaylistTracks.store.get(playlist.playlistModel.id);
+    // if (playlistTracks) {
+      this.tracks = playlist.tracks;
       this._tracks$.next(this.tracks);
-    }
+    // }
   }
 
   private _updateTracks(tracks: Track[]) {
@@ -120,11 +121,11 @@ export class PlaylistService {
   }
 
   private _save() {
-    if (this.playlist.placeholder === '1') {
-      this.playlist.placeholder = '';
-      Playlist.store.update(this.playlist.id, this.playlist);
+    if (this.playlist.playlistModel.placeholder === '1') {
+      this.playlist.playlistModel.placeholder = '';
+      Playlist.store.update(this.playlist.playlistModel.id, this.playlist);
     }
-    PlaylistTracks.store.update(this.playlist.id, {
+    PlaylistTracks.store.update(this.playlist.playlistModel.id, {
       tracks: this.tracks,
     });
   }

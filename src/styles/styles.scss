@@ -9,36 +9,6 @@ body {
   color: white;
 }
 
-.mp-tab {
-  padding: 7px 10px;
-  cursor: pointer;
-  flex-grow: 1;
-  display: flex;
-  justify-content: space-between;
-  &:hover {
-    i {
-      opacity: 0.5;
-      &:hover {
-        opacity: 1;
-      }
-    }
-  }
-  &.selected {
-    background: transparent;
-  }
-  .name {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    flex-grow: 1;
-    text-align: center;
-  }
-  i {
-    font-size: 21px;
-    opacity: 0;
-  }
-}
-
 .mp-button {
   padding: 7px 10px;
   margin-left: 10px;

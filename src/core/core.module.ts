@@ -16,6 +16,7 @@ import { TracksService } from './tracks';
 import { BackgroundSliderComponent } from './ui/backgroundSlider';
 import { SidebarComponent } from './ui/sidebar';
 import { TabsComponent } from './ui/tabs';
+import { PaneComponent, PaneService, PaneCommands } from './ui/pane';
 import { PaletteComponent, PaletteService } from './ui/palette';
 import { ModalsService, ModalComponent } from './ui/modals';
 import { ListComponent, ListService, ListCommands } from './ui/list';
@@ -40,6 +41,7 @@ import {
     NotificationsComponent,
     ListComponent,
     TabsComponent,
+    PaneComponent,
   ],
   providers: [
     Settings,
@@ -57,6 +59,8 @@ import {
     ListCommands,
     FilterService,
     ProxyServerService,
+    PaneService,
+    PaneCommands,
   ],
   exports: [
     VirtualRepeaterDirective,
@@ -67,6 +71,7 @@ import {
     NotificationsComponent,
     ListComponent,
     TabsComponent,
+    PaneComponent,
   ],
 })
 export class CoreModule { }

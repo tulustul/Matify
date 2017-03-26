@@ -29,6 +29,9 @@ import { Module as VisualizationModule } from 'plugins/visualization';
     FormsModule,
     VisualizationModule,
   ],
+  entryComponents: [
+    PlaylistComponent,
+  ],
   exports: [PlaylistComponent],
   providers: [PlaylistService, PlaylistsService, PlaylistCommands],
 })

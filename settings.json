@@ -62,7 +62,7 @@
         },
         {
             "keys": ["ctrl+p"],
-            "command": "loadPlaylist"
+            "command": "openPlaylist"
         },
         {
             "keys": ["ctrl+n"],
@@ -114,16 +114,16 @@
         },
         {
             "keys": ["ctrl+w"],
-            "command": "closePlaylist"
+            "command": "panes.closeView"
         },
         {
             "keys": ["ctrl+pageup"],
-            "command": "skipPlaylist",
+            "command": "panes.switchViewBy",
             "args": [-1]
         },
         {
             "keys": ["ctrl+pagedown"],
-            "command": "skipPlaylist",
+            "command": "panes.switchViewBy",
             "args": [1]
         },
         {

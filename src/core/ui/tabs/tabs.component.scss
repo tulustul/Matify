@@ -1,4 +1,32 @@
 :host {
   display: flex;
   flex-grow: 1;
+  .mp-tab {
+    display: flex;
+    flex-grow: 1;
+    padding: 7px 10px;
+    cursor: pointer;
+    &:hover {
+      i {
+        opacity: 0.5;
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+    &.selected {
+      background: transparent;
+    }
+    .name {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex-grow: 1;
+      text-align: center;
+    }
+    i {
+      font-size: 21px;
+      opacity: 0;
+    }
+  }
 }

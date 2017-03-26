@@ -41,8 +41,8 @@ export class PlaylistsComponent {
     this.cdr.markForCheck();
   }
 
-  loadPlaylist(playlist: Playlist) {
-    this.playlistsService.openPlaylist(playlist.name);
-  }
+  // loadPlaylist(playlist: Playlist) {
+  //   this.playlistsService.openPlaylist(playlist.name);
+  // }
 
 }
