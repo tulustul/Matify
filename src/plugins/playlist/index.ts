@@ -1,6 +1,5 @@
 export * from './models';
 export * from './playlist.service';
-export * from './playlists.service';
 export * from './playlist/playlist.component';
 export * from './commands';
 
@@ -14,7 +13,6 @@ import { Plugin } from 'core/plugging';
 import { PlaylistComponent } from './playlist/playlist.component';
 import { PlaylistViewComponent } from './playlistView/playlistView.component';
 import { PlaylistService } from './playlist.service';
-import { PlaylistsService } from './playlists.service';
 import { PlaylistCommands } from './commands';
 
 @Plugin()
@@ -35,6 +33,6 @@ import { PlaylistCommands } from './commands';
     PlaylistComponent,
     PlaylistViewComponent,
   ],
-  providers: [PlaylistService, PlaylistsService, PlaylistCommands],
+  providers: [PlaylistService, PlaylistCommands],
 })
 export class Module { }

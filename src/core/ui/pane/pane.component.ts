@@ -57,7 +57,7 @@ export class PaneComponent implements OnInit, OnDestroy {
 
   displayNameSubscription: Subscription;
 
-  needSerializationSubscription: Subscription;
+  serializationSubscription: Subscription;
 
   @ViewChild('content', {read: ViewContainerRef})
   content: ViewContainerRef;
@@ -161,9 +161,17 @@ export class PaneComponent implements OnInit, OnDestroy {
     this.currentView = {component: this.componentRef.instance, view};
     localStorage.setItem(this.key + 'currentView', JSON.stringify(key));
 
+    const component = this.currentView.component;
+
     view.displayName = originalKey;
 
-    const displayName$ = this.currentView.component.displayName$;
+    if (component.displayName !== undefined) {
+      view.displayName = component.displayName;
+    } else {
+      view.displayName = originalKey;
+    }
+
+    const displayName$ = component.displayName$;
     if (displayName$) {
       this.displayNameSubscription = displayName$.subscribe(displayName => {
         const currentItem = this.views.find(i => key === i.key);
@@ -171,18 +179,16 @@ export class PaneComponent implements OnInit, OnDestroy {
           currentItem.displayName = displayName;
         }
       });
-    } else if (this.currentView.component.displayName !== undefined) {
-      view.displayName = this.currentView.component.displayName;
+    }
+
+    const serialization$ = component.serialization$;
+    if (serialization$) {
+      this.serializationSubscription = serialization$.subscribe(data => {
+        localStorage.setItem(this.currentView.view.key, JSON.stringify(data));
+      });
     }
 
     this.searchTerm = '';
-  }
-
-  serializeCurrentView() {
-    if (this.currentView.component.serialize) {
-      const data = this.currentView.component.serialize();
-      localStorage.setItem(this.currentView.view.key, JSON.stringify(data));
-    }
   }
 
   deserializeCurrentView() {
@@ -194,7 +200,6 @@ export class PaneComponent implements OnInit, OnDestroy {
 
   detach() {
     if (this.componentRef) {
-      this.serializeCurrentView();
       this.content.detach();
       this.componentRef.destroy();
       this.componentRef = null;
@@ -202,9 +207,9 @@ export class PaneComponent implements OnInit, OnDestroy {
         this.displayNameSubscription.unsubscribe();
         this.displayNameSubscription = null;
       }
-      if (this.needSerializationSubscription) {
-        this.needSerializationSubscription.unsubscribe();
-        this.needSerializationSubscription = null;
+      if (this.serializationSubscription) {
+        this.serializationSubscription.unsubscribe();
+        this.serializationSubscription = null;
       }
     }
   }

@@ -50,7 +50,7 @@ export class PlaylistCommands {
   })
   async newPlaylist() {
     await this.playlist.create();
-    this.pane.openView(PlaylistViewComponent);
+    this.pane.openView(PlaylistViewComponent, 'New playlist');
   }
 
   @Command({

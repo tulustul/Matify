@@ -10,7 +10,6 @@ import { formatSeconds } from 'core/utils';
 import { NotificationsService } from 'core/ui/notifications';
 
 import { Playlist, PlaylistTracks } from './models';
-import { PlaylistWithTracks } from './playlists.service';
 
 interface Column {
   displayName: string;
@@ -32,8 +31,6 @@ export class PlaylistService {
 
   private _searchFocus$ = new ReplaySubject<void>(1);
   searchFocus$ = this._searchFocus$.asObservable();
-
-  // private _playlists = new Map<number, ReplaySubject<PlaylistWithTracks>>();
 
   columns: Column[] = [
     {
@@ -107,17 +104,6 @@ export class PlaylistService {
     this._updateTracks([]);
   }
 
-  // async setPlaylist(playlist: PlaylistWithTracks) {
-  //   this.playlist = playlist;
-  //   this._playlist$.next(this.playlist);
-  //   // this.tra
-  //   // let playlistTracks = await PlaylistTracks.store.get(playlist.playlistModel.id);
-  //   // if (playlistTracks) {
-  //     this.tracks = playlist.tracks;
-  //     this._tracks$.next(this.tracks);
-  //   // }
-  // }
-
   private _updateTracks(tracks: Track[]) {
     this.tracks = tracks;
     this._tracks$.next(this.tracks.slice());
@@ -142,29 +128,28 @@ export class PlaylistService {
     }
   }
 
-  focusSearch() {
-    this._searchFocus$.next(null);
-  }
-
   public async create() {
-    let newPlaylist = await Playlist.store
+    this.playlist = await Playlist.store
       .where('placeholder')
       .equals('1')
       .first();
 
-    if (!newPlaylist) {
-      newPlaylist = {
-        id: null,
+    if (!this.playlist) {
+      this.playlist = {
         name: 'New playlist',
         placeholder: '1',
       };
-      newPlaylist.id = await Playlist.store.add(newPlaylist);
-      await PlaylistTracks.store.add({
-        playlistId: newPlaylist.id,
-        tracks: [],
-      });
+      this.tracks = [];
+      this.playlist.id = await Playlist.store.add(this.playlist);
+      this.playlistTracks = {
+        playlistId: this.playlist.id,
+        tracks: this.tracks,
+      };
+      await PlaylistTracks.store.add(this.playlistTracks);
     }
-    // this.playlistService.setPlaylist(newPlaylist);
+
+    this._tracks$.next(this.tracks);
+    this._playlist$.next(this.playlist);
   }
 
   public async delete() {
@@ -174,8 +159,6 @@ export class PlaylistService {
     this.notifications.push({
       message: `Playlist ${this.playlist.name} has been removed`,
     });
-
-    this.create();
   }
 
   public async open(playlistName: string) {
@@ -185,20 +168,6 @@ export class PlaylistService {
       this.tracks = this.playlistTracks.tracks;
       this._tracks$.next(this.tracks);
       this._playlist$.next(this.playlist);
-      // const playlistWithTracks: PlaylistWithTracks = {
-      //   name: playlist.name,
-      //   tracks: playlistTracks.tracks,
-      //   playlistModel: playlist,
-      //   tracksModel: playlistTracks,
-      // };
-      // let playlist$ = this._playlists.get(playlist.id);
-      // if (!playlist$) {
-      //   playlist$ = new ReplaySubject(1);
-      //   this._playlists.set(playlist.id, playlist$);
-      // }
-      // playlist$.next(playlistWithTracks);
-      // return playlistWithTracks;
-      // return playlist$;
     }
   }
 

@@ -145,6 +145,10 @@
         {
             "keys": ["shift+?"],
             "command": "shortcuts.open"
+        },
+        {
+            "keys": ["ctrl+shift+f"],
+            "command": "search.search"
         }
     ]
 }

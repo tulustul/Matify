@@ -6,7 +6,9 @@ import { Plugin } from 'core/plugging';
 import { CoreModule } from 'core/core.module';
 
 import { SearchComponent } from './search.component';
+import { SearchViewComponent } from './searchView.component';
 import { SearchService } from './search.service';
+import { SearchCommands } from './commands';
 import { Module as PlaylistModule } from 'plugins/playlist';
 
 @Plugin({
@@ -23,9 +25,21 @@ import { Module as PlaylistModule } from 'plugins/playlist';
     PlaylistModule,
     CoreModule,
   ],
-  declarations: [SearchComponent],
-  exports: [SearchComponent],
-  entryComponents: [SearchComponent],
-  providers: [SearchService],
+  declarations: [
+    SearchComponent,
+    SearchViewComponent,
+  ],
+  exports: [
+    SearchComponent,
+    SearchViewComponent,
+  ],
+  entryComponents: [
+    SearchComponent,
+    SearchViewComponent
+  ],
+  providers: [
+    SearchService,
+    SearchCommands,
+  ],
 })
 export class Module { }

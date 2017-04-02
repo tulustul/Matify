@@ -8,8 +8,7 @@ export interface PaneView {
   key: string;
   displayName$?: Observable<string>;
   displayName?: string;
-  needSerialization$?: Observable<any>;
-  serialize?: () => Object;
+  serialization$?: Observable<any>;
   deserialize?: (Object) => void;
   activate?: () => void;
   search?: (string) => void;
