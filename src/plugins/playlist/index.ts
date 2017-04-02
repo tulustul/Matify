@@ -12,6 +12,7 @@ import { CoreModule } from 'core/core.module';
 import { Plugin } from 'core/plugging';
 
 import { PlaylistComponent } from './playlist/playlist.component';
+import { PlaylistViewComponent } from './playlistView/playlistView.component';
 import { PlaylistService } from './playlist.service';
 import { PlaylistsService } from './playlists.service';
 import { PlaylistCommands } from './commands';
@@ -20,6 +21,7 @@ import { PlaylistCommands } from './commands';
 @NgModule({
   declarations: [
     PlaylistComponent,
+    PlaylistViewComponent,
   ],
   imports: [
     CommonModule,
@@ -27,9 +29,12 @@ import { PlaylistCommands } from './commands';
     FormsModule,
   ],
   entryComponents: [
-    PlaylistComponent,
+    PlaylistViewComponent,
   ],
-  exports: [PlaylistComponent],
+  exports: [
+    PlaylistComponent,
+    PlaylistViewComponent,
+  ],
   providers: [PlaylistService, PlaylistsService, PlaylistCommands],
 })
 export class Module { }

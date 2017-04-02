@@ -7,10 +7,8 @@ import { PaletteService } from 'core/ui/palette';
 import { PaneService } from 'core/ui/pane';
 
 import { PlaylistService } from './playlist.service';
-import { PlaylistsService, PlaylistWithTracks } from './playlists.service';
-import { Playlist, PlaylistTracks } from './models';
+import { Playlist } from './models';
 import { PlaylistViewComponent } from './playlistView/playlistView.component';
-import { PlaylistComponent } from './playlist/playlist.component';
 
 @Injectable()
 export class PlaylistCommands {
@@ -52,9 +50,7 @@ export class PlaylistCommands {
   })
   async newPlaylist() {
     await this.playlist.create();
-    // const playlistView = this.pane.openNewView(PlaylistViewComponent) as PlaylistViewComponent;
-    // playlistView.setPlaylist(this.playlist.playlist.name);
-    this.pane.openView(PlaylistComponent);
+    this.pane.openView(PlaylistViewComponent);
   }
 
   @Command({
@@ -95,7 +91,7 @@ export class PlaylistCommands {
       playlists,
       ['name'],
       (playlist: Playlist) => {
-        this.pane.openView(PlaylistComponent, playlist.name);
+        this.pane.openView(PlaylistViewComponent, playlist.name);
       },
     );
   }

@@ -78,43 +78,43 @@
         },
         {
             "keys": ["arrowdown"],
-            "command": "listDown"
+            "command": "navigation.down"
         },
         {
             "keys": ["arrowup"],
-            "command": "listUp"
+            "command": "navigation.up"
         },
         {
             "keys": ["pagedown"],
-            "command": "listPageDown"
+            "command": "navigation.pageDown"
         },
         {
             "keys": ["pageup"],
-            "command": "listPageUp"
+            "command": "navigation.pageUp"
         },
         {
             "keys": ["shift+arrowdown"],
-            "command": "listAddToSelectionDown"
+            "command": "navigation.addToSelectionDown"
         },
         {
             "keys": ["shift+arrowup"],
-            "command": "listAddToSelectionUp"
+            "command": "navigation.addToSelectionUp"
         },
         {
             "keys": ["shift+pagedown"],
-            "command": "listAddPageToSelectionDown"
+            "command": "navigation.addPageToSelectionDown"
         },
         {
             "keys": ["shift+pageup"],
-            "command": "listAddPageToSelectionUp"
+            "command": "navigation.addPageToSelectionUp"
         },
         {
             "keys": ["enter"],
-            "command": "listSelectItem"
+            "command": "navigation.selectItem"
         },
         {
             "keys": ["delete"],
-            "command": "listDeleteItem"
+            "command": "navigation.deleteItem"
         },
         {
             "keys": ["ctrl+w", "x"],

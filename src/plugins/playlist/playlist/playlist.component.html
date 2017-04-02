@@ -3,7 +3,7 @@
   id="playlist-list"
   noItemsMessage="Playlist is empty"
   [columns]="playlist.columns"
-  [items]="filteredTracks"
+  [items]="tracks"
   [markedItem]="playingTrack"
   [itemsEqualityFn]="tracksEqual"
   (select)="play($event)"

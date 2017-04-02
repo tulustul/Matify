@@ -2,63 +2,51 @@ import {
   Component,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  ViewChild,
-  Input,
   OnInit,
-  ElementRef,
-  HostBinding,
 } from '@angular/core';
 
-import { Observable, ReplaySubject } from 'rxjs';
-
 import { Track } from 'core/tracks';
-import { AudioService } from 'core/audio.service';
 import { FilterService } from 'core/filter.service';
-import { ListComponent } from 'core/ui/list';
 import { PaneView, View} from 'core/ui/pane';
 
 import { PlaylistService } from '../playlist.service';
-import { PlaylistsService, PlaylistWithTracks } from '../playlists.service';
-import { Playlist } from '../models';
-
-interface SerializationData {
-  playlistName: string;
-}
 
 @View
 @Component({
-  selector: 'mp-playlist',
+  selector: 'mp-playlist-view',
   templateUrl: './playlistView.component.html',
   styleUrls: ['./playlistView.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PlaylistViewComponent implements PaneView {
+export class PlaylistViewComponent implements OnInit, PaneView {
 
   key: string;
 
-  private _displayName$ = new ReplaySubject<string>(1);
-  displayName$ = this._displayName$.asObservable();
+  filteredTracks: Track[] = [];
 
-  static asView(playlistName) {
-    return {
-       componentClass: PlaylistViewComponent,
-       options: {playlistName},
-    };
+  tracks: Track[] = [];
+
+  constructor(
+    public playlist: PlaylistService,
+    private filterService: FilterService,
+    private changeDetectorRef: ChangeDetectorRef,
+  ) {
+    playlist.tracks$.subscribe(tracks => {
+      this.tracks = tracks;
+      this.filteredTracks = this.tracks;
+      changeDetectorRef.markForCheck();
+    });
   }
 
-  serialize(): SerializationData {
-   return {
-     playlistName: null,
-    //  playlistName: this.playlist.name,
-   };
+  ngOnInit() {
+    this.playlist.open(this.key);
   }
 
-  deserialize(data: SerializationData) {
-    // this.setPlaylist(data.playlistName);
-  };
-
-  activate() {
-    // this.playlistService.setPlaylist
+  search(searchTerm: string) {
+    this.filteredTracks = this.filterService.filter(
+      searchTerm, this.playlist.tracks, ['title', 'album', 'artist'],
+    );
+    this.changeDetectorRef.markForCheck();
   }
 
 }
