@@ -8,9 +8,9 @@
   noItemsMessage="No playlists"
   (select)="loadPlaylist($event)"
 >
-  <template let-item="item">
+  <ng-template let-item="item">
     <div class="mp-cell">
       {{ item.name }}
     </div>
-  </template>
+  </ng-template>
 </mp-list>

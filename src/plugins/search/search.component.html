@@ -20,7 +20,7 @@
   [itemSize]="41"
   (select)="addToPlaylist($event)"
 >
-  <template let-item="item">
+  <ng-template let-item="item">
     <div
       class="artwork"
       [style.backgroundImage]="item.artworkUri ? ('url(' + item.artworkUri + ')') : ''"
@@ -28,5 +28,5 @@
     <div class="mp-cell">
       {{ item.title }} - {{ item.artist }}
     </div>
-  </template>
+  </ng-template>
 </mp-list>
