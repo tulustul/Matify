@@ -1,10 +1,12 @@
 import {
   Component,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
 } from '@angular/core';
 
 import { PaneView, View} from 'core/ui/pane';
-import { Keybindings} from 'core/keybindings.service';
+import { Keybindings } from 'core/keybindings.service';
+import { FilterService } from 'core/filter.service';
 
 interface Section {
   name: string;
@@ -32,7 +34,13 @@ export class ShortcutsViewComponent implements PaneView {
 
   sections: Section[] = [];
 
-  constructor(keybindings: Keybindings) {
+  filteredSections = this.sections;
+
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private filterService: FilterService,
+    keybindings: Keybindings,
+  ) {
     const sections = new Map<string, Section>();
     keybindings.bindings.forEach((value, key) => {
       const tokens = value.command.name.split('.');
@@ -57,6 +65,27 @@ export class ShortcutsViewComponent implements PaneView {
         description: value.command.displayName,
       });
     });
+  }
+
+  search(searchTerm: string) {
+    this.filteredSections = [];
+
+    for (let section of this.sections) {
+      const bindings = this.filterService.filter(
+        searchTerm,
+        section.bindings,
+        ['binding', 'command', 'description'],
+      );
+
+      if (bindings.length) {
+        this.filteredSections.push({
+          name: section.name,
+          bindings,
+        });
+      }
+    }
+
+    this.cdr.markForCheck();
   }
 
 }
