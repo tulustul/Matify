@@ -5,8 +5,11 @@ export interface ViewInstantiationParams {
   options: any;
 }
 export interface PaneView {
+  key: string;
   displayName$: Observable<string>;
-  serialize: () => Object;
-  deserialize: (Object) => void,
-  activate: () => void,
+  needSerialization$?: Observable<any>;
+  serialize?: () => Object;
+  deserialize?: (Object) => void;
+  activate?: () => void;
+  search?: (string) => void;
 }

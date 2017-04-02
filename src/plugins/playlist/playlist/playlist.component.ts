@@ -17,9 +17,9 @@ import { FilterService } from 'core/filter.service';
 import { ListComponent } from 'core/ui/list';
 import { PaneView, View} from 'core/ui/pane';
 
-import { PlaylistService } from './playlist.service';
-import { PlaylistsService, PlaylistWithTracks } from './playlists.service';
-import { Playlist } from './models';
+import { PlaylistService } from '../playlist.service';
+import { PlaylistsService, PlaylistWithTracks } from '../playlists.service';
+import { Playlist } from '../models';
 
 interface SerializationData {
   playlistName: string;
@@ -34,26 +34,24 @@ interface SerializationData {
 })
 export class PlaylistComponent implements OnInit, PaneView {
 
+  key: string;
+
   playingTrack: Track;
 
   filteredTracks: Track[] = [];
 
-  searchQuery: string;
+  tracks: Track[] = [];
 
-  playlist: PlaylistWithTracks;
+  displayName$ = this.playlist.playlist$.map(p => p.name);
 
-  private _displayName$ = new ReplaySubject<string>(1);
-  displayName$ = this._displayName$.asObservable();
+  needSerialization$ = this.displayName$;
 
   @ViewChild(ListComponent)
   list: ListComponent;
 
-  @ViewChild('searchBox')
-  searchBox: ElementRef;
-
   constructor(
-    public playlistService: PlaylistService,
-    public playlists: PlaylistsService,
+    public playlist: PlaylistService,
+    // public playlists: PlaylistsService,
     private audio: AudioService,
     private filterService: FilterService,
     private changeDetectorRef: ChangeDetectorRef,
@@ -65,40 +63,26 @@ export class PlaylistComponent implements OnInit, PaneView {
       }
       changeDetectorRef.markForCheck();
     });
-    // playlistService.tracks$.subscribe(tracks => {
-    //   this.searchQuery = '';
-    //   this.tracks = tracks;
-    //   this.filteredTracks = this.tracks;
-    //   changeDetectorRef.markForCheck();
-    // });
+    playlist.tracks$.subscribe(tracks => {
+      this.tracks = tracks;
+      this.filteredTracks = this.tracks;
+      changeDetectorRef.markForCheck();
+    });
   }
 
   ngOnInit() {
+    this.playlist.open(this.key);
     this.list.focus();
     // this.playlist.searchFocus$.subscribe(() => this.focusSearch());
   }
 
-  serialize(): SerializationData {
-   return {
-     playlistName: this.playlist.name,
-   };
-  }
-
-  deserialize(data: SerializationData) {
-    this.setPlaylist(data.playlistName);
-  };
-
-  activate() {
-    // this.playlistService.setPlaylist
-  }
-
-  async setPlaylist(name: string) {
-    const playlist = await this.playlists.getPlaylist(name);
-    this.playlistService.playlist = playlist;
-    this.playlist = playlist;
-    this._displayName$.next(playlist.name);
-    // this.changeDetectorRef.markForCheck();
-  }
+  // async setPlaylist(name: string) {
+  //   const playlist = await this.playlists.getPlaylist(name);
+  //   this.playlistService.playlist = playlist;
+  //   this.playlist = playlist;
+  //   this._displayName$.next(playlist.name);
+  //   // this.changeDetectorRef.markForCheck();
+  // }
 
   // @Input() set playlist(playlist: PlaylistWithTracks) {
   //   this._playlist = playlist$
@@ -109,8 +93,24 @@ export class PlaylistComponent implements OnInit, PaneView {
   //   })
   // }
 
+  // serialize(): SerializationData {
+  //  return {
+  //    playlistName: this.playlist.playlist.name,
+  //   //  playlistName: this.playlist.name,
+  //  };
+  // }
+
+  // async deserialize(data: SerializationData) {
+  //   await this.playlist.open(data.playlistName);
+  //   // this.setPlaylist(data.playlistName);
+  // };
+
+  activate() {
+    // this.playlistService.setPlaylist
+  }
+
   play(track: Track) {
-    this.playlistService.play(track);
+    this.playlist.play(track);
   }
 
   // loadplaylistService(name: string) {
@@ -121,9 +121,9 @@ export class PlaylistComponent implements OnInit, PaneView {
   //   this.playlists.closePlaylist(name);
   // }
 
-  search() {
+  search(searchTerm: string) {
     this.filteredTracks = this.filterService.filter(
-      this.searchQuery, this.playlist.tracks, ['title', 'album', 'artist'],
+      searchTerm, this.playlist.tracks, ['title', 'album', 'artist'],
     );
     this.changeDetectorRef.markForCheck();
   }
@@ -139,8 +139,8 @@ export class PlaylistComponent implements OnInit, PaneView {
     }
   }
 
-  get tracks() {
-    return this.playlist ? this.playlist.tracks : [];
-  }
+  // get tracks() {
+  //   return this.playlist ? this.playlist.tracks : [];
+  // }
 
 }

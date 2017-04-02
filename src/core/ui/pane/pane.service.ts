@@ -25,12 +25,20 @@ export class PaneService {
     }
   }
 
-  openNewView(viewClass: any) {
-    return this.currentPane.openNewView(viewClass);
+  openView(viewConstructor: Function, key: string = null) {
+    return this.currentPane.openView(viewConstructor, key);
   }
 
   generateKey() {
     return this.hashids.encode([Date.now(), Math.round(Math.random() * 10000)]);
+  }
+
+  detachCurrentView() {
+    this.currentPane.detach();
+  }
+
+  focusSearchbox() {
+    this.currentPane.focusSearchBox();
   }
 
 }

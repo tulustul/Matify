@@ -23,14 +23,17 @@ export class PlaylistService {
 
   private _playlist$ = new ReplaySubject<Playlist>(1);
   playlist$ = this._playlist$.asObservable();
-  playlist: PlaylistWithTracks;
+  playlist: Playlist;
 
+  playlistTracks: PlaylistTracks;
   tracks: Track[] = [];
   private _tracks$ = new ReplaySubject<Track[]>(1);
   tracks$ = this._tracks$.asObservable();
 
   private _searchFocus$ = new ReplaySubject<void>(1);
   searchFocus$ = this._searchFocus$.asObservable();
+
+  // private _playlists = new Map<number, ReplaySubject<PlaylistWithTracks>>();
 
   columns: Column[] = [
     {
@@ -64,6 +67,7 @@ export class PlaylistService {
     private audio: AudioService,
     private notifications: NotificationsService,
   ) {
+    this._tracks$.next([]);
   }
 
   play(track: Track) {
@@ -103,16 +107,16 @@ export class PlaylistService {
     this._updateTracks([]);
   }
 
-  async setPlaylist(playlist: PlaylistWithTracks) {
-    this.playlist = playlist;
-    this._playlist$.next(this.playlist);
-    // this.tra
-    // let playlistTracks = await PlaylistTracks.store.get(playlist.playlistModel.id);
-    // if (playlistTracks) {
-      this.tracks = playlist.tracks;
-      this._tracks$.next(this.tracks);
-    // }
-  }
+  // async setPlaylist(playlist: PlaylistWithTracks) {
+  //   this.playlist = playlist;
+  //   this._playlist$.next(this.playlist);
+  //   // this.tra
+  //   // let playlistTracks = await PlaylistTracks.store.get(playlist.playlistModel.id);
+  //   // if (playlistTracks) {
+  //     this.tracks = playlist.tracks;
+  //     this._tracks$.next(this.tracks);
+  //   // }
+  // }
 
   private _updateTracks(tracks: Track[]) {
     this.tracks = tracks;
@@ -121,11 +125,11 @@ export class PlaylistService {
   }
 
   private _save() {
-    if (this.playlist.playlistModel.placeholder === '1') {
-      this.playlist.playlistModel.placeholder = '';
-      Playlist.store.update(this.playlist.playlistModel.id, this.playlist);
+    if (this.playlist.placeholder === '1') {
+      this.playlist.placeholder = '';
+      Playlist.store.update(this.playlist.id, this.playlist);
     }
-    PlaylistTracks.store.update(this.playlist.playlistModel.id, {
+    PlaylistTracks.store.update(this.playlist.id, {
       tracks: this.tracks,
     });
   }
@@ -140,6 +144,94 @@ export class PlaylistService {
 
   focusSearch() {
     this._searchFocus$.next(null);
+  }
+
+  public async create() {
+    let newPlaylist = await Playlist.store
+      .where('placeholder')
+      .equals('1')
+      .first();
+
+    if (!newPlaylist) {
+      newPlaylist = {
+        id: null,
+        name: 'New playlist',
+        placeholder: '1',
+      };
+      newPlaylist.id = await Playlist.store.add(newPlaylist);
+      await PlaylistTracks.store.add({
+        playlistId: newPlaylist.id,
+        tracks: [],
+      });
+    }
+    // this.playlistService.setPlaylist(newPlaylist);
+  }
+
+  public async delete() {
+    await PlaylistTracks.store.delete(this.playlist.id);
+    await Playlist.store.delete(this.playlist.id);
+
+    this.notifications.push({
+      message: `Playlist ${this.playlist.name} has been removed`,
+    });
+
+    this.create();
+  }
+
+  public async open(playlistName: string) {
+    this.playlist = await this._getByName(playlistName);
+    if (this.playlist) {
+      this.playlistTracks = await PlaylistTracks.store.get(this.playlist.id);
+      this.tracks = this.playlistTracks.tracks;
+      this._tracks$.next(this.tracks);
+      this._playlist$.next(this.playlist);
+      // const playlistWithTracks: PlaylistWithTracks = {
+      //   name: playlist.name,
+      //   tracks: playlistTracks.tracks,
+      //   playlistModel: playlist,
+      //   tracksModel: playlistTracks,
+      // };
+      // let playlist$ = this._playlists.get(playlist.id);
+      // if (!playlist$) {
+      //   playlist$ = new ReplaySubject(1);
+      //   this._playlists.set(playlist.id, playlist$);
+      // }
+      // playlist$.next(playlistWithTracks);
+      // return playlistWithTracks;
+      // return playlist$;
+    }
+  }
+
+  public async rename(newName: string) {
+    let existingPlaylist = await this._getByName(newName);
+
+    if (existingPlaylist) {
+      this.notifications.push({
+        message: `Playlist with name "${newName}" already exists`,
+        type: 'error',
+      });
+    } else {
+      let oldName = this.playlist.name;
+      this.playlist.name = newName;
+      this.playlist.placeholder = '';
+      await Playlist.store.update(this.playlist.id, this.playlist);
+
+      this.notifications.push({
+        message: `Renamed "${oldName}" to "${newName}"`,
+        type: 'success',
+      });
+    }
+  }
+
+  public getAllPlaylists() {
+     return Playlist.store.toArray();
+  }
+
+  private async _getByName(name: string) {
+    return await Playlist.store
+      .where('name')
+      .equalsIgnoreCase(name)
+      .first();
   }
 
 }

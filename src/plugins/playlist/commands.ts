@@ -9,14 +9,14 @@ import { PaneService } from 'core/ui/pane';
 import { PlaylistService } from './playlist.service';
 import { PlaylistsService, PlaylistWithTracks } from './playlists.service';
 import { Playlist, PlaylistTracks } from './models';
-import { PlaylistComponent } from './playlist.component';
+import { PlaylistViewComponent } from './playlistView/playlistView.component';
+import { PlaylistComponent } from './playlist/playlist.component';
 
 @Injectable()
 export class PlaylistCommands {
 
   constructor(
     private playlist: PlaylistService,
-    private playlists: PlaylistsService,
     private modals: ModalsService,
     private notifications: NotificationsService,
     private palette: PaletteService,
@@ -28,60 +28,74 @@ export class PlaylistCommands {
     this.playlist.skipTrackBy(offset);
   }
 
-  @Command({displayName: 'Randomise track'})
+  @Command({
+    name: 'playlist.randomTrack',
+    displayName: 'Randomise track',
+  })
   randomTrack() {
     let newIndex = this.playlist.tracks.length * Math.random();
     newIndex = Math.round(newIndex);
     this.playlist.play(this.playlist.tracks[newIndex]);
   }
 
-  @Command({displayName: 'Clear playlist'})
+  @Command({
+    name: 'playlist.clear',
+    displayName: 'Clear playlist',
+  })
   clearPlaylist() {
     this.playlist.clear();
   }
 
-  @Command({displayName: 'New playlist'})
+  @Command({
+    name: 'playlist.create',
+    displayName: 'New playlist',
+  })
   async newPlaylist() {
-    await this.playlists.createPlaylist();
-    const playlistView = this.pane.openNewView(PlaylistComponent) as PlaylistComponent;
-        playlistView.setPlaylist(this.playlist.playlist.name);
+    await this.playlist.create();
+    // const playlistView = this.pane.openNewView(PlaylistViewComponent) as PlaylistViewComponent;
+    // playlistView.setPlaylist(this.playlist.playlist.name);
+    this.pane.openView(PlaylistComponent);
   }
 
-  @Command({displayName: 'Delete playlist'})
+  @Command({
+    name: 'playlist.delete',
+    displayName: 'Delete playlist',
+  })
   async deletePlaylist() {
     const name = this.playlist.playlist.name;
     const remove = await this.modals.ask(
       `Are you sure you want to delete playlist "${name}"?`,
     );
     if (remove) {
-      this.playlists.deletePlaylist(this.playlist.playlist.name);
+      this.playlist.delete();
     }
   }
 
-  @Command({displayName: 'Rename playlist'})
+  @Command({
+    name: 'playlist.rename',
+    displayName: 'Rename playlist',
+  })
   async renamePlaylist() {
     const newPlaylistName = await this.modals.getInput(
       'Enter new playlist name'
     );
     if (!!newPlaylistName) {
-      this.playlists.renamePlaylist(
-        this.playlist.playlist, newPlaylistName as string,
-      );
+      this.playlist.rename(newPlaylistName as string);
     };
   }
 
-  @Command({displayName: 'Open playlist'})
-  async openPlaylist() {
-    const playlists = await Playlist.store.toArray();
+  @Command({
+    name: 'playlist.open',
+    displayName: 'Open playlist',
+  })
+  async open() {
+    const playlists = await this.playlist.getAllPlaylists();
     let playlistPreview: Playlist;
     this.palette.openPalette(
       playlists,
       ['name'],
-      async (playlist: Playlist) => {
-        const playlistView = (
-          this.pane.openNewView(PlaylistComponent) as PlaylistComponent
-        );
-        playlistView.setPlaylist(playlist.name);
+      (playlist: Playlist) => {
+        this.pane.openView(PlaylistComponent, playlist.name);
       },
     );
   }

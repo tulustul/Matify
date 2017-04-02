@@ -87,13 +87,14 @@ export class PlaylistsService {
         playlistModel: playlist,
         tracksModel: playlistTracks,
       };
-      // let playlist$ = this._playlists.get(playlist.id);
-      // if (!playlist$) {
-        // playlist$ = new ReplaySubject(1);
-        // this._playlists.set(playlist.id, playlist$);
-      // }
-      // playlist$.next(playlistWithTracks);
-      return playlistWithTracks;
+      let playlist$ = this._playlists.get(playlist.id);
+      if (!playlist$) {
+        playlist$ = new ReplaySubject(1);
+        this._playlists.set(playlist.id, playlist$);
+      }
+      playlist$.next(playlistWithTracks);
+      // return playlistWithTracks;
+      return playlist$;
     }
   }
 

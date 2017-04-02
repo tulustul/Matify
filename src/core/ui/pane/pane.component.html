@@ -1,17 +1,17 @@
 <div class="controls">
   <input
-    class="mp-darken"
     #searchBox
+    class="mp-darken"
     type="text"
     placeholder="Filter..."
-    [(ngModel)]="searchQuery"
+    [(ngModel)]="searchTerm"
     (ngModelChange)="search()"
   >
 
   <mp-tabs
     [items]="views"
     [selectedItem]="currentView.view"
-    (select)="openView($event)"
+    (select)="openExistingView($event)"
     (close)="closeView($event)"
   ></mp-tabs>
 </div>

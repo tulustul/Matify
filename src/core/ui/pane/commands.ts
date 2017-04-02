@@ -26,4 +26,12 @@ export class PaneCommands {
     this.paneService.currentPane.switchViewBy(offset);
   }
 
+  @Command({
+    name: 'panes.searchContent',
+    isVisibleInPallete: false,
+  })
+  searchContent(offset: number) {
+    this.paneService.focusSearchbox();
+  }
+
 }

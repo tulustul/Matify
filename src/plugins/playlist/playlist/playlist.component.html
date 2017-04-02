@@ -18,17 +18,16 @@
   ></mp-tabs>
 </div>-->
 
-
 <mp-list
   #list
   id="playlist-list"
   noItemsMessage="Playlist is empty"
-  [columns]="playlistService.columns"
-  [items]="tracks"
+  [columns]="playlist.columns"
+  [items]="filteredTracks"
   [markedItem]="playingTrack"
   [itemsEqualityFn]="tracksEqual"
   (select)="play($event)"
-  (delete)="playlistService.deleteTrack($event)"
+  (delete)="playlist.deleteTrack($event)"
 >
   <template let-item="item" let-columns="columns">
     <div class="mp-cell" *ngFor="let column of columns">

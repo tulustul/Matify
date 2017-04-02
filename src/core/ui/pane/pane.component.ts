@@ -7,6 +7,7 @@ import {
   HostBinding,
   OnInit,
   OnDestroy,
+  ElementRef,
 } from '@angular/core';
 
 import { Subscription } from 'rxjs';
@@ -21,6 +22,7 @@ interface View {
   componentName: string;
   displayName: string;
   key: string;
+  originalKey: string;
 }
 
 interface ComponentView {
@@ -37,7 +39,11 @@ export class PaneComponent implements OnInit, OnDestroy {
 
   @HostBinding('class') cssClass = 'mp-panel';
 
+  searchTerm = '';
+
   views: View[] = [];
+
+  viewsMap = new Map<string, View>();
 
   currentView: ComponentView = {
    component: undefined,
@@ -50,8 +56,13 @@ export class PaneComponent implements OnInit, OnDestroy {
 
   displayNameSubscription: Subscription;
 
+  needSerializationSubscription: Subscription;
+
   @ViewChild('content', {read: ViewContainerRef})
   content: ViewContainerRef;
+
+  @ViewChild('searchBox')
+  searchBox: ElementRef;
 
   constructor(
     private cfr: ComponentFactoryResolver,
@@ -63,14 +74,17 @@ export class PaneComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.key = `pane`;
     const saveItems = JSON.parse(localStorage.getItem(this.key + 'items'));
-    const viewKey = JSON.parse(localStorage.getItem(this.key + 'view'));
+    const viewKey = JSON.parse(localStorage.getItem(this.key + 'currentView'));
     if (saveItems) {
       this.views = saveItems;
+      for (let view of this.views) {
+        this.viewsMap.set(view.key, view);
+      }
     }
     if (viewKey) {
       const view = this.views.find(i => i.key === viewKey);
       if (view) {
-        this.openView(view);
+        this.openExistingView(view);
       }
     }
   }
@@ -80,51 +94,66 @@ export class PaneComponent implements OnInit, OnDestroy {
     this.paneService.unregisterPane(this);
   }
 
-  openNewView(viewClass: any) {
-    const componentKey = 'view' + this.paneService.generateKey();
-
-    this.views.push({
-      componentName: viewClass.name,
+  private openNewView(viewConstructor: Function, originalKey: string, key: string) {
+    const view = {
+      componentName: viewConstructor.name,
       displayName: '',
-      key: componentKey,
-    });
+      key: key,
+      originalKey: originalKey,
+    };
 
-    this.createView(viewClass, componentKey);
+    this.views.push(view);
+    this.viewsMap.set(key, view);
+
+    this.createView(viewConstructor, key, originalKey);
 
     localStorage.setItem(this.key + 'items', JSON.stringify(this.views));
 
     return this.currentView.component;
   }
 
-  openView(view: View) {
-    const viewClass = VIEWS_REGISTRY.get(view.componentName)
-    this.createView(viewClass, view.key);
+  private openExistingView(view: View) {
+    const viewConstructor = VIEWS_REGISTRY.get(view.componentName);
+    this.createView(viewConstructor, view.key, view.originalKey);
+    this.deserializeCurrentView();
+    return this.currentView.component;
+  }
 
-    const data = JSON.parse(localStorage.getItem(this.currentView.view.key));
-    this.currentView.component.deserialize(data);
+  openView(viewConstructor: Function, key: string = null) {
+    let storeKey = key || this.paneService.generateKey();
+    storeKey = `view-${viewConstructor.name}-${storeKey}`;
+
+    const view = this.viewsMap.get(storeKey);
+
+    if (view) {
+      return this.openExistingView(view);
+    } else {
+      return this.openNewView(viewConstructor, key, storeKey);
+    }
   }
 
   closeView(view: View) {
     const index = this.views.indexOf(view);
     this.views.splice(index, 1);
+    this.viewsMap.delete(view.key);
     if (view.key === this.currentView.view.key && this.views.length) {
-      this.openView(this.views[Math.min(this.views.length - 1, index)]);
+      this.openExistingView(this.views[Math.min(this.views.length - 1, index)]);
     }
 
     localStorage.setItem(this.key + 'items', JSON.stringify(this.views));
   }
 
-  private createView(viewClass: any, key: string) {
-    if (this.componentRef) {
-      this.detach();
-    }
+  private createView(viewClass: any, key: string, originalKey: string) {
+    this.detach();
 
     const factory = this.cfr.resolveComponentFactory(viewClass);
     this.componentRef = this.content.createComponent(factory);
 
+    this.componentRef.instance.key = originalKey;
+
     const view = this.findViewByKey(key);
     this.currentView = {component: this.componentRef.instance, view};
-    localStorage.setItem(this.key + 'view', JSON.stringify(key));
+    localStorage.setItem(this.key + 'currentView', JSON.stringify(key));
 
     const displayName$ = this.currentView.component.displayName$;
     this.displayNameSubscription = displayName$.subscribe(displayName => {
@@ -133,14 +162,35 @@ export class PaneComponent implements OnInit, OnDestroy {
         currentItem.displayName = displayName;
       }
     });
+
+    this.searchTerm = '';
+  }
+
+  serializeCurrentView() {
+    if (this.currentView.component.serialize) {
+      const data = this.currentView.component.serialize();
+      localStorage.setItem(this.currentView.view.key, JSON.stringify(data));
+    }
+  }
+
+  deserializeCurrentView() {
+    if (this.currentView.component.deserialize) {
+      const data = JSON.parse(localStorage.getItem(this.currentView.view.key));
+      this.currentView.component.deserialize(data);
+    }
   }
 
   detach() {
-    const data = this.currentView.component.serialize();
-    localStorage.setItem(this.currentView.view.key, JSON.stringify(data));
-    this.content.detach();
-    this.componentRef.destroy();
-    this.displayNameSubscription.unsubscribe();
+    if (this.componentRef) {
+      this.serializeCurrentView();
+      this.content.detach();
+      this.componentRef.destroy();
+      this.componentRef = null;
+      this.displayNameSubscription.unsubscribe();
+      if (this.needSerializationSubscription) {
+        this.needSerializationSubscription.unsubscribe();
+      }
+    }
   }
 
   switchViewBy(offset: number) {
@@ -151,11 +201,22 @@ export class PaneComponent implements OnInit, OnDestroy {
     } else if (newIndex >= this.views.length) {
       newIndex -= this.views.length;
     }
-    this.openView(this.views[newIndex]);
+    this.openExistingView(this.views[newIndex]);
   }
 
   private findViewByKey(key: string) {
     return this.views.find(v => v.key === key);
+  }
+
+  search() {
+    if (this.currentView.component.search) {
+      this.currentView.component.search(this.searchTerm);
+    }
+  }
+
+  focusSearchBox() {
+    const el = this.searchBox.nativeElement as HTMLElement;
+    el.focus();
   }
 
 }

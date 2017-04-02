@@ -43,10 +43,6 @@
             "args": [1]
         },
         {
-            "keys": ["r"],
-            "command": "randomTrack"
-        },
-        {
             "keys": [";", "ctrl+shift+p"],
             "command": "openCommandsPalette"
         },
@@ -62,11 +58,19 @@
         },
         {
             "keys": ["ctrl+p"],
-            "command": "openPlaylist"
+            "command": "playlist.open"
         },
         {
             "keys": ["ctrl+n"],
-            "command": "newPlaylist"
+            "command": "playlist.create"
+        },
+        {
+            "keys": ["shift+delete"],
+            "command": "playlist.delete"
+        },
+        {
+            "keys": ["r"],
+            "command": "playlist.randomTrack"
         },
         {
             "keys": ["escape"],
@@ -128,7 +132,7 @@
         },
         {
             "keys": ["ctrl+f", "/"],
-            "command": "searchPlaylist"
+            "command": "panes.searchContent"
         },
         {
             "keys": ["v"],
