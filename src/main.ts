@@ -20,6 +20,7 @@ import './plugins/volumeControl';
 import './plugins/barSourceIndicator';
 import './plugins/visualization';
 import './plugins/audioErrorsNotifier';
+import './plugins/shortcuts';
 
 import { environment } from './environments/environment';
 import { AppModule } from './core/app.module';

@@ -6,7 +6,8 @@ export interface ViewInstantiationParams {
 }
 export interface PaneView {
   key: string;
-  displayName$: Observable<string>;
+  displayName$?: Observable<string>;
+  displayName?: string;
   needSerialization$?: Observable<any>;
   serialize?: () => Object;
   deserialize?: (Object) => void;

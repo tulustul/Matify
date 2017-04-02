@@ -42,9 +42,9 @@ export class PlaylistComponent implements OnInit, PaneView {
 
   tracks: Track[] = [];
 
-  displayName$ = this.playlist.playlist$.map(p => p.name);
+  // displayName$ = this.playlist.playlist$.map(p => p.name);
 
-  needSerialization$ = this.displayName$;
+  // needSerialization$ = this.displayName$;
 
   @ViewChild(ListComponent)
   list: ListComponent;

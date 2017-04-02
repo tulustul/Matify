@@ -117,7 +117,7 @@
             "command": "listDeleteItem"
         },
         {
-            "keys": ["ctrl+w"],
+            "keys": ["ctrl+w", "x"],
             "command": "panes.closeView"
         },
         {
@@ -141,6 +141,10 @@
         {
             "keys": ["ctrl+shift+v"],
             "command": "changeVisualization"
+        },
+        {
+            "keys": ["shift+?"],
+            "command": "shortcuts.open"
         }
     ]
 }

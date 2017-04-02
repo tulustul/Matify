@@ -8,6 +8,7 @@ import {
   OnInit,
   OnDestroy,
   ElementRef,
+  ChangeDetectorRef,
 } from '@angular/core';
 
 import { Subscription } from 'rxjs';
@@ -65,6 +66,7 @@ export class PaneComponent implements OnInit, OnDestroy {
   searchBox: ElementRef;
 
   constructor(
+    private cdr: ChangeDetectorRef,
     private cfr: ComponentFactoryResolver,
     private paneService: PaneService,
   ) {
@@ -109,6 +111,8 @@ export class PaneComponent implements OnInit, OnDestroy {
 
     localStorage.setItem(this.key + 'items', JSON.stringify(this.views));
 
+    this.cdr.markForCheck();
+
     return this.currentView.component;
   }
 
@@ -116,12 +120,13 @@ export class PaneComponent implements OnInit, OnDestroy {
     const viewConstructor = VIEWS_REGISTRY.get(view.componentName);
     this.createView(viewConstructor, view.key, view.originalKey);
     this.deserializeCurrentView();
+    this.cdr.markForCheck();
     return this.currentView.component;
   }
 
   openView(viewConstructor: Function, key: string = null) {
-    let storeKey = key || this.paneService.generateKey();
-    storeKey = `view-${viewConstructor.name}-${storeKey}`;
+    // let storeKey = key || this.paneService.generateKey();
+    const storeKey = `view-${viewConstructor.name}-${key}`;
 
     const view = this.viewsMap.get(storeKey);
 
@@ -141,6 +146,7 @@ export class PaneComponent implements OnInit, OnDestroy {
     }
 
     localStorage.setItem(this.key + 'items', JSON.stringify(this.views));
+    this.cdr.markForCheck();
   }
 
   private createView(viewClass: any, key: string, originalKey: string) {
@@ -155,13 +161,19 @@ export class PaneComponent implements OnInit, OnDestroy {
     this.currentView = {component: this.componentRef.instance, view};
     localStorage.setItem(this.key + 'currentView', JSON.stringify(key));
 
+    view.displayName = originalKey;
+
     const displayName$ = this.currentView.component.displayName$;
-    this.displayNameSubscription = displayName$.subscribe(displayName => {
-      const currentItem = this.views.find(i => key === i.key);
-      if (currentItem) {
-        currentItem.displayName = displayName;
-      }
-    });
+    if (displayName$) {
+      this.displayNameSubscription = displayName$.subscribe(displayName => {
+        const currentItem = this.views.find(i => key === i.key);
+        if (currentItem) {
+          currentItem.displayName = displayName;
+        }
+      });
+    } else if (this.currentView.component.displayName !== undefined) {
+      view.displayName = this.currentView.component.displayName;
+    }
 
     this.searchTerm = '';
   }
@@ -186,9 +198,13 @@ export class PaneComponent implements OnInit, OnDestroy {
       this.content.detach();
       this.componentRef.destroy();
       this.componentRef = null;
-      this.displayNameSubscription.unsubscribe();
+      if (this.displayNameSubscription) {
+        this.displayNameSubscription.unsubscribe();
+        this.displayNameSubscription = null;
+      }
       if (this.needSerializationSubscription) {
         this.needSerializationSubscription.unsubscribe();
+        this.needSerializationSubscription = null;
       }
     }
   }

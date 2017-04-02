@@ -1,0 +1,32 @@
+:host {
+  overflow-y: auto;
+  height: 100%;
+  h2 {
+    margin: 0;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  ul.sections {
+    display: flex;
+    flex-wrap: wrap;
+    > li {
+      width: 375px;
+      background-color: rgba(0, 0,0,0.2);
+      padding: 20px;
+      margin: 10px;
+    }
+  }
+  ul.bindings {
+    > li {
+      line-height: 1.5em;
+      display: flex;
+      justify-content: space-between;
+      .binding {
+        font-style: italic;
+        opacity: 0.6;
+      }
+    }
+  }
+}
