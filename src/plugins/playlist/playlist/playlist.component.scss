@@ -2,13 +2,11 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  z-index: 1;
   .controls {
     display: flex;
     input {
       max-width: 200px;
     }
-  }
-  mp-list {
-    z-index: 1;
   }
 }

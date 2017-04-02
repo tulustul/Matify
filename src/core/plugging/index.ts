@@ -1,4 +1,4 @@
-import { Visualization } from 'plugins/visualization';
+import { Visualization } from 'core/ui/visualization';
 
 export interface MenuItem {
   icon: string;

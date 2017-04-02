@@ -37,12 +37,12 @@ export class VisualizationComponent implements OnInit {
 
   constructor(
     private audio: AudioService,
-    private equalizerVisualization: VisualizationService,
+    private visualization: VisualizationService,
     private audioAnalyser: AudioAnalyserService,
     private renderer: VisualizationRenderer,
     private cdr: ChangeDetectorRef,
   ) {
-    equalizerVisualization.enabled$.subscribe(enabled => {
+    visualization.enabled$.subscribe(enabled => {
       this.disabled = !enabled;
       this.cdr.markForCheck();
       if (!this.disabled) {
@@ -59,7 +59,8 @@ export class VisualizationComponent implements OnInit {
     this.canvasEl.width = this.canvasEl.offsetWidth;
     this.canvasEl.height = this.HEIGHT;
 
-    this.renderer.init(this.canvasEl);
+    await this.renderer.init(this.canvasEl);
+    this.visualization.init();
   }
 
   start() {

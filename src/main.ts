@@ -18,7 +18,7 @@ import './plugins/playbackControls';
 import './plugins/trackIndicator';
 import './plugins/volumeControl';
 import './plugins/barSourceIndicator';
-import './plugins/visualization';
+import './plugins/basicVisualizations';
 import './plugins/audioErrorsNotifier';
 import './plugins/shortcuts';
 

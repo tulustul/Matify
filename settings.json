@@ -136,11 +136,11 @@
         },
         {
             "keys": ["v"],
-            "command": "toogleVisualization"
+            "command": "visualization.toggle"
         },
         {
             "keys": ["ctrl+shift+v"],
-            "command": "changeVisualization"
+            "command": "visualization.change"
         },
         {
             "keys": ["shift+?"],

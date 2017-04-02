@@ -16,8 +16,6 @@ import { PlaylistService } from './playlist.service';
 import { PlaylistsService } from './playlists.service';
 import { PlaylistCommands } from './commands';
 
-import { Module as VisualizationModule } from 'plugins/visualization';
-
 @Plugin()
 @NgModule({
   declarations: [
@@ -27,7 +25,6 @@ import { Module as VisualizationModule } from 'plugins/visualization';
     CommonModule,
     CoreModule,
     FormsModule,
-    VisualizationModule,
   ],
   entryComponents: [
     PlaylistComponent,

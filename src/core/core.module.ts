@@ -22,6 +22,12 @@ import { ModalsService, ModalComponent } from './ui/modals';
 import { ListComponent, ListService, ListCommands } from './ui/list';
 import { VirtualRepeaterDirective } from './ui/virtualRepeater';
 import {
+  VisualizationComponent,
+  VisualizationRenderer,
+  VisualizationService,
+  VisualizationCommands,
+ } from './ui/visualization';
+import {
   NotificationsComponent,
   NotificationsService,
 } from './ui/notifications';
@@ -42,6 +48,7 @@ import {
     ListComponent,
     TabsComponent,
     PaneComponent,
+    VisualizationComponent,
   ],
   providers: [
     Settings,
@@ -61,6 +68,9 @@ import {
     ProxyServerService,
     PaneService,
     PaneCommands,
+    VisualizationService,
+    VisualizationRenderer,
+    VisualizationCommands,
   ],
   exports: [
     VirtualRepeaterDirective,
@@ -72,6 +82,7 @@ import {
     ListComponent,
     TabsComponent,
     PaneComponent,
+    VisualizationComponent,
   ],
 })
 export class CoreModule { }
