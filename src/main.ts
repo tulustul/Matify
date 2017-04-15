@@ -22,6 +22,7 @@ import './plugins/basicVisualizations';
 import './plugins/audioErrorsNotifier';
 import './plugins/shortcuts';
 import './plugins/similarTracks';
+import './plugins/settings';
 
 import { environment } from './environments/environment';
 import { AppModule } from './core/app.module';

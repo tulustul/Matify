@@ -1,5 +1,11 @@
 import { Visualization } from 'core/ui/visualization';
 
+export interface Setting {
+  key: string;
+  displayName: string;
+  component: string;
+}
+
 export interface MenuItem {
   icon: string;
   name: string;
@@ -13,6 +19,7 @@ export interface IPluginData {
   trackStores?: any[];
   proxyServerParams?: string[];
   visualizations?: Visualization[];
+  settings?: Setting[];
 }
 
 export interface IPlugin extends IPluginData {
@@ -26,6 +33,7 @@ export const PLUGGINS_DATA: IPluginData = {
   trackStores: [],
   proxyServerParams: [],
   visualizations: [],
+  settings: [],
 };
 
 export const PLUGINS: IPlugin[] = [];
