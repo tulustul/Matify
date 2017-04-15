@@ -1,4 +1,4 @@
-import { TracksStore, Track } from 'core/tracks';
+import { TracksStore, Track, extendMetadata } from 'core/tracks';
 
 export class YoutubeStore implements TracksStore {
 
@@ -49,7 +49,7 @@ export class YoutubeStore implements TracksStore {
         this.nextPageToken = response.nextPageToken;
         response.items = response.items || [];
         const tracks: Track[] = response.items.map(t => {
-          return <Track>{
+          return extendMetadata(<Track>{
             uri: `http://localhost:5000/youtube/${t.id.videoId}`,
             title: t.snippet.title,
             album: '',
@@ -58,7 +58,7 @@ export class YoutubeStore implements TracksStore {
             artworkUri: t.snippet.thumbnails.default.url,
             track: null,
             source: 'youtube',
-          };
+          });
         });
         resolve(tracks);
       });

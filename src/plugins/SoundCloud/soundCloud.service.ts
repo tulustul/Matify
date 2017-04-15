@@ -1,4 +1,4 @@
-import { TracksStore, Track } from 'core/tracks';
+import { TracksStore, Track, extendMetadata } from 'core/tracks';
 
 // import * as SC from 'soundcloud';
 
@@ -32,7 +32,7 @@ export class SoundCloudStore implements TracksStore {
       });
 
       let tracks: Track[] = _tracks.map(t => {
-        return <Track>{
+        return extendMetadata(<Track>{
           uri: `${t.stream_url}?client_id=${this.CLIENT_ID}`,
           title: t.title,
           album: '',
@@ -43,7 +43,7 @@ export class SoundCloudStore implements TracksStore {
           genre: t.genre,
           year: t.release_year,
           source: 'soundcloud',
-        };
+        });
       });
 
       resolve(tracks);
