@@ -56,7 +56,7 @@ export class SearchViewComponent implements OnInit, PaneView {
   }
 
   ngOnInit() {
-    this.playlist.open(this.key);
+    this.playlist.openById(parseInt(this.key));
     this.search$.subscribe(searchTerm => this.searchTracks(searchTerm));
   }
 

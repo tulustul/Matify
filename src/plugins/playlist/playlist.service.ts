@@ -129,25 +129,25 @@ export class PlaylistService {
   }
 
   public async create(name='New playlist', persistent=true) {
-    this.playlist = await Playlist.store
-      .where('placeholder')
-      .equals('1')
-      .first();
+    // this.playlist = await Playlist.store
+    //   .where('placeholder')
+    //   .equals('1')
+    //   .first();
 
-    if (!this.playlist) {
-      this.playlist = {
-        name: name + await Playlist.store.count(),
-        placeholder: 1,
-        persistent: persistent ? 1 : 0,
-      };
-      this.tracks = [];
-      this.playlist.id = await Playlist.store.add(this.playlist);
-      this.playlistTracks = {
-        playlistId: this.playlist.id,
-        tracks: this.tracks,
-      };
-      await PlaylistTracks.store.add(this.playlistTracks);
-    }
+    // if (!this.playlist) {
+    this.playlist = {
+      name: name + await Playlist.store.count(),
+      placeholder: 1,
+      persistent: persistent ? 1 : 0,
+    };
+    this.tracks = [];
+    this.playlist.id = await Playlist.store.add(this.playlist);
+    this.playlistTracks = {
+      playlistId: this.playlist.id,
+      tracks: this.tracks,
+    };
+    await PlaylistTracks.store.add(this.playlistTracks);
+    // }
 
     this._tracks$.next(this.tracks);
     this._playlist$.next(this.playlist);
@@ -163,7 +163,15 @@ export class PlaylistService {
   }
 
   public async open(playlistName: string) {
-    this.playlist = await this._getByName(playlistName);
+    this._open(await this._getByName(playlistName));
+  }
+
+  public async openById(id: number) {
+    this._open(await this._getById(id));
+  }
+
+  private async _open(playlist: Playlist) {
+    this.playlist = playlist;
     if (this.playlist) {
       this.playlistTracks = await PlaylistTracks.store.get(this.playlist.id);
       this.tracks = this.playlistTracks.tracks;
@@ -184,6 +192,7 @@ export class PlaylistService {
       let oldName = this.playlist.name;
       this.playlist.name = newName;
       this.playlist.placeholder = 0;
+      this._playlist$.next(this.playlist);
       await Playlist.store.update(this.playlist.id, this.playlist);
 
       this.notifications.push({
@@ -201,6 +210,13 @@ export class PlaylistService {
     return await Playlist.store
       .where('name')
       .equalsIgnoreCase(name)
+      .first();
+  }
+
+  private async _getById(id: number) {
+    return await Playlist.store
+      .where('id')
+      .equals(id)
       .first();
   }
 

@@ -19,9 +19,9 @@ export class SearchCommands {
     name: 'search.search',
     displayName: 'Search tracks',
   })
-  search() {
-    this.playlist.create('Search', false);
-    this.pane.openView(SearchViewComponent, 'Search');
+  async search() {
+    await this.playlist.create('Search', false);
+    this.pane.openView(SearchViewComponent, this.playlist.playlist.id.toString());
     this.pane.focusSearchbox();
   }
 

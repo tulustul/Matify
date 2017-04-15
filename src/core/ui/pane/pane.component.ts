@@ -163,9 +163,9 @@ export class PaneComponent implements OnInit, OnDestroy {
 
     const component = this.currentView.component;
 
-    view.displayName = originalKey;
-
-    if (component.displayName !== undefined) {
+    if (view.displayName) {
+      component.displayName = view.displayName;
+    } else if (component.displayName !== undefined) {
       view.displayName = component.displayName;
     } else {
       view.displayName = originalKey;
@@ -178,6 +178,7 @@ export class PaneComponent implements OnInit, OnDestroy {
         if (currentItem) {
           currentItem.displayName = displayName;
         }
+        this.cdr.markForCheck();
       });
     }
 
