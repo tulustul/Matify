@@ -42,4 +42,29 @@ export class TracksService {
     });
   }
 
+  findSimilar(track: Track) {
+    return <Observable<Track[]>>Observable.create((observer: Observer<Track[]>) => {
+      let remaining = this.stores.length;
+
+      this.stores.forEach(async store => {
+        if (!store.findSimilar) {
+          return;
+        }
+        try {
+          let tracks = await store.findSimilar(track);
+          observer.next(tracks);
+        } catch (e) {
+          console.error(
+            `Failed to find similar tracks for provider "${store.name}". Reason: ${e}`
+          );
+          console.error(e.stack);
+        }
+        remaining -= 1;
+        if (remaining === 0) {
+          observer.complete();
+        }
+      });
+    });
+  }
+
 }

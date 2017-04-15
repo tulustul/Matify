@@ -17,6 +17,7 @@ export class LocalTrack implements Track {
   @Index() year: number;
   @Index() genre: string;
   @Index() length: number;
+  sourceId = '';
 
   artworkUri: string;
 }

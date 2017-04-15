@@ -6,6 +6,8 @@ export interface TracksStore {
 
   search(term: string, page: number): Promise<Track[]>;
 
+  findSimilar?(track: Track): Promise<Track[]>;
+
   init();
 
 }

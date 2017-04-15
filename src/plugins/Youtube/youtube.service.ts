@@ -30,20 +30,33 @@ export class YoutubeStore implements TracksStore {
     if (page === 0) {
       this.nextPageToken = null;
     }
+    return this._search({q: term});
+  }
 
+  async findSimilar(track: Track) {
+    let sourceId;
+    if (track.source === 'youtube') {
+      sourceId = track.sourceId;
+    } else {
+      const searchTerm = `${track.artist} ${track.album} ${track.title}`;
+      const tracks = await this._search({q: searchTerm});
+      if (tracks.length) {
+        sourceId = tracks[0].sourceId;
+      }
+    }
+    return this._search({relatedToVideoId: sourceId});
+  }
+
+  private _search(params: any) {
     return new Promise<Track[]>(async (resolve, reject) => {
-
-      const requestData = {
-        q: term,
-        part: 'snippet',
-        type: 'video',
-      };
+      params.part = 'snippet';
+      params.type = 'video';
 
       if (this.nextPageToken) {
-        requestData['pageToken'] = this.nextPageToken;
+        params.pageToken = this.nextPageToken;
       }
 
-      const request = this.gapi.client.youtube.search.list(requestData);
+      const request = this.gapi.client.youtube.search.list(params);
 
       request.execute(response => {
         this.nextPageToken = response.nextPageToken;
@@ -58,6 +71,7 @@ export class YoutubeStore implements TracksStore {
             artworkUri: t.snippet.thumbnails.default.url,
             track: null,
             source: 'youtube',
+            sourceId: t.id.videoId,
           });
         });
         resolve(tracks);

@@ -1,0 +1,25 @@
+<div class="header">
+  <i class="material-icons" (click)="addAllToPlaylist()">
+    keyboard_arrow_right
+  </i>
+</div>
+
+<mp-list
+  #list
+  id="similar-tracks-list"
+  [headerEnabled]="false"
+  noItemsMessage="No results"
+  [items]="tracks"
+  [itemSize]="41"
+  (select)="addToPlaylist($event)"
+>
+  <ng-template let-item="item">
+    <div
+      class="artwork"
+      [style.backgroundImage]="item.artworkUri ? ('url(' + item.artworkUri + ')') : ''"
+    ></div>
+    <div class="mp-cell">
+      {{ item.title }} - {{ item.artist }}
+    </div>
+  </ng-template>
+</mp-list>
