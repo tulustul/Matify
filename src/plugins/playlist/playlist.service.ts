@@ -111,8 +111,8 @@ export class PlaylistService {
   }
 
   private _save() {
-    if (this.playlist.placeholder === '1') {
-      this.playlist.placeholder = '';
+    if (this.playlist.placeholder === 1) {
+      this.playlist.placeholder = 0;
       Playlist.store.update(this.playlist.id, this.playlist);
     }
     PlaylistTracks.store.update(this.playlist.id, {
@@ -128,7 +128,7 @@ export class PlaylistService {
     }
   }
 
-  public async create() {
+  public async create(name='New playlist', persistent=true) {
     this.playlist = await Playlist.store
       .where('placeholder')
       .equals('1')
@@ -136,8 +136,9 @@ export class PlaylistService {
 
     if (!this.playlist) {
       this.playlist = {
-        name: 'New playlist',
-        placeholder: '1',
+        name: name + await Playlist.store.count(),
+        placeholder: 1,
+        persistent: persistent ? 1 : 0,
       };
       this.tracks = [];
       this.playlist.id = await Playlist.store.add(this.playlist);
@@ -182,7 +183,7 @@ export class PlaylistService {
     } else {
       let oldName = this.playlist.name;
       this.playlist.name = newName;
-      this.playlist.placeholder = '';
+      this.playlist.placeholder = 0;
       await Playlist.store.update(this.playlist.id, this.playlist);
 
       this.notifications.push({
@@ -193,7 +194,7 @@ export class PlaylistService {
   }
 
   public getAllPlaylists() {
-     return Playlist.store.toArray();
+     return Playlist.store.where('persistent').equals(1).toArray();
   }
 
   private async _getByName(name: string) {

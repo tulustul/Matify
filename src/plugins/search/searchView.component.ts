@@ -9,7 +9,9 @@ import { Subject } from 'rxjs';
 
 import { Track, TracksService } from 'core/tracks';
 import { FilterService } from 'core/filter.service';
-import { PaneView, View} from 'core/ui/pane';
+import { PaneView, View } from 'core/ui/pane';
+
+import { PlaylistService } from 'plugins/playlist';
 
 interface SearchSerialization {
   searchTerm: string;
@@ -43,14 +45,18 @@ export class SearchViewComponent implements OnInit, PaneView {
   });
 
   constructor(
-    // public playlist: PlaylistService,
-    // private filterService: FilterService,
+    public playlist: PlaylistService,
     private changeDetectorRef: ChangeDetectorRef,
     private tracksService: TracksService,
   ) {
+    playlist.tracks$.subscribe(tracks => {
+      this.tracks = tracks;
+      changeDetectorRef.markForCheck();
+    });
   }
 
   ngOnInit() {
+    this.playlist.open(this.key);
     this.search$.subscribe(searchTerm => this.searchTracks(searchTerm));
   }
 
@@ -64,9 +70,9 @@ export class SearchViewComponent implements OnInit, PaneView {
   }
 
   searchTracks(searchTerm) {
-    this.tracks = [];
+    this.playlist.clear();
     this.tracksService.search(searchTerm).subscribe(tracks => {
-      this.tracks = this.tracks.concat(tracks);
+      this.playlist.addTracks(tracks);
       this.changeDetectorRef.markForCheck();
     });
   }
