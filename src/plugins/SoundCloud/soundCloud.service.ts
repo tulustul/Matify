@@ -4,6 +4,8 @@ import { TracksStore, Track } from 'core/tracks';
 
 export class SoundCloudStore implements TracksStore {
 
+  PAGE_SIZE = 30;
+
   name = 'SoundCloud';
 
   CLIENT_ID = '2add0f709fcfae1fd7a198ec7573d2d4';
@@ -21,11 +23,12 @@ export class SoundCloudStore implements TracksStore {
 
   init() {}
 
-  search(term: string) {
+  search(term: string, page: number) {
     return new Promise<Track[]>(async (resolve, reject) => {
       let _tracks = await this.SC.get('/tracks', {
         q: term,
-        limit: 30,
+        offset: this.PAGE_SIZE * page,
+        limit: this.PAGE_SIZE,
       });
 
       let tracks: Track[] = _tracks.map(t => {

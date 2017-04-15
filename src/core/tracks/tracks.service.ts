@@ -20,13 +20,13 @@ export class TracksService {
     this.stores.forEach(store => store.init());
   }
 
-  search(term: string) {
+  search(term: string, page: number) {
     return <Observable<Track[]>>Observable.create((observer: Observer<Track[]>) => {
       let remaining = this.stores.length;
 
       this.stores.forEach(async store => {
         try {
-          let tracks = await store.search(term);
+          let tracks = await store.search(term, page);
           observer.next(tracks);
         } catch (e) {
           console.error(

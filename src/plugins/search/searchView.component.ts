@@ -71,7 +71,7 @@ export class SearchViewComponent implements OnInit, PaneView {
 
   searchTracks(searchTerm) {
     this.playlist.clear();
-    this.tracksService.search(searchTerm).subscribe(tracks => {
+    this.tracksService.search(searchTerm, 0).subscribe(tracks => {
       this.playlist.addTracks(tracks);
       this.changeDetectorRef.markForCheck();
     });

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { Settings } from './settings.service';
@@ -37,6 +37,7 @@ import {
     HttpModule,
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
   ],
   declarations: [
     VirtualRepeaterDirective,

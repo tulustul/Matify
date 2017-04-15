@@ -8,6 +8,8 @@ export class YoutubeStore implements TracksStore {
 
   gapi: any;
 
+  nextPageToken: string;
+
   constructor() {
     const script = document.createElement('script');
     script.src = 'https://apis.google.com/js/client.js?onload=initYoutube';
@@ -24,16 +26,28 @@ export class YoutubeStore implements TracksStore {
 
   init() {}
 
-  search(term: string) {
+  search(term: string, page: number) {
+    if (page === 0) {
+      this.nextPageToken = null;
+    }
+
     return new Promise<Track[]>(async (resolve, reject) => {
 
-      const request = this.gapi.client.youtube.search.list({
+      const requestData = {
         q: term,
         part: 'snippet',
         type: 'video',
-      });
+      };
+
+      if (this.nextPageToken) {
+        requestData['pageToken'] = this.nextPageToken;
+      }
+
+      const request = this.gapi.client.youtube.search.list(requestData);
 
       request.execute(response => {
+        this.nextPageToken = response.nextPageToken;
+        response.items = response.items || [];
         const tracks: Track[] = response.items.map(t => {
           return <Track>{
             uri: `http://localhost:5000/youtube/${t.id.videoId}`,

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, } from '@angular/forms';
 
 import { Plugin } from 'core/plugging';
 import { CoreModule } from 'core/core.module';
@@ -24,6 +24,7 @@ import { Module as PlaylistModule } from 'plugins/playlist';
     FormsModule,
     PlaylistModule,
     CoreModule,
+    ReactiveFormsModule,
   ],
   declarations: [
     SearchComponent,

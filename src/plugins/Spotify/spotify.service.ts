@@ -9,6 +9,8 @@ import { Settings } from 'core/settings.service';
 @Injectable()
 export class SpotifyStore implements TracksStore {
 
+  PAGE_SIZE = 30;
+
   name = 'Spotify';
 
   api = new SpotifyWebApi();
@@ -30,14 +32,17 @@ export class SpotifyStore implements TracksStore {
     }
   }
 
-  search(term: string) {
+  search(term: string, page: number) {
     return new Promise<Track[]>(async (resolve, reject) => {
       if (!this.enabled) {
         resolve([]);
         return;
       }
 
-      let response = await this.api.searchTracks(term);
+      let response = await this.api.searchTracks(term, {
+        offset: this.PAGE_SIZE * page,
+        limit: this.PAGE_SIZE,
+      });
       let _tracks = response.tracks.items;
 
       let tracks: Track[] = _tracks.map(t => {

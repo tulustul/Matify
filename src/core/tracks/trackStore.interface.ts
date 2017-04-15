@@ -4,7 +4,7 @@ export interface TracksStore {
 
   name: string;
 
-  search(term: string): Promise<Track[]>;
+  search(term: string, page: number): Promise<Track[]>;
 
   init();
 

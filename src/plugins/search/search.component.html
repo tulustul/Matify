@@ -1,7 +1,7 @@
 <input
   type="text"
-  [(ngModel)]="searchService.searchTerm"
-  (change)="search()"
+  [value]="searchService.searchTerm"
+  [formControl]="searchFormControl"
   placeholder="Type in your search term"
 >
 
@@ -19,6 +19,7 @@
   [items]="searchService.tracks"
   [itemSize]="41"
   (select)="addToPlaylist($event)"
+  (endReached)="searchMore()"
 >
   <ng-template let-item="item">
     <div
