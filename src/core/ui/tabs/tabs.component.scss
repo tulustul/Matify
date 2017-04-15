@@ -1,6 +1,9 @@
 :host {
   display: flex;
   flex-grow: 1;
+  .spacer {
+    flex-grow: 1;
+  }
   .mp-tab {
     display: flex;
     flex-grow: 1;
@@ -16,6 +19,10 @@
     }
     &.selected {
       background: transparent;
+    }
+    &.add-tab {
+      padding: 7px;
+      flex-grow: 0;
     }
     .name {
       white-space: nowrap;

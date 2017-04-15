@@ -4,7 +4,7 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 
-import { PaneView, View} from 'core/ui/pane';
+import { PaneView, View } from 'core/ui/pane';
 import { Keybindings } from 'core/keybindings.service';
 import { FilterService } from 'core/filter.service';
 

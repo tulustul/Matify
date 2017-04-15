@@ -4,7 +4,7 @@ import { Command } from 'core/commands';
 import { ModalsService } from 'core/ui/modals';
 import { NotificationsService } from 'core/ui/notifications';
 import { PaletteService } from 'core/ui/palette';
-import { PaneService } from 'core/ui/pane';
+import { PaneService } from 'core/ui/pane/pane.service';
 
 import { PlaylistService } from './playlist.service';
 import { Playlist } from './models';

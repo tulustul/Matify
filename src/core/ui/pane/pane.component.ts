@@ -13,6 +13,8 @@ import {
 
 import { Subscription } from 'rxjs';
 
+import { PlaylistCommands } from 'plugins/playlist/commands';
+
 import {
   PaneView,
   VIEWS_REGISTRY,
@@ -69,6 +71,7 @@ export class PaneComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private cfr: ComponentFactoryResolver,
     private paneService: PaneService,
+    private playlistCommands: PlaylistCommands,
   ) {
     this.paneService.registerPane(this);
   }
@@ -239,6 +242,10 @@ export class PaneComponent implements OnInit, OnDestroy {
   focusSearchBox() {
     const el = this.searchBox.nativeElement as HTMLElement;
     el.focus();
+  }
+
+  addPlaylist() {
+    this.playlistCommands.newPlaylist();
   }
 
 }

@@ -21,6 +21,8 @@ export class TabsComponent {
 
   @Output() close = new EventEmitter<any>();
 
+  @Output() addTab = new EventEmitter<void>();
+
   selectOrCloseItem(event: MouseEvent, item: any) {
     if (event.button === 1) {
       this.closeItem(item);
@@ -31,6 +33,10 @@ export class TabsComponent {
 
   closeItem(item: any) {
     this.close.next(item);
+  }
+
+  addNewTab() {
+    this.addTab.next(null);
   }
 
 }

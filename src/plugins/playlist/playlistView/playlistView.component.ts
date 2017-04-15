@@ -9,7 +9,8 @@ import { Observable } from 'rxjs';
 
 import { Track } from 'core/tracks';
 import { FilterService } from 'core/filter.service';
-import { PaneView, View} from 'core/ui/pane';
+import { PaneView } from 'core/ui/pane';
+import { View } from 'core/ui/pane/view.decorator';
 
 import { PlaylistService } from '../playlist.service';
 
