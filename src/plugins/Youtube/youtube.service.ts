@@ -51,6 +51,7 @@ export class YoutubeStore implements TracksStore {
     return new Promise<Track[]>(async (resolve, reject) => {
       params.part = 'snippet';
       params.type = 'video';
+      params.videoCategoryId = 10;  // music
 
       if (this.nextPageToken) {
         params.pageToken = this.nextPageToken;
