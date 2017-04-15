@@ -45,8 +45,12 @@
     }
   }
 
-  .mp-button {
+  button, .mp-button {
     background: $primary-color;
+    border-bottom: 2px solid white;
+    &:hover {
+      background: darken($primary-color, 10%);
+    }
   }
 
   ::-webkit-scrollbar-thumb {

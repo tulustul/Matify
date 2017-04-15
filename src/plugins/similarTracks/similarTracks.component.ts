@@ -26,6 +26,8 @@ export class SimilarTracksComponent {
 
   tracks: Track[] = [];
 
+  track: Track;
+
   constructor(
     private tracksService: TracksService,
     private playlist: PlaylistService,
@@ -33,6 +35,7 @@ export class SimilarTracksComponent {
     private cdr: ChangeDetectorRef,
   ) {
     this.audio.track$.subscribe(track => {
+      this.track = track;
       this.findSimilar(track);
     });
   }
@@ -56,10 +59,6 @@ export class SimilarTracksComponent {
 
   addToPlaylist(track: Track) {
     this.playlist.addTrack(Object.assign({}, track));
-  }
-
-  addAllToPlaylist() {
-    this.playlist.addTracks(this.tracks);
   }
 
 }

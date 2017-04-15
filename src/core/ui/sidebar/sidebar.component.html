@@ -1,8 +1,16 @@
-<div
-  class="menu-item"
-  (click)="selectPage(page)"
-  *ngFor="let page of pages"
->
-  <i class="material-icons">{{ page.icon }}</i>
-  {{ page.name }}
+<div class="menu">
+  <div
+    class="menu-item mp-primary"
+    *ngFor="let page of pages"
+    [class.active]="page === selectedItem"
+    (click)="showSidebar(page)"
+  >
+    <i class="material-icons">{{ page.icon }}</i>
+    {{ page.name }}
+  </div>
+  <div class="spacer mp-primary"></div>
+</div>
+
+<div class="sidebar" [hidden]="!pageVisible">
+  <div #page></div>
 </div>

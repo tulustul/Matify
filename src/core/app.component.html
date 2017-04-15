@@ -3,10 +3,7 @@
 <mp-modal></mp-modal>
 
 <div class="view" *ngIf="initialized">
-  <mp-sidebar (change)="showPage($event)"></mp-sidebar>
-  <div class="page mp-panel" [hidden]="!pageVisible">
-    <div #page></div>
-  </div>
+  <mp-sidebar></mp-sidebar>
   <div class="content">
     <mp-pane></mp-pane>
   </div>

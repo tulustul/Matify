@@ -53,3 +53,12 @@ input {
     border-bottom-width: 1px;
   }
 }
+
+button {
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  border: none;
+  color: white;
+  cursor: pointer;
+}

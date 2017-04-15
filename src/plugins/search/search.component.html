@@ -1,14 +1,15 @@
-<input
-  type="text"
-  [value]="searchService.searchTerm"
-  [formControl]="searchFormControl"
-  placeholder="Type in your search term"
->
-
 <div class="header">
-  <i class="material-icons" (click)="addAllToPlaylist()">
-    keyboard_arrow_right
-  </i>
+  <input
+    type="text"
+    class="mp-darken"
+    placeholder="Search for music..."
+    [value]="searchService.searchTerm"
+    [formControl]="searchFormControl"
+  >
+  <button (click)="addAllToPlaylist()">
+    Add all
+    <i class="material-icons">add</i>
+  </button>
 </div>
 
 <mp-list
@@ -17,7 +18,7 @@
   [headerEnabled]="false"
   noItemsMessage="No results"
   [items]="searchService.tracks"
-  [itemSize]="41"
+  [itemSize]="56"
   (select)="addToPlaylist($event)"
   (endReached)="searchMore()"
 >
@@ -26,8 +27,9 @@
       class="artwork"
       [style.backgroundImage]="item.artworkUri ? ('url(' + item.artworkUri + ')') : ''"
     ></div>
-    <div class="mp-cell">
-      {{ item.title }} - {{ item.artist }}
+    <div class="track-info">
+      <span class="mp-cell title">{{ item.title }}</span>
+      <span class="mp-cell artist">{{ item.artist }}</span>
     </div>
   </ng-template>
 </mp-list>

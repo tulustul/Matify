@@ -1,7 +1,12 @@
 <div class="header">
-  <i class="material-icons" (click)="addAllToPlaylist()">
-    keyboard_arrow_right
-  </i>
+  <div *ngIf="track">
+    <div class="headline">Tracks similar to:</div>
+    <div class="title">{{ track.title }}</div>
+    <div class="artist">{{ track.artist }}</div>
+  </div>
+  <div *ngIf="!track">
+    <div class="headline">No playing track</div>
+  </div>
 </div>
 
 <mp-list
@@ -18,8 +23,9 @@
       class="artwork"
       [style.backgroundImage]="item.artworkUri ? ('url(' + item.artworkUri + ')') : ''"
     ></div>
-    <div class="mp-cell">
-      {{ item.title }} - {{ item.artist }}
+    <div class="track-info">
+      <span class="mp-cell title">{{ item.title }}</span>
+      <span class="mp-cell artist">{{ item.artist }}</span>
     </div>
   </ng-template>
 </mp-list>

@@ -2,14 +2,27 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  .header {
+    display: flex;
+  }
   .artwork {
-    height: 40px;
-    width: 40px;
-    min-width: 40px;
+    height: 55px;
+    width: 55px;
+    min-width: 55px;
     margin-right: 10px;
     background-size: contain;
   }
-  .mp-cell {
-    padding: 0;
+  .track-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    line-height: 20px;
+    .artist {
+      font-size: 13px;
+      font-weight: 300;
+    }
+    .mp-cell {
+      padding: 0;
+    }
   }
 }

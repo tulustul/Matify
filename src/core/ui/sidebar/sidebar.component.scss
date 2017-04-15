@@ -1,15 +1,31 @@
 :host {
-  min-width: 80px;
+  display: flex;
   box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.37);
-  z-index: 2;
-  .menu-item {
+  .menu {
+    min-width: 80px;
+    z-index: 2;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 10px 0;
-    cursor: pointer;
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.15);
+    .menu-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px 0;
+      cursor: pointer;
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.3);
+      }
+      &.active {
+        background-color: transparent;
+      }
     }
+    .spacer {
+      flex-grow: 1;
+    }
+  }
+  .sidebar {
+    width: 250px;
+    min-width: 400px;
+    z-index: 1;
   }
 }

@@ -3,7 +3,7 @@ import { Visualization } from 'core/ui/visualization';
 export interface MenuItem {
   icon: string;
   name: string;
-  component: Function;
+  component: any;
 }
 
 export interface IPluginData {
