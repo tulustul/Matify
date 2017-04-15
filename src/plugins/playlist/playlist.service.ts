@@ -154,11 +154,15 @@ export class PlaylistService {
   }
 
   public async delete() {
-    await PlaylistTracks.store.delete(this.playlist.id);
-    await Playlist.store.delete(this.playlist.id);
+    this.deletePlaylist(this.playlist);
+  }
+
+  public async deletePlaylist(playlist: Playlist) {
+    await PlaylistTracks.store.delete(playlist.id);
+    await Playlist.store.delete(playlist.id);
 
     this.notifications.push({
-      message: `Playlist ${this.playlist.name} has been removed`,
+      message: `Playlist ${playlist.name} has been removed`,
     });
   }
 

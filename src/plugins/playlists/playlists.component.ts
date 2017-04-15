@@ -43,4 +43,9 @@ export class PlaylistsComponent {
     this.playlistService.open(playlist.name);
   }
 
+  async delete(playlist: Playlist) {
+    await this.playlistService.deletePlaylist(playlist);
+    this.getPlaylists();
+  }
+
 }
