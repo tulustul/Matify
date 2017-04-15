@@ -7,6 +7,13 @@ import { YoutubeStore } from './youtube.service';
 
 @Plugin({
   trackStores: [YoutubeStore],
+  settings: [
+    {
+      key: 'search.youtube',
+      displayName: 'Youtube enabled',
+      component: 'checkbox',
+    },
+  ],
 })
 @NgModule({
   imports: [CoreModule],

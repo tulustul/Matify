@@ -9,6 +9,13 @@ import { SoundCloudStore } from './soundCloud.service';
   trackStores: [
     SoundCloudStore,
   ],
+  settings: [
+    {
+      key: 'search.soundcloud',
+      displayName: 'SoundCloud enabled',
+      component: 'checkbox',
+    },
+  ],
 })
 @NgModule({
   imports: [CoreModule],

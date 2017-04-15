@@ -20,6 +20,11 @@ import { SpotifyStore } from './spotify.service';
       displayName: 'Spotify password',
       component: 'password',
     },
+    {
+      key: 'search.spotify',
+      displayName: 'Spotify enabled',
+      component: 'checkbox',
+    },
   ]
 })
 @NgModule({

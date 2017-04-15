@@ -1,5 +1,5 @@
 <ul>
-  <li *ngFor="let module of modules">
+  <li class="module" *ngFor="let module of modules">
     <h2 class="module-title">{{ module }}</h2>
     <ul>
       <li class="form" *ngFor="let setting of settingsFor(module)">

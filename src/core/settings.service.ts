@@ -91,6 +91,8 @@ export class Settings {
       this.USER_SETTINGS_PATH,
       JSON.stringify(this.userSettings, null, 2),
     );
+    Object.assign(this, this.userSettings);
+    this._changes$.next(this);
   }
 
 }
