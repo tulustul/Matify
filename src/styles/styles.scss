@@ -50,11 +50,16 @@ input {
 }
 
 .mp-row {
-  padding: 0 10px;
   border-color: rgba(255, 255, 255, 0.12);
   &:not(:last-child) {
     border-bottom-style: solid;
     border-bottom-width: 1px;
+  }
+  > .mp-cell:first-child {
+    padding-left: 10px;
+  }
+  > .mp-cell:last-child {
+    padding-right: 10px;
   }
 }
 

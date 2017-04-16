@@ -69,6 +69,10 @@
             "command": "playlist.delete"
         },
         {
+            "keys": ["ctrl+shift+r"],
+            "command": "playlist.rename"
+        },
+        {
             "keys": ["r"],
             "command": "playlist.randomTrack"
         },

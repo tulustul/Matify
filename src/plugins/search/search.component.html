@@ -12,24 +12,8 @@
   </button>
 </div>
 
-<mp-list
-  #list
-  id="search-list"
-  [headerEnabled]="false"
-  noItemsMessage="No results"
-  [items]="searchService.tracks"
-  [itemSize]="56"
-  (select)="addToPlaylist($event)"
+<mp-simple-playlist
+  [tracks]="searchService.tracks"
   (endReached)="searchMore()"
->
-  <ng-template let-item="item">
-    <div
-      class="artwork"
-      [style.backgroundImage]="item.artworkUri ? ('url(' + item.artworkUri + ')') : ''"
-    ></div>
-    <div class="track-info">
-      <span class="mp-cell title">{{ item.title }}</span>
-      <span class="mp-cell artist">{{ item.artist }}</span>
-    </div>
-  </ng-template>
-</mp-list>
+  (select)="addToPlaylist($event)"
+></mp-simple-playlist>

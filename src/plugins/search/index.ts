@@ -10,6 +10,7 @@ import { SearchViewComponent } from './searchView.component';
 import { SearchService } from './search.service';
 import { SearchCommands } from './commands';
 import { Module as PlaylistModule } from 'plugins/playlist';
+import { Module as SimplePlaylistModule } from 'plugins/simplePlaylist';
 
 @Plugin({
   menuItems: [{
@@ -22,9 +23,10 @@ import { Module as PlaylistModule } from 'plugins/playlist';
   imports: [
     CommonModule,
     FormsModule,
-    PlaylistModule,
-    CoreModule,
     ReactiveFormsModule,
+    PlaylistModule,
+    SimplePlaylistModule,
+    CoreModule,
   ],
   declarations: [
     SearchComponent,

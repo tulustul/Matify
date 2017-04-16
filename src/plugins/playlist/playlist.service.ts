@@ -129,12 +129,6 @@ export class PlaylistService {
   }
 
   public async create(name='New playlist', persistent=true) {
-    // this.playlist = await Playlist.store
-    //   .where('placeholder')
-    //   .equals('1')
-    //   .first();
-
-    // if (!this.playlist) {
     this.playlist = {
       name: name + await Playlist.store.count(),
       placeholder: 1,
@@ -147,7 +141,6 @@ export class PlaylistService {
       tracks: this.tracks,
     };
     await PlaylistTracks.store.add(this.playlistTracks);
-    // }
 
     this._tracks$.next(this.tracks);
     this._playlist$.next(this.playlist);

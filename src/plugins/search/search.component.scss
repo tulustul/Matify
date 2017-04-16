@@ -5,24 +5,4 @@
   .header {
     display: flex;
   }
-  .artwork {
-    height: 55px;
-    width: 55px;
-    min-width: 55px;
-    margin-right: 10px;
-    background-size: contain;
-  }
-  .track-info {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    line-height: 20px;
-    .artist {
-      font-size: 13px;
-      font-weight: 300;
-    }
-    .mp-cell {
-      padding: 0;
-    }
-  }
 }

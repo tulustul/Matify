@@ -1,0 +1,28 @@
+<mp-list
+  #list
+  noItemsMessage="No results"
+  [headerEnabled]="false"
+  [items]="tracks"
+  [itemSize]="56"
+  [markedItem]="playingTrack"
+  (select)="selectTrack($event)"
+  (endReached)="triggerEndReached()"
+>
+  <ng-template let-item="item">
+    <div
+      class="artwork"
+      [style.backgroundImage]="item.artworkUri ? ('url(' + item.artworkUri + ')') : ''"
+    ></div>
+    <div class="track-info">
+      <span class="mp-cell title">{{ item.title }}</span>
+      <span class="mp-cell artist">{{ item.artist }}</span>
+    </div>
+    <div
+      class="action material-icons"
+      role="button"
+      (click)="play(item, $event)"
+    >
+      play_circle_outline
+    </div>
+  </ng-template>
+</mp-list>

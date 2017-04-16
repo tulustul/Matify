@@ -28,6 +28,8 @@ export class SimilarTracksComponent {
 
   track: Track;
 
+  previewTrack: Track;
+
   constructor(
     private tracksService: TracksService,
     private playlist: PlaylistService,
@@ -35,8 +37,10 @@ export class SimilarTracksComponent {
     private cdr: ChangeDetectorRef,
   ) {
     this.audio.track$.subscribe(track => {
-      this.track = track;
-      this.findSimilar(track);
+      if (!this.previewTrack || track.uri !== this.previewTrack.uri) {
+        this.track = track;
+        this.findSimilar(track);
+      }
     });
   }
 
@@ -59,6 +63,10 @@ export class SimilarTracksComponent {
 
   addToPlaylist(track: Track) {
     this.playlist.addTrack(Object.assign({}, track));
+  }
+
+  setPlayingTrack(track: Track) {
+    this.previewTrack = track;
   }
 
 }

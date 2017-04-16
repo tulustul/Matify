@@ -1,0 +1,41 @@
+:host {
+  display: flex;
+  height: 100%;
+  .artwork {
+    height: 55px;
+    width: 55px;
+    min-width: 55px;
+    margin-right: 10px;
+    background-size: contain;
+  }
+  .track-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden;
+    line-height: 20px;
+    .artist {
+      font-size: 13px;
+      font-weight: 300;
+    }
+    .mp-cell {
+      padding: 0;
+    }
+  }
+  .action {
+    font-size: 28px;
+    height: 55px;
+    width: 55px;
+    min-width: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+}
+
+mp-simple-playlist .mp-row {
+  padding: 0;
+}
