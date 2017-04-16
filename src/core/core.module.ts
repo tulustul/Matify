@@ -21,6 +21,7 @@ import { PaletteComponent, PaletteService } from './ui/palette';
 import { ModalsService, ModalComponent } from './ui/modals';
 import { ListComponent, ListService, ListCommands } from './ui/list';
 import { VirtualRepeaterDirective } from './ui/virtualRepeater';
+import { ContextMenuComponent, ContextMenuService } from './ui/contextMenu';
 import {
   VisualizationComponent,
   VisualizationRenderer,
@@ -50,6 +51,7 @@ import {
     TabsComponent,
     PaneComponent,
     VisualizationComponent,
+    ContextMenuComponent,
   ],
   providers: [
     Settings,
@@ -72,6 +74,7 @@ import {
     VisualizationService,
     VisualizationRenderer,
     VisualizationCommands,
+    ContextMenuService,
   ],
   exports: [
     VirtualRepeaterDirective,
@@ -84,6 +87,7 @@ import {
     TabsComponent,
     PaneComponent,
     VisualizationComponent,
+    ContextMenuComponent,
   ],
 })
 export class CoreModule { }

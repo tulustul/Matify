@@ -1,0 +1,19 @@
+<div
+  class="menu"
+  *ngIf="menu"
+  [style.left.px]="contextMenu.left"
+  [style.top.px]="contextMenu.top"
+  [style.bottom.px]="contextMenu.bottom"
+>
+  <div class="content mp-primary">
+    <span class="title">{{ menu.title }}</span>
+    <ul>
+      <li *ngFor="let item of menu.items" (click)="triggerAction(item)">
+        <span class="icon material-icons" *ngIf="item.icon">
+          {{ item.icon }}
+        </span>
+        <span class="name">{{ item.name }}</span>
+      </li>
+    </ul>
+  </div>
+</div>

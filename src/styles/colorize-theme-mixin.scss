@@ -74,4 +74,8 @@
       background: $primary-color;
     }
   }
+
+  mp-context-menu .menu:after {
+    border-color: $primary-color;
+  }
 }

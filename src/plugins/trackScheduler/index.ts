@@ -5,9 +5,22 @@ import { NgModule } from '@angular/core';
 import { Plugin } from 'core/plugging';
 
 import { TrackSchedulerService } from './trackScheduler.service';
+import { OrderChooserComponent } from './orderChooser.component';
+import { Commands } from './commands';
 
-@Plugin()
+@Plugin({
+  barComponents: [OrderChooserComponent],
+})
 @NgModule({
-  providers: [TrackSchedulerService],
+  declarations: [
+    OrderChooserComponent,
+  ],
+  entryComponents: [
+    OrderChooserComponent,
+  ],
+  providers: [
+    TrackSchedulerService,
+    Commands,
+  ],
 })
 export class Module { }

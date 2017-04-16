@@ -1,6 +1,7 @@
 import { Injector, Injectable } from '@angular/core';
 
 import { ICommand } from './command.interface';
+import { REGISTRY } from './registry';
 
 @Injectable()
 export class CommandRunner {
@@ -18,6 +19,10 @@ export class CommandRunner {
         `Reason: ${e}. Stack trace: ${e.stack}`
       );
     }
+  }
+
+  runCommandByName(commandName: string, ...args) {
+    this.runCommand(REGISTRY.get(commandName), ...args);
   }
 
 }
