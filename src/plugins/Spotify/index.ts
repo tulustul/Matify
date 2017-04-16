@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { HttpModule } from '@angular/http';
 
 import { Plugin } from 'core/plugging';
 import { CoreModule } from 'core/core.module';
@@ -28,7 +29,7 @@ import { SpotifyStore } from './spotify.service';
   ]
 })
 @NgModule({
-  imports: [CoreModule],
+  imports: [CoreModule, HttpModule],
   providers: [SpotifyStore],
 })
 export class Module { }
