@@ -48,6 +48,7 @@ export class SettingFormComponent implements OnInit {
     const component = this.form.createComponent(factory).instance as SettingForm;
 
     component.formControl = this.formControl;
+    (<any>component).name = this.setting.key;
   }
 
 }

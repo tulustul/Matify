@@ -28,6 +28,10 @@ input {
   color: white;
   box-sizing: border-box;
   background: transparent;
+  &[type=checkbox] {
+    width: 15px;
+    height: 15px;
+  }
 }
 
 ::-webkit-scrollbar {
