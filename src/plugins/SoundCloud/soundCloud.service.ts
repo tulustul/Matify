@@ -24,12 +24,32 @@ export class SoundCloudStore implements TracksStore {
   init() {}
 
   search(term: string, page: number) {
-    return new Promise<Track[]>(async (resolve, reject) => {
-      let _tracks = await this.SC.get('/tracks', {
+    return this._search('/tracks', {
         q: term,
         offset: this.PAGE_SIZE * page,
         limit: this.PAGE_SIZE,
-      });
+    });
+  }
+
+  async findSimilar(track: Track) {
+    let sourceId;
+    if (track.source === 'soundcloud') {
+      sourceId = track.sourceId;
+    } else {
+      const searchTerm = `${track.artist} ${track.album} ${track.title}`;
+      const tracks = await this._search('/tracks', {q: searchTerm});
+      if (tracks.length) {
+        sourceId = tracks[0].sourceId;
+      }
+    }
+    return this._search(`/tracks/${sourceId}/related`, {
+        limit: this.PAGE_SIZE,
+    });
+  }
+
+  private _search(url: string, params: any) {
+    return new Promise<Track[]>(async (resolve, reject) => {
+      let _tracks = await this.SC.get(url, params);
 
       let tracks: Track[] = _tracks.map(t => {
         return extendMetadata(<Track>{
@@ -43,6 +63,7 @@ export class SoundCloudStore implements TracksStore {
           genre: t.genre,
           year: t.release_year,
           source: 'soundcloud',
+          sourceId: t.id,
         });
       });
 
