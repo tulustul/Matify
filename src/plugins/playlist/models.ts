@@ -9,7 +9,8 @@ export class Playlist {
 
   @PrimaryKey() id?: number;
   @Index() name: string;
-  @Index() placeholder?: string;
+  @Index() persistent: number;
+  @Index() placeholder: number;
 }
 
 @Store()

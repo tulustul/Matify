@@ -1,0 +1,22 @@
+<mp-visualization></mp-visualization>
+
+<div class="controls">
+  <input
+    #searchBox
+    class="mp-darken"
+    type="text"
+    placeholder="Filter..."
+    [(ngModel)]="searchTerm"
+    (ngModelChange)="search()"
+  >
+
+  <mp-tabs
+    [items]="views"
+    [selectedItem]="currentView.view"
+    (select)="openExistingView($event)"
+    (close)="closeView($event)"
+    (addTab)="addPlaylist()"
+  ></mp-tabs>
+</div>
+
+<div #content></div>

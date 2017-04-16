@@ -1,0 +1,11 @@
+<ul class="sections">
+  <li class="info-box" *ngFor="let section of filteredSections">
+    <h2>{{ section.name }}</h2>
+    <ul class="bindings">
+      <li *ngFor="let binding of section.bindings">
+        <span class="binding">{{ binding.binding }}</span>
+        <span class="command">{{ binding.command }}</span>
+      </li>
+    </ul>
+  </li>
+</ul>

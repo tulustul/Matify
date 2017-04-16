@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import * as jss from 'jss/jss';
 
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, Observable } from 'rxjs';
 
 import { AudioService } from 'core/audio.service';
 import { Track } from 'core/tracks';
@@ -22,8 +22,9 @@ export class PlaylistService {
 
   private _playlist$ = new ReplaySubject<Playlist>(1);
   playlist$ = this._playlist$.asObservable();
-  playlist: Playlist = {name: 'New playlist'};
+  playlist: Playlist;
 
+  playlistTracks: PlaylistTracks;
   tracks: Track[] = [];
   private _tracks$ = new ReplaySubject<Track[]>(1);
   tracks$ = this._tracks$.asObservable();
@@ -63,6 +64,7 @@ export class PlaylistService {
     private audio: AudioService,
     private notifications: NotificationsService,
   ) {
+    this._tracks$.next([]);
   }
 
   play(track: Track) {
@@ -102,17 +104,6 @@ export class PlaylistService {
     this._updateTracks([]);
   }
 
-  async setPlaylist(playlist: Playlist) {
-    this.playlist = playlist;
-    this._playlist$.next(this.playlist);
-
-    let playlistTracks = await PlaylistTracks.store.get(playlist.id);
-    if (playlistTracks) {
-      this.tracks = playlistTracks.tracks;
-      this._tracks$.next(this.tracks);
-    }
-  }
-
   private _updateTracks(tracks: Track[]) {
     this.tracks = tracks;
     this._tracks$.next(this.tracks.slice());
@@ -120,8 +111,8 @@ export class PlaylistService {
   }
 
   private _save() {
-    if (this.playlist.placeholder === '1') {
-      this.playlist.placeholder = '';
+    if (this.playlist.placeholder === 1) {
+      this.playlist.placeholder = 0;
       Playlist.store.update(this.playlist.id, this.playlist);
     }
     PlaylistTracks.store.update(this.playlist.id, {
@@ -137,8 +128,100 @@ export class PlaylistService {
     }
   }
 
-  focusSearch() {
-    this._searchFocus$.next(null);
+  public async create(name='New playlist', persistent=true) {
+    // this.playlist = await Playlist.store
+    //   .where('placeholder')
+    //   .equals('1')
+    //   .first();
+
+    // if (!this.playlist) {
+    this.playlist = {
+      name: name + await Playlist.store.count(),
+      placeholder: 1,
+      persistent: persistent ? 1 : 0,
+    };
+    this.tracks = [];
+    this.playlist.id = await Playlist.store.add(this.playlist);
+    this.playlistTracks = {
+      playlistId: this.playlist.id,
+      tracks: this.tracks,
+    };
+    await PlaylistTracks.store.add(this.playlistTracks);
+    // }
+
+    this._tracks$.next(this.tracks);
+    this._playlist$.next(this.playlist);
+  }
+
+  public async delete() {
+    this.deletePlaylist(this.playlist);
+  }
+
+  public async deletePlaylist(playlist: Playlist) {
+    await PlaylistTracks.store.delete(playlist.id);
+    await Playlist.store.delete(playlist.id);
+
+    this.notifications.push({
+      message: `Playlist ${playlist.name} has been removed`,
+    });
+  }
+
+  public async open(playlistName: string) {
+    this._open(await this._getByName(playlistName));
+  }
+
+  public async openById(id: number) {
+    this._open(await this._getById(id));
+  }
+
+  private async _open(playlist: Playlist) {
+    this.playlist = playlist;
+    if (this.playlist) {
+      this.playlistTracks = await PlaylistTracks.store.get(this.playlist.id);
+      this.tracks = this.playlistTracks.tracks;
+      this._tracks$.next(this.tracks);
+      this._playlist$.next(this.playlist);
+    }
+  }
+
+  public async rename(newName: string) {
+    let existingPlaylist = await this._getByName(newName);
+
+    if (existingPlaylist) {
+      this.notifications.push({
+        message: `Playlist with name "${newName}" already exists`,
+        type: 'error',
+      });
+    } else {
+      let oldName = this.playlist.name;
+      this.playlist.name = newName;
+      this.playlist.placeholder = 0;
+      this._playlist$.next(this.playlist);
+      await Playlist.store.update(this.playlist.id, this.playlist);
+
+      this.notifications.push({
+        message: `Renamed "${oldName}" to "${newName}"`,
+        type: 'success',
+      });
+    }
+  }
+
+  public getAllPlaylists() {
+     return Playlist.store.where('persistent').equals(1).toArray();
+  }
+
+  private async _getByName(name: string) {
+    return await Playlist.store
+      .where('name')
+      .equalsIgnoreCase(name)
+      .first();
+  }
+
+  private async _getById(id: number) {
+    return await Playlist.store
+      .where('id')
+      .equals(id)
+      .first();
   }
 
 }

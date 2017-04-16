@@ -1,0 +1,31 @@
+<div class="header">
+  <div *ngIf="track">
+    <div class="headline">Tracks similar to:</div>
+    <div class="title">{{ track.title }}</div>
+    <div class="artist">{{ track.artist }}</div>
+  </div>
+  <div *ngIf="!track">
+    <div class="headline">No playing track</div>
+  </div>
+</div>
+
+<mp-list
+  #list
+  id="similar-tracks-list"
+  [headerEnabled]="false"
+  noItemsMessage="No results"
+  [items]="tracks"
+  [itemSize]="41"
+  (select)="addToPlaylist($event)"
+>
+  <ng-template let-item="item">
+    <div
+      class="artwork"
+      [style.backgroundImage]="item.artworkUri ? ('url(' + item.artworkUri + ')') : ''"
+    ></div>
+    <div class="track-info">
+      <span class="mp-cell title">{{ item.title }}</span>
+      <span class="mp-cell artist">{{ item.artist }}</span>
+    </div>
+  </ng-template>
+</mp-list>

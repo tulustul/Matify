@@ -1,8 +1,10 @@
-import { TracksStore, Track } from 'core/tracks';
+import { TracksStore, Track, extendMetadata } from 'core/tracks';
 
 // import * as SC from 'soundcloud';
 
 export class SoundCloudStore implements TracksStore {
+
+  PAGE_SIZE = 30;
 
   name = 'SoundCloud';
 
@@ -21,15 +23,36 @@ export class SoundCloudStore implements TracksStore {
 
   init() {}
 
-  search(term: string) {
-    return new Promise<Track[]>(async (resolve, reject) => {
-      let _tracks = await this.SC.get('/tracks', {
+  search(term: string, page: number) {
+    return this._search('/tracks', {
         q: term,
-        limit: 30,
-      });
+        offset: this.PAGE_SIZE * page,
+        limit: this.PAGE_SIZE,
+    });
+  }
+
+  async findSimilar(track: Track) {
+    let sourceId;
+    if (track.source === 'soundcloud') {
+      sourceId = track.sourceId;
+    } else {
+      const searchTerm = `${track.artist} ${track.album} ${track.title}`;
+      const tracks = await this._search('/tracks', {q: searchTerm});
+      if (tracks.length) {
+        sourceId = tracks[0].sourceId;
+      }
+    }
+    return this._search(`/tracks/${sourceId}/related`, {
+        limit: this.PAGE_SIZE,
+    });
+  }
+
+  private _search(url: string, params: any) {
+    return new Promise<Track[]>(async (resolve, reject) => {
+      let _tracks = await this.SC.get(url, params);
 
       let tracks: Track[] = _tracks.map(t => {
-        return <Track>{
+        return extendMetadata(<Track>{
           uri: `${t.stream_url}?client_id=${this.CLIENT_ID}`,
           title: t.title,
           album: '',
@@ -40,7 +63,8 @@ export class SoundCloudStore implements TracksStore {
           genre: t.genre,
           year: t.release_year,
           source: 'soundcloud',
-        };
+          sourceId: t.id,
+        });
       });
 
       resolve(tracks);

@@ -7,7 +7,11 @@ export class FilterService {
       for (let token of tokens) {
         let tokenOk = false;
         for (let field of fields) {
-          let content = (item[field] as string).toLowerCase();
+          let content = (item[field] as string);
+          if (!content) {
+            continue;
+          }
+          content = content.toLowerCase();
           for (let value of content.split(' ')) {
             if (value.startsWith(token)) {
               tokenOk = true;

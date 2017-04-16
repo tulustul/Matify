@@ -18,8 +18,11 @@ import './plugins/playbackControls';
 import './plugins/trackIndicator';
 import './plugins/volumeControl';
 import './plugins/barSourceIndicator';
-import './plugins/visualization';
+import './plugins/basicVisualizations';
 import './plugins/audioErrorsNotifier';
+import './plugins/shortcuts';
+import './plugins/similarTracks';
+import './plugins/settings';
 
 import { environment } from './environments/environment';
 import { AppModule } from './core/app.module';

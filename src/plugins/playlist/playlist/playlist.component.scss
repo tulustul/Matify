@@ -1,0 +1,11 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  .controls {
+    display: flex;
+    input {
+      max-width: 200px;
+    }
+  }
+}

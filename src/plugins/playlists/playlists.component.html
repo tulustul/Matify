@@ -8,9 +8,12 @@
   noItemsMessage="No playlists"
   (select)="loadPlaylist($event)"
 >
-  <template let-item="item">
-    <div class="mp-cell">
+  <ng-template let-item="item">
+    <div class="playlist-name mp-cell">
       {{ item.name }}
     </div>
-  </template>
+    <div class="mp-cell material-icons" (click)="delete(item)">
+      delete
+    </div>
+  </ng-template>
 </mp-list>

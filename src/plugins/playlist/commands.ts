@@ -4,20 +4,21 @@ import { Command } from 'core/commands';
 import { ModalsService } from 'core/ui/modals';
 import { NotificationsService } from 'core/ui/notifications';
 import { PaletteService } from 'core/ui/palette';
+import { PaneService } from 'core/ui/pane/pane.service';
 
 import { PlaylistService } from './playlist.service';
-import { PlaylistsService } from './playlists.service';
-import { Playlist, PlaylistTracks } from './models';
+import { Playlist } from './models';
+import { PlaylistViewComponent } from './playlistView/playlistView.component';
 
 @Injectable()
 export class PlaylistCommands {
 
   constructor(
     private playlist: PlaylistService,
-    private playlists: PlaylistsService,
     private modals: ModalsService,
     private notifications: NotificationsService,
     private palette: PaletteService,
+    private pane: PaneService,
   ) {}
 
   @Command({isVisibleInPallete: false})
@@ -25,82 +26,74 @@ export class PlaylistCommands {
     this.playlist.skipTrackBy(offset);
   }
 
-  @Command({displayName: 'Randomise track'})
+  @Command({
+    name: 'playlist.randomTrack',
+    displayName: 'Randomise track',
+  })
   randomTrack() {
     let newIndex = this.playlist.tracks.length * Math.random();
     newIndex = Math.round(newIndex);
     this.playlist.play(this.playlist.tracks[newIndex]);
   }
 
-  @Command({displayName: 'Clear playlist'})
+  @Command({
+    name: 'playlist.clear',
+    displayName: 'Clear playlist',
+  })
   clearPlaylist() {
     this.playlist.clear();
   }
 
-  @Command({displayName: 'New playlist'})
-  newPlaylist() {
-    this.playlists.createPlaylist();
+  @Command({
+    name: 'playlist.create',
+    displayName: 'New playlist',
+  })
+  async newPlaylist() {
+    await this.playlist.create();
+    this.pane.openView(PlaylistViewComponent, this.playlist.playlist.id.toString());
   }
 
-  @Command({displayName: 'Delete playlist'})
+  @Command({
+    name: 'playlist.delete',
+    displayName: 'Delete playlist',
+  })
   async deletePlaylist() {
     const name = this.playlist.playlist.name;
     const remove = await this.modals.ask(
       `Are you sure you want to delete playlist "${name}"?`,
     );
     if (remove) {
-      this.playlists.deletePlaylist(this.playlist.playlist.name);
+      this.playlist.delete();
     }
   }
 
-  @Command({displayName: 'Rename playlist'})
+  @Command({
+    name: 'playlist.rename',
+    displayName: 'Rename playlist',
+  })
   async renamePlaylist() {
     const newPlaylistName = await this.modals.getInput(
       'Enter new playlist name'
     );
     if (!!newPlaylistName) {
-      this.playlists.renamePlaylist(
-        this.playlist.playlist, newPlaylistName as string,
-      );
+      this.playlist.rename(newPlaylistName as string);
     };
   }
 
-  @Command({displayName: 'Load playlist'})
-  async loadPlaylist() {
-    const playlists = await Playlist.store.toArray();
-    const originallyOpened = this.playlists.openedPlaylists.splice(0);
+  @Command({
+    name: 'playlist.open',
+    displayName: 'Open playlist',
+  })
+  async open() {
+    const playlists = await this.playlist.getAllPlaylists();
     let playlistPreview: Playlist;
     this.palette.openPalette(
       playlists,
       ['name'],
-      (playlist: Playlist) => this.playlists.openPlaylist(playlist.name),
       (playlist: Playlist) => {
-        if (playlistPreview && originallyOpened.indexOf(playlistPreview.name) === -1) {
-          this.playlists.closePlaylist(playlistPreview.name);
-        }
-        playlistPreview = playlist;
-        this.playlists.openPlaylist(playlist.name);
+        this.pane.openView(PlaylistViewComponent, playlist.id.toString());
       },
     );
-  }
-
-  @Command({displayName: 'Close playlist'})
-  closePlaylist() {
-    this.playlists.closePlaylist(this.playlist.playlist.name);
-  }
-
-  @Command({isVisibleInPallete: false})
-  skipPlaylist(offset: number) {
-    const playlists = this.playlists.openedPlaylists;
-    const currentPlaylist = this.playlist.playlist.name;
-    let index = playlists.indexOf(currentPlaylist);
-    index = Math.max(0, Math.min(index + offset, playlists.length - 1));
-    this.playlists.openPlaylist(playlists[index]);
-  }
-
-  @Command({isVisibleInPallete: false})
-  searchPlaylist() {
-    this.playlist.focusSearch();
   }
 
 }

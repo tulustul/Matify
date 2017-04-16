@@ -3,6 +3,10 @@ import {
   Output,
   EventEmitter,
   HostBinding,
+  ComponentFactoryResolver,
+  ComponentRef,
+  ViewChild,
+  ViewContainerRef,
 } from '@angular/core';
 
 import { PLUGGINS_DATA, MenuItem } from 'core/plugging';
@@ -14,15 +18,48 @@ import { PLUGGINS_DATA, MenuItem } from 'core/plugging';
 })
 export class SidebarComponent {
 
-  @HostBinding('class') cssClass = 'mp-secondary-panel';
-
-  @Output()
-  change = new EventEmitter<Function>();
+  @HostBinding('class') cssClass = 'mp-panel';
 
   pages = PLUGGINS_DATA.menuItems;
 
+  selectedItem: MenuItem;
+
+  pageVisible = false;
+
+  componentClass: Function;
+
+  component: ComponentRef<any>;
+
+  initialized = false;
+
+  constructor(private cfr: ComponentFactoryResolver) {}
+
+  @ViewChild('page', { read: ViewContainerRef })
+  page: ViewContainerRef;
+
   selectPage(page: MenuItem) {
-    this.change.next(page.component);
+  }
+
+  showSidebar(menuItem: MenuItem) {
+    this.selectedItem = menuItem;
+
+    if (this.component) {
+      this.component.destroy();
+      this.component = null;
+    }
+
+    const componentClass = menuItem.component;
+
+    if (componentClass === this.componentClass && this.pageVisible) {
+      this.pageVisible = false;
+    } else {
+      this.componentClass = componentClass;
+      this.pageVisible = true;
+      if (this.componentClass) {
+        let factory = this.cfr.resolveComponentFactory(componentClass);
+        this.component = this.page.createComponent(factory);
+      }
+    }
   }
 
 }

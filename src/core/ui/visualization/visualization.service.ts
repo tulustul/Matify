@@ -27,15 +27,17 @@ export class VisualizationService {
   visualizationsMap = new Map<string, Visualization>();
 
   constructor(
-    settings: Settings,
+    private settings: Settings,
     private audioAnalyser: AudioAnalyserService,
     private renderer: VisualizationRenderer,
-  ) {
+  ) {}
+
+  init() {
     for (let vis  of PLUGGINS_DATA.visualizations) {
       this.visualizationsMap.set(vis.name, vis);
     }
 
-    settings.changes$.subscribe(newSettings => {
+    this.settings.changes$.subscribe(newSettings => {
       let visName = newSettings.visualization;
       if (visName) {
         if (!this.visualizationsMap.has(visName)) {

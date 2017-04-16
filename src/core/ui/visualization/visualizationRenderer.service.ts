@@ -31,7 +31,7 @@ export class VisualizationRenderer {
     this.ctx = canvas.getContext('webgl');
 
     this.vsSource = await this.loadShader(
-      'src/plugins/visualization/shaders/vs.glsl',
+      'src/core/ui/visualization/shaders/vs.glsl',
     );
 
     this.main();

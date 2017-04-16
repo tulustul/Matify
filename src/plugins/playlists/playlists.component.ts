@@ -8,7 +8,6 @@ import {
 import { ListComponent, Column } from 'core/ui/list';
 
 import { PlaylistService } from 'plugins/playlist/playlist.service';
-import { PlaylistsService } from 'plugins/playlist/playlists.service';
 import { Playlist } from 'plugins/playlist/models';
 
 @Component({
@@ -30,19 +29,23 @@ export class PlaylistsComponent {
 
   constructor(
     public playlistService: PlaylistService,
-    private playlistsService: PlaylistsService,
     private cdr: ChangeDetectorRef,
   ) {
     this.getPlaylists();
   }
 
   async getPlaylists() {
-    this.playlists = await this.playlistsService.getPlaylists();
+    this.playlists = await this.playlistService.getAllPlaylists();
     this.cdr.markForCheck();
   }
 
   loadPlaylist(playlist: Playlist) {
-    this.playlistsService.openPlaylist(playlist.name);
+    this.playlistService.open(playlist.name);
+  }
+
+  async delete(playlist: Playlist) {
+    await this.playlistService.deletePlaylist(playlist);
+    this.getPlaylists();
   }
 
 }

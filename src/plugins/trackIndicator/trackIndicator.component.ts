@@ -1,4 +1,10 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+} from '@angular/core';
+
+import { Observable } from 'rxjs';
 
 import { AudioService } from 'core/audio.service';
 import { Track } from 'core/tracks';
@@ -8,6 +14,7 @@ import { formatSeconds } from 'core/utils';
   selector: 'mp-track-indicator',
   templateUrl: './trackIndicator.component.html',
   styleUrls: ['./trackIndicator.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TrackIndicatorComponent {
 
@@ -19,10 +26,20 @@ export class TrackIndicatorComponent {
 
   _progress: number;
 
-  constructor(private audio: AudioService) {
-    this.audio.track$.subscribe(track => this.track = track);
-    this.audio.position$.subscribe(elapsed => this._elapsed = elapsed);
-    this.audio.duration$.subscribe(duration => this._duration = duration);
+  constructor(
+    private audio: AudioService,
+    cdr: ChangeDetectorRef,
+  ) {
+    Observable.combineLatest(
+      this.audio.track$,
+      this.audio.position$,
+      this.audio.duration$,
+    ).subscribe(data => {
+      this.track = data[0];
+      this._elapsed = data[1];
+      this._duration = data[2];
+      cdr.markForCheck();
+    });
   }
 
   get trackName() {

@@ -1,11 +1,16 @@
+<div class="spacer" *ngIf="items.length === 0"></div>
 <div
   class="mp-tab"
   *ngFor="let item of items"
-  [class.selected]="item == selectedItem"
+  [class.selected]="selectedItem === item"
   (click)="selectOrCloseItem($event, item)"
 >
-  <span class="name">{{ item }}</span>
+  <span class="name">{{ item.displayName }}</span>
   <i class="material-icons" (click)="closeItem(item)">
     close
   </i>
 </div>
+<div
+  class="mp-tab add-tab material-icons"
+  (click)="addNewTab()"
+>add</div>

@@ -34,7 +34,7 @@ export class Keybindings {
     return combo;
   }).filter(combo => {
     let el = document.activeElement;
-    if (el.tagName === 'INPUT' && el.getAttribute('type') === 'text') {
+    if (el.tagName === 'INPUT' && el.getAttribute('type') !== 'checkbox') {
       return combo.length > 1 && this.INPUT_BLACK_LIST.indexOf(combo) === -1;
     } else {
       event.preventDefault();

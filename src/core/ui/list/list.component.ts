@@ -52,6 +52,9 @@ export class ListComponent {
   @Output()
   delete = new EventEmitter<any>();
 
+  @Output()
+  endReached = new EventEmitter<void>();
+
   @ViewChild(VirtualRepeaterDirective)
   repeater: VirtualRepeaterDirective;
 
@@ -71,6 +74,12 @@ export class ListComponent {
     private listService: ListService,
     private cdr: ChangeDetectorRef,
   ) { }
+
+  ngOnInit() {
+    this.repeater.endReached.subscribe(
+      () => this.endReached.next(null)
+    );
+  }
 
   @Input()
   set columns(columns: Column[]) {

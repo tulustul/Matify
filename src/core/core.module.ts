@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { Settings } from './settings.service';
@@ -16,10 +16,17 @@ import { TracksService } from './tracks';
 import { BackgroundSliderComponent } from './ui/backgroundSlider';
 import { SidebarComponent } from './ui/sidebar';
 import { TabsComponent } from './ui/tabs';
+import { PaneComponent, PaneService, PaneCommands } from './ui/pane';
 import { PaletteComponent, PaletteService } from './ui/palette';
 import { ModalsService, ModalComponent } from './ui/modals';
 import { ListComponent, ListService, ListCommands } from './ui/list';
 import { VirtualRepeaterDirective } from './ui/virtualRepeater';
+import {
+  VisualizationComponent,
+  VisualizationRenderer,
+  VisualizationService,
+  VisualizationCommands,
+ } from './ui/visualization';
 import {
   NotificationsComponent,
   NotificationsService,
@@ -30,6 +37,7 @@ import {
     HttpModule,
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
   ],
   declarations: [
     VirtualRepeaterDirective,
@@ -40,6 +48,8 @@ import {
     NotificationsComponent,
     ListComponent,
     TabsComponent,
+    PaneComponent,
+    VisualizationComponent,
   ],
   providers: [
     Settings,
@@ -57,6 +67,11 @@ import {
     ListCommands,
     FilterService,
     ProxyServerService,
+    PaneService,
+    PaneCommands,
+    VisualizationService,
+    VisualizationRenderer,
+    VisualizationCommands,
   ],
   exports: [
     VirtualRepeaterDirective,
@@ -67,6 +82,8 @@ import {
     NotificationsComponent,
     ListComponent,
     TabsComponent,
+    PaneComponent,
+    VisualizationComponent,
   ],
 })
 export class CoreModule { }

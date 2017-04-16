@@ -5,10 +5,12 @@ import {
   ElementRef,
   EmbeddedViewRef,
   Input,
+  Output,
+  EventEmitter,
   OnInit,
 } from '@angular/core';
 
-import { Observable, Observer } from 'rxjs';
+import { ReplaySubject } from 'rxjs';
 
 @Directive({
   selector: '[virtualFor][virtualForOf]',
@@ -23,8 +25,8 @@ export class VirtualRepeaterDirective implements OnInit {
 
   originalItems: any[];
 
-  slicedItems: Observable<any>;
-  _slicedItems: Observer<any>;
+  private _slicedItems$ = new ReplaySubject<any>(1);
+  slicedItems$ = this._slicedItems$.asObservable();
 
   container: HTMLElement;
 
@@ -38,25 +40,28 @@ export class VirtualRepeaterDirective implements OnInit {
 
   itemsPerPage = 0;
 
+  @Output()
+  endReached = new EventEmitter<void>();
+
   constructor(
     private elementRef: ElementRef,
     private viewContainer: ViewContainerRef,
     private templateRef: TemplateRef<any>,
-  ) {
-    this.slicedItems = Observable.create(observer => {
-      this._slicedItems = observer;
-    });
-  }
+  ) {}
 
   ngOnInit() {
     this.container = this.elementRef.nativeElement.parentElement;
 
     this.view = this.viewContainer.createEmbeddedView(this.templateRef);
 
-    this.view.context.$implicit = this.slicedItems;
+    this.view.context.$implicit = this.slicedItems$;
 
-    this.container.addEventListener('scroll', () => {
+    this.container.addEventListener('scroll', e => {
       this.updateCollection();
+      const el = e.target as HTMLElement;
+      if (el.scrollTop === el.scrollHeight - el.offsetHeight) {
+        this.endReached.next(null);
+      }
     });
 
     this.updateCollection();
@@ -87,7 +92,7 @@ export class VirtualRepeaterDirective implements OnInit {
       this.maxIndex > this.maxBufferedIndex
     );
 
-    if (this._slicedItems && (shouldUpdate || forceUpdate)) {
+    if (shouldUpdate || forceUpdate) {
       this.minBufferedIndex = Math.max(0, this.minIndex - this.BUFFER);
       this.maxBufferedIndex = Math.min(itemsCount, this.maxIndex + this.BUFFER);
 
@@ -96,7 +101,7 @@ export class VirtualRepeaterDirective implements OnInit {
         this.maxBufferedIndex,
       );
 
-      this._slicedItems.next(slicedItems);
+      this._slicedItems$.next(slicedItems);
 
       this.element.style.paddingTop = (
         `${(this.minBufferedIndex) * this.itemSize}px`

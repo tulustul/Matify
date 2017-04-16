@@ -156,6 +156,7 @@ export class Scan {
             genre: tag.tags.genre || null,
             artworkUri: '',
             length: null,
+            sourceId: '',
           });
           resolve();
         },

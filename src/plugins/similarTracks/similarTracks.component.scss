@@ -1,0 +1,43 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  .header {
+    padding: 10px;
+    .headline {
+      font-size: 20px;
+    }
+    .title {
+      margin-top: 5px;
+      font-size: 18px;
+      color: #eee;
+      font-weight: 300;
+    }
+    .artist {
+      font-size: 16px;
+      color: #ccc;
+      font-weight: 300;
+    }
+  }
+  .artwork {
+    height: 55px;
+    width: 55px;
+    min-width: 55px;
+    margin-right: 10px;
+    background-size: contain;
+  }
+  .track-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    line-height: 20px;
+    .artist {
+      color: #ccc;
+      font-size: 13px;
+      font-weight: 300;
+    }
+    .mp-cell {
+      padding: 0;
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import { TracksStore, Track } from 'core/tracks';
+import { TracksStore, Track, extendMetadata } from 'core/tracks';
 
 export class YoutubeStore implements TracksStore {
 
@@ -7,6 +7,8 @@ export class YoutubeStore implements TracksStore {
   ready = false;
 
   gapi: any;
+
+  nextPageToken: string;
 
   constructor() {
     const script = document.createElement('script');
@@ -24,18 +26,44 @@ export class YoutubeStore implements TracksStore {
 
   init() {}
 
-  search(term: string) {
-    return new Promise<Track[]>(async (resolve, reject) => {
+  search(term: string, page: number) {
+    if (page === 0) {
+      this.nextPageToken = null;
+    }
+    return this._search({q: term});
+  }
 
-      const request = this.gapi.client.youtube.search.list({
-        q: term,
-        part: 'snippet',
-        type: 'video',
-      });
+  async findSimilar(track: Track) {
+    let sourceId;
+    if (track.source === 'youtube') {
+      sourceId = track.sourceId;
+    } else {
+      const searchTerm = `${track.artist} ${track.album} ${track.title}`;
+      const tracks = await this._search({q: searchTerm});
+      if (tracks.length) {
+        sourceId = tracks[0].sourceId;
+      }
+    }
+    return this._search({relatedToVideoId: sourceId});
+  }
+
+  private _search(params: any) {
+    return new Promise<Track[]>(async (resolve, reject) => {
+      params.part = 'snippet';
+      params.type = 'video';
+      params.videoCategoryId = 10;  // music
+
+      if (this.nextPageToken) {
+        params.pageToken = this.nextPageToken;
+      }
+
+      const request = this.gapi.client.youtube.search.list(params);
 
       request.execute(response => {
+        this.nextPageToken = response.nextPageToken;
+        response.items = response.items || [];
         const tracks: Track[] = response.items.map(t => {
-          return <Track>{
+          return extendMetadata(<Track>{
             uri: `http://localhost:5000/youtube/${t.id.videoId}`,
             title: t.snippet.title,
             album: '',
@@ -44,7 +72,8 @@ export class YoutubeStore implements TracksStore {
             artworkUri: t.snippet.thumbnails.default.url,
             track: null,
             source: 'youtube',
-          };
+            sourceId: t.id.videoId,
+          });
         });
         resolve(tracks);
       });

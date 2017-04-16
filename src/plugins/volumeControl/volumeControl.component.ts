@@ -1,4 +1,8 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+} from '@angular/core';
 
 import { AudioService } from 'core/audio.service';
 
@@ -6,13 +10,20 @@ import { AudioService } from 'core/audio.service';
   selector: 'mp-volume-control',
   templateUrl: './volumeControl.component.html',
   styleUrls: ['./volumeControl.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VolumeControlComponent {
 
   volume: number;
 
-  constructor(private audio: AudioService) {
-    this.audio.volume$.subscribe(volume => this.volume = volume * 100);
+  constructor(
+    private audio: AudioService,
+    cdr: ChangeDetectorRef,
+  ) {
+    this.audio.volume$.subscribe(volume => {
+      this.volume = volume * 100;
+      cdr.markForCheck();
+    });
   }
 
   setVolume(volume: number) {

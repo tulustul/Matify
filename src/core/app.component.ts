@@ -4,6 +4,8 @@ import {
   ViewContainerRef,
   ComponentFactoryResolver,
   ComponentRef,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
 } from '@angular/core';
 
 import { TracksService } from 'core/tracks';
@@ -20,6 +22,7 @@ import { TrayService } from 'plugins/tray';
   selector: 'mp-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
 
@@ -36,6 +39,7 @@ export class AppComponent {
 
   constructor(
     private cfr: ComponentFactoryResolver,
+    private cdr: ChangeDetectorRef,
     private keybindings: Keybindings,
     trackSchedulerService: TrackSchedulerService,
     audioErrorsNotifier: AudioErrorsNotifier,
@@ -50,6 +54,7 @@ export class AppComponent {
         tracksService.init();
         proxyServerService.runProxyServer();
         this.initialized = true;
+        this.cdr.markForCheck();
       }
     });
   }

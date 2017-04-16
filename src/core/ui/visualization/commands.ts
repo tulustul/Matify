@@ -9,7 +9,7 @@ import { VisualizationService } from './visualization.service';
 import { Visualization } from './visualization.interface';
 
 @Injectable()
-export class Commands {
+export class VisualizationCommands {
 
   constructor(
     private visualization: VisualizationService,
@@ -17,12 +17,18 @@ export class Commands {
     private settings: Settings,
   ) {}
 
-  @Command({displayName: 'Toogle visualization'})
+  @Command({
+    displayName: 'Toggle visualization',
+    name: 'visualization.toggle',
+  })
   toogleVisualization() {
     this.visualization.toogle();
   }
 
-  @Command({displayName: 'Change visualization'})
+  @Command({
+    displayName: 'Change visualization',
+    name: 'visualization.change',
+  })
   changeVisualization() {
     setTimeout(() => {
       this.palette.openPalette(

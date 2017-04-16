@@ -43,10 +43,6 @@
             "args": [1]
         },
         {
-            "keys": ["r"],
-            "command": "randomTrack"
-        },
-        {
             "keys": [";", "ctrl+shift+p"],
             "command": "openCommandsPalette"
         },
@@ -62,11 +58,19 @@
         },
         {
             "keys": ["ctrl+p"],
-            "command": "loadPlaylist"
+            "command": "playlist.open"
         },
         {
             "keys": ["ctrl+n"],
-            "command": "newPlaylist"
+            "command": "playlist.create"
+        },
+        {
+            "keys": ["shift+delete"],
+            "command": "playlist.delete"
+        },
+        {
+            "keys": ["r"],
+            "command": "playlist.randomTrack"
         },
         {
             "keys": ["escape"],
@@ -74,69 +78,77 @@
         },
         {
             "keys": ["arrowdown"],
-            "command": "listDown"
+            "command": "navigation.down"
         },
         {
             "keys": ["arrowup"],
-            "command": "listUp"
+            "command": "navigation.up"
         },
         {
             "keys": ["pagedown"],
-            "command": "listPageDown"
+            "command": "navigation.pageDown"
         },
         {
             "keys": ["pageup"],
-            "command": "listPageUp"
+            "command": "navigation.pageUp"
         },
         {
             "keys": ["shift+arrowdown"],
-            "command": "listAddToSelectionDown"
+            "command": "navigation.addToSelectionDown"
         },
         {
             "keys": ["shift+arrowup"],
-            "command": "listAddToSelectionUp"
+            "command": "navigation.addToSelectionUp"
         },
         {
             "keys": ["shift+pagedown"],
-            "command": "listAddPageToSelectionDown"
+            "command": "navigation.addPageToSelectionDown"
         },
         {
             "keys": ["shift+pageup"],
-            "command": "listAddPageToSelectionUp"
+            "command": "navigation.addPageToSelectionUp"
         },
         {
             "keys": ["enter"],
-            "command": "listSelectItem"
+            "command": "navigation.selectItem"
         },
         {
             "keys": ["delete"],
-            "command": "listDeleteItem"
+            "command": "navigation.deleteItem"
         },
         {
-            "keys": ["ctrl+w"],
-            "command": "closePlaylist"
+            "keys": ["ctrl+w", "x"],
+            "command": "panes.closeView"
         },
         {
             "keys": ["ctrl+pageup"],
-            "command": "skipPlaylist",
+            "command": "panes.switchViewBy",
             "args": [-1]
         },
         {
             "keys": ["ctrl+pagedown"],
-            "command": "skipPlaylist",
+            "command": "panes.switchViewBy",
             "args": [1]
         },
         {
             "keys": ["ctrl+f", "/"],
-            "command": "searchPlaylist"
+            "command": "panes.searchContent"
         },
         {
             "keys": ["v"],
-            "command": "toogleVisualization"
+            "command": "visualization.toggle"
         },
         {
             "keys": ["ctrl+shift+v"],
-            "command": "changeVisualization"
+            "command": "visualization.change"
+        },
+        {
+            "keys": ["shift+?"],
+            "command": "shortcuts.open"
+        },
+        {
+            "keys": ["ctrl+shift+f"],
+            "command": "search.search"
         }
     ]
 }

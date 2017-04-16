@@ -10,4 +10,5 @@ export interface Track {
   artworkUri: string,
   videoUri?: string,
   source: string,
+  sourceId: string,
 }

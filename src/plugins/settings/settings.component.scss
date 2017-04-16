@@ -1,0 +1,18 @@
+:host {
+  padding: 10px;
+  display: block;
+  line-height: 1.7em;
+  font-weight: 300;
+  .info-box {
+    .form label {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      mp-setting-form {
+        flex-grow: 1;
+        display: flex;
+        justify-content: flex-end;
+      }
+    }
+  }
+}

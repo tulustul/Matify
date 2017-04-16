@@ -9,36 +9,6 @@ body {
   color: white;
 }
 
-.mp-tab {
-  padding: 7px 10px;
-  cursor: pointer;
-  flex-grow: 1;
-  display: flex;
-  justify-content: space-between;
-  &:hover {
-    i {
-      opacity: 0.5;
-      &:hover {
-        opacity: 1;
-      }
-    }
-  }
-  &.selected {
-    background: transparent;
-  }
-  .name {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    flex-grow: 1;
-    text-align: center;
-  }
-  i {
-    font-size: 21px;
-    opacity: 0;
-  }
-}
-
 .mp-button {
   padding: 7px 10px;
   margin-left: 10px;
@@ -58,6 +28,10 @@ input {
   color: white;
   box-sizing: border-box;
   background: transparent;
+  &[type=checkbox] {
+    width: 15px;
+    height: 15px;
+  }
 }
 
 ::-webkit-scrollbar {
@@ -82,4 +56,33 @@ input {
     border-bottom-style: solid;
     border-bottom-width: 1px;
   }
+}
+
+button {
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.info-box {
+  font-weight: 300;
+  margin-bottom: 15px;
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  border-radius: 6px;
+  h2 {
+    margin: 0;
+    padding-bottom: 10px;
+    text-transform: capitalize;
+    font-weight: 300;
+  }
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }

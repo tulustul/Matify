@@ -1,0 +1,13 @@
+<ul>
+  <li class="info-box" *ngFor="let module of modules">
+    <h2>{{ module }}</h2>
+    <ul>
+      <li class="form" *ngFor="let setting of settingsFor(module)">
+        <label>
+          <span class="form-label">{{ setting.displayName }}</span>
+          <mp-setting-form [setting]="setting"></mp-setting-form>
+        </label>
+      </li>
+    </ul>
+  </li>
+</ul>

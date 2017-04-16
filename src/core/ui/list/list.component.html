@@ -13,7 +13,6 @@
 </div>
 
 <div class="rows">
-
   <div *virtualFor="let visibleItems of items">
     <div class="mp-row"
       *ngFor="let item of visibleItems | async"
@@ -22,13 +21,13 @@
       [class.mp-row-highlighted]="itemsEqualityFn(item, cursorItem)"
       [class.mp-row-selected]="selectedItems.has(item)"
     >
-      <template
+      <ng-template
         [ngTemplateOutlet]="template"
         [ngOutletContext]="{
           item: item,
           columns: columns
         }"
-      ></template>
+      ></ng-template>
     </div>
   </div>
 </div>
