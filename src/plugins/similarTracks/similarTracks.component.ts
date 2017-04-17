@@ -62,11 +62,21 @@ export class SimilarTracksComponent {
   }
 
   addToPlaylist(track: Track) {
+    this.removeTrackFromResults(track);
     this.playlistCommands.addTrack(Object.assign({}, track));
   }
 
   setPlayingTrack(track: Track) {
     this.previewTrack = track;
+  }
+
+  removeTrackFromResults(track: Track) {
+    const trackIndex = this.tracks.indexOf(track);
+    if (trackIndex !== -1) {
+      this.tracks.splice(trackIndex, 1);
+    }
+    this.tracks = this.tracks.slice();
+    this.cdr.markForCheck();
   }
 
 }

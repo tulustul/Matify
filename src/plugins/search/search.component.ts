@@ -77,11 +77,21 @@ export class SearchComponent {
   }
 
   addToPlaylist(track: Track) {
+    this.removeTrackFromResults(track);
     this.playlistCommands.addTrack(Object.assign({}, track));
   }
 
   addAllToPlaylist() {
     this.playlistCommands.addTracks(this.searchService.tracks);
+  }
+
+  removeTrackFromResults(track: Track) {
+    const trackIndex = this.searchService.tracks.indexOf(track);
+    if (trackIndex !== -1) {
+      this.searchService.tracks.splice(trackIndex, 1);
+    }
+    this.searchService.tracks = this.searchService.tracks.slice();
+    this.cdr.markForCheck();
   }
 
 }
