@@ -12,10 +12,10 @@
   </button>
 </div>
 
-<mp-spinner *ngIf="waiting"></mp-spinner>
+<mp-spinner *ngIf="waiting && searchService.tracks.length === 0"></mp-spinner>
 
 <mp-simple-playlist
-  *ngIf="!waiting"
+  *ngIf="!waiting || searchService.tracks.length > 0"
   [tracks]="searchService.tracks"
   (endReached)="searchMore()"
   (select)="addToPlaylist($event)"
