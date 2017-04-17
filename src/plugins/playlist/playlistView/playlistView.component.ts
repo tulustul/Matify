@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   OnInit,
+  OnDestroy,
 } from '@angular/core';
 
 import { Observable } from 'rxjs';
@@ -21,7 +22,7 @@ import { PlaylistService } from '../playlist.service';
   styleUrls: ['./playlistView.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PlaylistViewComponent implements OnInit, PaneView {
+export class PlaylistViewComponent implements OnInit, OnDestroy, PaneView {
 
   key: string;
 
@@ -49,6 +50,10 @@ export class PlaylistViewComponent implements OnInit, PaneView {
 
   ngOnInit() {
     this.playlist.openById(parseInt(this.key));
+  }
+
+  ngOnDestroy() {
+    this.playlist.playlist = null;
   }
 
   search(searchTerm: string) {

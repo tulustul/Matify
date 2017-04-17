@@ -9,7 +9,7 @@ import { Observable,  } from 'rxjs';
 
 import { Track, TracksService } from 'core/tracks';
 
-import { PlaylistService } from 'plugins/playlist/playlist.service';
+import { PlaylistCommands } from 'plugins/playlist';
 
 import { SearchService } from './search.service';
 
@@ -31,7 +31,7 @@ export class SearchComponent {
 
   constructor(
     private tracksService: TracksService,
-    private playlist: PlaylistService,
+    private playlistCommands: PlaylistCommands,
     public searchService: SearchService,
     private cdr: ChangeDetectorRef,
   ) {
@@ -77,11 +77,11 @@ export class SearchComponent {
   }
 
   addToPlaylist(track: Track) {
-    this.playlist.addTrack(Object.assign({}, track));
+    this.playlistCommands.addTrack(Object.assign({}, track));
   }
 
   addAllToPlaylist() {
-    this.playlist.addTracks(this.searchService.tracks);
+    this.playlistCommands.addTracks(this.searchService.tracks);
   }
 
 }

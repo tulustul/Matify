@@ -5,6 +5,7 @@ import { ModalsService } from 'core/ui/modals';
 import { NotificationsService } from 'core/ui/notifications';
 import { PaletteService } from 'core/ui/palette';
 import { PaneService } from 'core/ui/pane/pane.service';
+import { Track } from 'core/tracks';
 
 import { PlaylistService } from './playlist.service';
 import { Playlist } from './models';
@@ -94,6 +95,17 @@ export class PlaylistCommands {
         this.pane.openView(PlaylistViewComponent, playlist.id.toString());
       },
     );
+  }
+
+  addTrack(track: Track) {
+    this.addTracks([track]);
+  }
+
+  async addTracks(tracks: Track[]) {
+    if (!this.playlist.playlist) {
+      await this.newPlaylist();
+    }
+    this.playlist.addTracks(tracks);
   }
 
 }

@@ -92,10 +92,6 @@ export class PlaylistService {
       }
   }
 
-  addTrack(track: Track) {
-    this.addTracks([track]);
-  }
-
   addTracks(tracks: Track[]) {
     this._updateTracks(this.tracks.concat(tracks));
   }

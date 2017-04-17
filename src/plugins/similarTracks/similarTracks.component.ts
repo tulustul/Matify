@@ -10,7 +10,7 @@ import { Observable,  } from 'rxjs';
 import { AudioService } from 'core/audio.service';
 import { Track, TracksService } from 'core/tracks';
 
-import { PlaylistService } from 'plugins/playlist/playlist.service';
+import { PlaylistCommands } from 'plugins/playlist';
 
 @Component({
   selector: 'mp-similar-tracks',
@@ -32,7 +32,7 @@ export class SimilarTracksComponent {
 
   constructor(
     private tracksService: TracksService,
-    private playlist: PlaylistService,
+    private playlistCommands: PlaylistCommands,
     private audio: AudioService,
     private cdr: ChangeDetectorRef,
   ) {
@@ -62,7 +62,7 @@ export class SimilarTracksComponent {
   }
 
   addToPlaylist(track: Track) {
-    this.playlist.addTrack(Object.assign({}, track));
+    this.playlistCommands.addTrack(Object.assign({}, track));
   }
 
   setPlayingTrack(track: Track) {
