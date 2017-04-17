@@ -157,6 +157,14 @@
         {
             "keys": ["ctrl+]"],
             "command": "notificationsPlayground.spawnNotification"
+        },
+        {
+            "keys": ["ctrl+r"],
+            "command": "trackScheduler.randomOrder"
+        },
+        {
+            "keys": ["ctrl+o"],
+            "command": "trackScheduler.oneByOneOrder"
         }
     ]
 }
