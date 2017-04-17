@@ -33,7 +33,7 @@ export class PlaylistCommands {
   })
   randomTrack() {
     let newIndex = this.playlist.tracks.length * Math.random();
-    newIndex = Math.round(newIndex);
+    newIndex = Math.floor(newIndex);
     this.playlist.play(this.playlist.tracks[newIndex]);
   }
 
