@@ -89,6 +89,8 @@ export class AudioService {
   }
 
   play(track: Track) {
+    this.stop();
+
     if (!track) {
       return;
     }
