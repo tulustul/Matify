@@ -54,7 +54,6 @@ export class AudioService {
     this.audio.addEventListener('loadedmetadata', (e: Event) => {
       if (!this.track.length) {
         this.track.length = this.audio.duration;
-        // Track.store.update(this.track.id, this.track);
         this.duration = this.track.length;
         this._duration$.next(this.duration);
         this._track$.next(this.track);

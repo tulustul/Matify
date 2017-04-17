@@ -1,17 +1,17 @@
 :host {
   position: fixed;
-  top: 10px;
+  bottom: 30px;
   right: 10px;
-  display: flex;
-  flex-direction: column;
   z-index: 10;
+  max-height: 50%;
+  overflow: auto;
   .notification {
     padding: 10px;
     margin-bottom: 10px;
-    box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.27);
     min-width: 250px;
     display: flex;
     align-items: center;
+    border-radius: 5px;
     .type {
       font-size: 35px;
       margin-right: 5px;

@@ -153,6 +153,10 @@
         {
             "keys": ["ctrl+shift+f"],
             "command": "search.search"
+        },
+        {
+            "keys": ["ctrl+]"],
+            "command": "notificationsPlayground.spawnNotification"
         }
     ]
 }

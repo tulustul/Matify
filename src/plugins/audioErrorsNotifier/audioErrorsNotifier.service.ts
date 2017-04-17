@@ -14,7 +14,6 @@ export class AudioErrorsNotifier {
       notificationsService.push({
         type: 'error',
         message: error.message,
-        secondaryContent: () => error.description,
       });
     });
   }
