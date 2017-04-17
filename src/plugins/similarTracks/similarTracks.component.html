@@ -9,7 +9,10 @@
   </div>
 </div>
 
+<mp-spinner *ngIf="waiting"></mp-spinner>
+
 <mp-simple-playlist
+  *ngIf="!waiting"
   [tracks]="tracks"
   (select)="addToPlaylist($event)"
   (playing)="setPlayingTrack($event)"

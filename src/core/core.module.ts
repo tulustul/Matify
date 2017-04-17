@@ -22,6 +22,7 @@ import { ModalsService, ModalComponent } from './ui/modals';
 import { ListComponent, ListService, ListCommands } from './ui/list';
 import { VirtualRepeaterDirective } from './ui/virtualRepeater';
 import { ContextMenuComponent, ContextMenuService } from './ui/contextMenu';
+import { SpinnerComponent } from './ui/spinner';
 import {
   VisualizationComponent,
   VisualizationRenderer,
@@ -52,6 +53,7 @@ import {
     PaneComponent,
     VisualizationComponent,
     ContextMenuComponent,
+    SpinnerComponent,
   ],
   providers: [
     Settings,
@@ -88,6 +90,7 @@ import {
     PaneComponent,
     VisualizationComponent,
     ContextMenuComponent,
+    SpinnerComponent,
   ],
 })
 export class CoreModule { }
