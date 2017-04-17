@@ -12,7 +12,7 @@
     <div class="playlist-name mp-cell">
       {{ item.name }}
     </div>
-    <div class="mp-cell material-icons" (click)="delete(item)">
+    <div class="mp-cell material-icons" (click)="delete(item, $event)">
       delete
     </div>
   </ng-template>

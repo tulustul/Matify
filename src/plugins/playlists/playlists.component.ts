@@ -50,7 +50,8 @@ export class PlaylistsComponent {
     this.pane.openView(PlaylistViewComponent, playlist.id.toString());
   }
 
-  async delete(playlist: Playlist) {
+  async delete(playlist: Playlist, event: Event) {
+    event.stopPropagation();
     await this.playlistService.deletePlaylist(playlist);
     this.getPlaylists();
   }
