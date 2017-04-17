@@ -76,8 +76,8 @@ export class AudioService {
   }
 
   private end() {
-    this._trackend$.next(null);
     this.resetTracking();
+    this._trackend$.next(null);
   }
 
   private resetTracking() {
