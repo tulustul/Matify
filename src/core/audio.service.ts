@@ -124,7 +124,9 @@ export class AudioService {
   }
 
   seek(position: number) {
-    this.audio.currentTime = position;
+    if (this.track) {
+      this.audio.currentTime = position;
+    }
   }
 
   seekBy(offset: number) {
