@@ -6,9 +6,15 @@ import {
 } from '@angular/core';
 
 import { ListComponent, Column } from 'core/ui/list';
+import { PaneService } from 'core/ui/pane';
 
-import { PlaylistService } from 'plugins/playlist/playlist.service';
-import { Playlist } from 'plugins/playlist/models';
+import {
+  PlaylistService,
+  Playlist,
+} from 'plugins/playlist';
+import {
+  PlaylistViewComponent,
+} from 'plugins/playlist/playlistView/playlistView.component';
 
 @Component({
   selector: 'mp-playlists',
@@ -29,6 +35,7 @@ export class PlaylistsComponent {
 
   constructor(
     public playlistService: PlaylistService,
+    public pane: PaneService,
     private cdr: ChangeDetectorRef,
   ) {
     this.getPlaylists();
@@ -40,7 +47,7 @@ export class PlaylistsComponent {
   }
 
   loadPlaylist(playlist: Playlist) {
-    this.playlistService.open(playlist.name);
+    this.pane.openView(PlaylistViewComponent, playlist.id.toString());
   }
 
   async delete(playlist: Playlist) {
