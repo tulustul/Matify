@@ -144,6 +144,7 @@ export class PaneComponent implements OnInit, OnDestroy {
     const index = this.views.indexOf(view);
     this.views.splice(index, 1);
     this.viewsMap.delete(view.key);
+    this.detach();
     if (view.key === this.currentView.view.key && this.views.length) {
       this.openExistingView(this.views[Math.min(this.views.length - 1, index)]);
     }
