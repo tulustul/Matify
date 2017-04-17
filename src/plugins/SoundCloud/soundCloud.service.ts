@@ -42,9 +42,13 @@ export class SoundCloudStore implements TracksStore {
         sourceId = tracks[0].sourceId;
       }
     }
-    return this._search(`/tracks/${sourceId}/related`, {
-        limit: this.PAGE_SIZE,
-    });
+    if (sourceId) {
+      return this._search(`/tracks/${sourceId}/related`, {
+          limit: this.PAGE_SIZE,
+      });
+    } else {
+      return Promise.resolve([]);
+    }
   }
 
   private _search(url: string, params: any) {
