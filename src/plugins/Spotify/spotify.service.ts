@@ -49,24 +49,27 @@ export class SpotifyStore implements TracksStore {
   }
 
   authorize() {
-    const headers = new Headers({
-        'Authorization': 'Basic ' + this.authToken,
-        grant_type: 'client_credentials',
+    return new Promise<void>((resolve, reject) => {
+      const headers = new Headers({
+          'Authorization': 'Basic ' + this.authToken,
+          grant_type: 'client_credentials',
+      });
+
+      const requestOptions = new RequestOptions({
+        headers,
+      });
+
+      const body = new URLSearchParams('grant_type=client_credentials');
+
+      this.http.post(
+        'https://accounts.spotify.com/api/token',
+        body,
+        requestOptions,
+      ).map(response => response.json()).subscribe(data => {
+        this.api.setAccessToken(data.access_token);
+        resolve();
+      });
     });
-
-    const requestOptions = new RequestOptions({
-      headers,
-    });
-
-    const body = new URLSearchParams('grant_type=client_credentials');
-
-    this.http.post(
-      'https://accounts.spotify.com/api/token',
-      body,
-      requestOptions,
-    ).map(response => response.json()).subscribe(data => {
-      this.api.setAccessToken(data.access_token);
-    })
   }
 
   search(term: string, page: number) {
@@ -76,10 +79,16 @@ export class SpotifyStore implements TracksStore {
         return;
       }
 
-      let response = await this.api.searchTracks(term, {
-        offset: this.PAGE_SIZE * page,
-        limit: this.PAGE_SIZE,
-      });
+      let response;
+      try {
+        response = await this.searchTracks(term, page);
+      } catch (e) {
+        if (e.status === 401) {
+          await this.authorize();
+          response = await this.searchTracks(term, page);
+        }
+      }
+
       let _tracks = response.tracks.items;
 
       let tracks: Track[] = _tracks.map(t => {
@@ -101,6 +110,13 @@ export class SpotifyStore implements TracksStore {
     });
   }
 
+  private searchTracks(term: string, page: number) {
+    return this.api.searchTracks(term, {
+      offset: this.PAGE_SIZE * page,
+      limit: this.PAGE_SIZE,
+    });
+  }
+
   async findSimilar(track: Track) {
     return new Promise<Track[]>(async (resolve, reject) => {
       let sourceId;
@@ -119,9 +135,15 @@ export class SpotifyStore implements TracksStore {
         return;
       }
 
-      let response = await this.api.getRecommendations({
-        seed_tracks: sourceId,
-      });
+      let response;
+      try {
+        response = await this.getRecommendations(sourceId);
+      } catch(e) {
+        if (e.status === 401) {
+          await this.authorize();
+          response = await this.getRecommendations(sourceId);
+        }
+      }
 
       let _tracks = response.tracks;
 
@@ -141,6 +163,12 @@ export class SpotifyStore implements TracksStore {
       });
 
       resolve(tracks);
+    });
+  }
+
+  private getRecommendations(sourceId: string) {
+    return this.api.getRecommendations({
+      seed_tracks: sourceId,
     });
   }
 
