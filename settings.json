@@ -4,9 +4,10 @@
     "logLevel": "DEBUG",
     "debug": true,
     "proxyServerPort": 5000,
-
     "visualization": "Column equalizer",
-
+    "search.youtube": true,
+    "search.soundcloud": true,
+    "search.spotify": true,
     "keybindings": [
         {
             "keys": ["space"],
