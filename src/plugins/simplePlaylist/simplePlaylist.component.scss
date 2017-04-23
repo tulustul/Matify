@@ -1,6 +1,16 @@
 :host {
   display: flex;
   height: 100%;
+  .mp-row {
+    display: flex;
+    height: 56px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .child-track {
+    padding-left: 30px;
+    background-color: rgba(0,0,0,0.2);
+  }
   .artwork {
     height: 55px;
     width: 55px;
@@ -10,6 +20,7 @@
   }
   .track-info {
     display: flex;
+    justify-content: center;
     flex-direction: column;
     flex-grow: 1;
     overflow: hidden;

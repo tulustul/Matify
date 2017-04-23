@@ -8,7 +8,7 @@ import {
 
 import * as SpotifyWebApi from 'spotify-web-api-js';
 
-import { TracksStore, Track } from 'core/tracks';
+import { TracksStore, Track, TrackContainer } from 'core/tracks';
 import { PLUGGINS_DATA } from 'core/plugging';
 import { Settings } from 'core/settings.service';
 
@@ -26,6 +26,8 @@ export class SpotifyStore implements TracksStore {
   CLIENT_ID = 'b84a84d7dc7f46d5836ef223b7ea5703';
   CLIENT_SECRET = '0d29fe1936034265a48301b57f07d1ed';
 
+  proxyServerPort: number;
+
   authToken = new Buffer(
     `${this.CLIENT_ID}:${this.CLIENT_SECRET}`
   ).toString('base64')
@@ -38,6 +40,9 @@ export class SpotifyStore implements TracksStore {
   init() {
     const login = this.settings['spotify.login'];
     const password = this.settings['spotify.password'];
+
+
+    this.proxyServerPort = this.settings['proxyServerPort'];
 
     this.enabled = login && password;
 
@@ -145,24 +150,46 @@ export class SpotifyStore implements TracksStore {
         }
       }
 
-      let _tracks = response.tracks;
-
-      let tracks: Track[] = _tracks.map(t => {
-        let port = this.settings['proxyServerPort'];
-        return <Track>{
-          uri: `http://localhost:${port}/spotify/${t.uri}`,
-          title: t.name,
-          album: '',
-          artist: t.artists.map(a => a.name).join(', '),
-          length: t.duration_ms / 1000,
-          artworkUri: '',
-          track: t.track_number.toString(),
-          source: 'spotify',
-          sourceId: t.id,
-        };
-      });
+      const tracks: Track[] = response.tracks.map(t => this.mapTrack(t));
 
       resolve(tracks);
+    });
+  }
+
+  private mapTrack(spotifyTrack: SpotifyApi.TrackObjectSimplified, isChild=false) {
+    return <Track>{
+      uri: `http://localhost:${this.proxyServerPort}/spotify/${spotifyTrack.uri}`,
+      title: spotifyTrack.name,
+      album: '',
+      artist: spotifyTrack.artists.map(a => a.name).join(', '),
+      length: spotifyTrack.duration_ms / 1000,
+      artworkUri: '',
+      track: spotifyTrack.track_number.toString(),
+      source: 'spotify',
+      sourceId: spotifyTrack.id,
+    };
+  }
+
+  async searchAlbums(term: string, page = 0) {
+    return new Promise<TrackContainer[]>(async (resolve, reject) => {
+      const response = await this.api.searchAlbums(term);
+      const albums = await Promise.all(
+        response.albums.items.map(p => this.searchPlaylistTracks(p))
+      );
+      resolve(Array.prototype.concat.apply([], albums));
+    });
+  }
+
+  private searchPlaylistTracks(playlist: SpotifyApi.AlbumObjectSimplified) {
+    return new Promise<TrackContainer>(async (resolve, reject) => {
+      const response = await this.api.getAlbumTracks(playlist.id);
+      const tracks = response.items.map(t => this.mapTrack(t, true));
+      resolve(<TrackContainer>{
+        name: playlist.name,
+        artworkUri: playlist.images ? playlist.images[0].url : '',
+        tracks: tracks,
+        expanded: false,
+      });
     });
   }
 

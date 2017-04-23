@@ -2,27 +2,65 @@
   #list
   noItemsMessage="No results"
   [headerEnabled]="false"
-  [items]="tracks"
+  [items]="items"
   [itemSize]="56"
   [markedItem]="playingTrack"
-  (select)="selectTrack($event)"
+  (select)="selectItem($event)"
   (endReached)="triggerEndReached()"
 >
   <ng-template let-item="item">
-    <div
-      class="artwork"
-      [style.backgroundImage]="item.artworkUri ? ('url(' + item.artworkUri + ')') : ''"
-    ></div>
-    <div class="track-info">
-      <span class="mp-cell title">{{ item.title }}</span>
-      <span class="mp-cell artist">{{ item.artist }}</span>
+
+    <div class="mp-row container" *ngIf="!item.source">
+      <div class="action material-icons">
+        <span *ngIf="!item.expanded">keyboard_arrow_down</span>
+        <span *ngIf="item.expanded">keyboard_arrow_up</span>
+      </div>
+      <div
+        class="artwork"
+        [style.backgroundImage]="item.artworkUri ? ('url(' + item.artworkUri + ')') : ''"
+      ></div>
+      <div class="track-info">
+        <span class="mp-cell title">{{ item.name }}</span>
+      </div>
+      <div
+        class="action material-icons"
+        role="button"
+        (click)="addTrackContainer(item, $event)"
+      >
+        playlist_add
+      </div>
     </div>
-    <div
-      class="action material-icons"
-      role="button"
-      (click)="play(item, $event)"
-    >
-      play_circle_outline
+
+    <div class="mp-row track" *ngIf="item.source && !isChildTrack(item)">
+      <div
+        class="artwork"
+        [style.backgroundImage]="item.artworkUri ? ('url(' + item.artworkUri + ')') : ''"
+      ></div>
+      <div class="track-info">
+        <span class="mp-cell title">{{ item.title }}</span>
+        <span class="mp-cell artist">{{ item.artist }}</span>
+      </div>
+      <div
+        class="action material-icons"
+        role="button"
+        (click)="play(item, $event)"
+      >
+        play_circle_outline
+      </div>
     </div>
+
+    <div class="mp-row child-track" *ngIf="item.source && isChildTrack(item)">
+      <div class="track-info">
+        <span class="mp-cell title">{{ item.title }}</span>
+      </div>
+      <div
+        class="action material-icons"
+        role="button"
+        (click)="play(item, $event)"
+      >
+        play_circle_outline
+      </div>
+    </div>
+
   </ng-template>
 </mp-list>

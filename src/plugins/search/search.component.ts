@@ -5,9 +5,9 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-import { Observable,  } from 'rxjs';
+import { Observable } from 'rxjs';
 
-import { Track, TracksService } from 'core/tracks';
+import { Track, TrackContainer, TracksService } from 'core/tracks';
 
 import { PlaylistCommands } from 'plugins/playlist';
 
@@ -20,6 +20,13 @@ import { SearchService } from './search.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchComponent {
+
+  SEARCH_TYPES = [
+    'tracks',
+    'albums',
+  ];
+
+  searchType = 'albums';
 
   waiting = false;
 
@@ -35,7 +42,7 @@ export class SearchComponent {
     public searchService: SearchService,
     private cdr: ChangeDetectorRef,
   ) {
-    const search$ = this.searchFormControl.valueChanges.debounceTime(300);
+    const search$ = this.searchFormControl.valueChanges.debounceTime(600);
 
     search$.subscribe(searchTerm => {
       this.search(searchTerm);
@@ -48,13 +55,29 @@ export class SearchComponent {
     this.searchService.searchTerm = searchTerm;
     if (page === 0) {
       this.searchService.tracks = [];
+      this.searchService.trackContainers = [];
     }
 
-    this.tracksService.search(searchTerm, this.page).subscribe(
-      tracks => {
+    let tracks$: Observable<Track[]> = Observable.empty();
+    let trackContainers$: Observable<TrackContainer[]> = Observable.empty();
+
+    if (this.searchType === 'tracks') {
+      tracks$ = this.tracksService.search(searchTerm, this.page);
+      tracks$.subscribe(tracks => {
         this.searchService.tracks = (
           this.searchService.tracks.concat(tracks)
         );
+      });
+    } else if (this.searchType === 'albums') {
+      trackContainers$ = this.tracksService.searchAlbums(searchTerm, this.page);
+      trackContainers$.subscribe(trackContainers => {
+        this.searchService.trackContainers = (
+          this.searchService.trackContainers.concat(trackContainers)
+        );
+      });
+    }
+
+    tracks$.combineLatest(trackContainers$).subscribe(() => {
         this.cdr.markForCheck();
       },
       () => {},
@@ -76,22 +99,18 @@ export class SearchComponent {
     }
   }
 
-  addToPlaylist(track: Track) {
-    this.removeTrackFromResults(track);
-    this.playlistCommands.addTrack(Object.assign({}, track));
-  }
-
-  addAllToPlaylist() {
-    this.playlistCommands.addTracks(this.searchService.tracks);
-  }
-
-  removeTrackFromResults(track: Track) {
-    const trackIndex = this.searchService.tracks.indexOf(track);
-    if (trackIndex !== -1) {
-      this.searchService.tracks.splice(trackIndex, 1);
+  searchBy(searchType: string) {
+    this.searchType = searchType;
+    if (this.searchService.searchTerm) {
+      this.search(this.searchService.searchTerm);
     }
-    this.searchService.tracks = this.searchService.tracks.slice();
-    this.cdr.markForCheck();
+  }
+
+  get haveResults() {
+    return (
+      this.searchService.tracks.length > 0 ||
+      this.searchService.trackContainers.length > 0
+    );
   }
 
 }

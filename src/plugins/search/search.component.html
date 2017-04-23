@@ -12,11 +12,22 @@
   </button>
 </div>
 
-<mp-spinner *ngIf="waiting && searchService.tracks.length === 0"></mp-spinner>
+<div class="controls">
+  <div
+    class="search-type"
+    *ngFor="let type of SEARCH_TYPES"
+    [class.active]="searchType === type"
+    (click)="searchBy(type)"
+  >{{ type }}</div>
+</div>
+
+<mp-spinner *ngIf="waiting && !haveResults"></mp-spinner>
 
 <mp-simple-playlist
-  *ngIf="!waiting || searchService.tracks.length > 0"
+  *ngIf="!waiting || haveResults"
   [tracks]="searchService.tracks"
-  (endReached)="searchMore()"
-  (select)="addToPlaylist($event)"
+  [trackContainers]="searchService.trackContainers"
+  (select)="itemSelected($event)"
 ></mp-simple-playlist>
+
+<div (click)="searchMore()">Load more</div>

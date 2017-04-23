@@ -1,6 +1,9 @@
-import { TracksStore, Track, extendMetadata } from 'core/tracks';
-
-// import * as SC from 'soundcloud';
+import {
+  TracksStore,
+  Track,
+  TrackContainer,
+  extendMetadata,
+} from 'core/tracks';
 
 export class SoundCloudStore implements TracksStore {
 
@@ -51,7 +54,32 @@ export class SoundCloudStore implements TracksStore {
     }
   }
 
-  private _search(url: string, params: any) {
+  async searchAlbums(term: string, page = 0) {
+    return new Promise<TrackContainer[]>(async (resolve, reject) => {
+      const playlists = await this.SC.get('/playlists', {q: term});
+      // const playlists = await this.searchPlaylists(term);
+      const tracks = await Promise.all(
+        playlists.map(p => this.searchPlaylistTracks(p))
+      );
+      resolve(Array.prototype.concat.apply([], tracks));
+    });
+  }
+
+  private searchPlaylistTracks(playlist) {
+    return new Promise<TrackContainer>(async (resolve, reject) => {
+      const tracks = await this._search(
+        `playlists/${playlist.id}/tracks`, {}, true,
+      );
+      resolve(<TrackContainer>{
+        name: playlist.title,
+        artworkUri: playlist.artwork_url,
+        tracks: tracks,
+        expanded: false,
+      });
+    });
+  }
+
+  private _search(url: string, params: any, isChild = false) {
     return new Promise<Track[]>(async (resolve, reject) => {
       let _tracks = await this.SC.get(url, params);
 

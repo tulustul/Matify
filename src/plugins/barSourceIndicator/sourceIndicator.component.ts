@@ -1,4 +1,9 @@
-import { Component, HostBinding } from '@angular/core';
+import {
+  Component,
+  HostBinding,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+} from '@angular/core';
 
 import { AudioService } from 'core/audio.service';
 import { Track } from 'core/tracks';
@@ -7,6 +12,7 @@ import { Track } from 'core/tracks';
   selector: 'mp-source-indicator',
   templateUrl: './sourceIndicator.component.html',
   styleUrls: ['./sourceIndicator.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SourceIndicatorComponent {
 
@@ -21,8 +27,14 @@ export class SourceIndicatorComponent {
     disk: 'hdd-o',
   };
 
-  constructor(private audio: AudioService) {
-    this.audio.track$.subscribe(track => this.track = track);
+  constructor(
+    private audio: AudioService,
+    private cdr: ChangeDetectorRef,
+  ) {
+    this.audio.track$.subscribe(track => {
+      this.track = track;
+      this.cdr.markForCheck();
+    });
   }
 
   get icon() {

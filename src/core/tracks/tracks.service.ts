@@ -4,7 +4,7 @@ import { Observable, Observer } from 'rxjs';
 
 import { PLUGGINS_DATA } from 'core/plugging';
 import { Settings } from 'core/settings.service';
-import { TracksStore, Track } from 'core/tracks';
+import { TracksStore, Track, TrackContainer } from 'core/tracks';
 
 @Injectable()
 export class TracksService {
@@ -44,6 +44,31 @@ export class TracksService {
       this.enabledStores.forEach(async store => {
         try {
           let tracks = await store.search(term, page);
+          observer.next(tracks);
+        } catch (e) {
+          console.error(
+            `Failed to search tracks for provider "${store.name}". Reason: ${e}`
+          );
+          console.error(e.stack);
+        }
+        remaining -= 1;
+        if (remaining === 0) {
+          observer.complete();
+        }
+      });
+    });
+  }
+
+  searchAlbums(term: string, page: number) {
+    return <Observable<TrackContainer[]>>Observable.create((observer: Observer<TrackContainer[]>) => {
+      let remaining = this.enabledStores.length;
+
+      this.enabledStores.forEach(async store => {
+        if (!store.searchAlbums) {
+          return;
+        }
+        try {
+          let tracks = await store.searchAlbums(term, page);
           observer.next(tracks);
         } catch (e) {
           console.error(
