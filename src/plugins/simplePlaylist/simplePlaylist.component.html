@@ -1,66 +1,29 @@
-<mp-list
-  #list
-  noItemsMessage="No results"
-  [headerEnabled]="false"
-  [items]="items"
-  [itemSize]="56"
-  [markedItem]="playingTrack"
-  (select)="selectItem($event)"
-  (endReached)="triggerEndReached()"
->
-  <ng-template let-item="item">
+<div class="list">
+  <mp-track-container-item
+    class="mp-row"
+    *ngFor="let trackContainer of trackContainers"
+    [trackContainer]="trackContainer"
+    (select)="addToPlaylist($event)"
+    (selectAll)="addTrackContainer($event)"
+    (play)="play($event)"
+  >
+  </mp-track-container-item>
 
-    <div class="mp-row container" *ngIf="!item.source">
-      <div class="action material-icons">
-        <span *ngIf="!item.expanded">keyboard_arrow_down</span>
-        <span *ngIf="item.expanded">keyboard_arrow_up</span>
-      </div>
-      <div
-        class="artwork"
-        [style.backgroundImage]="item.artworkUri ? ('url(' + item.artworkUri + ')') : ''"
-      ></div>
-      <div class="track-info">
-        <span class="mp-cell title">{{ item.name }}</span>
-      </div>
-      <div
-        class="action material-icons"
-        role="button"
-        (click)="addTrackContainer(item, $event)"
-      >
-        playlist_add
-      </div>
-    </div>
+  <mp-track-item
+    class="mp-row"
+    *ngFor="let track of tracks"
+    [track]="track"
+    (select)="addToPlaylist($event)"
+    (play)="play($event)"
+  >
+  </mp-track-item>
 
-    <div class="mp-row track" *ngIf="item.source && !isChildTrack(item)">
-      <div
-        class="artwork"
-        [style.backgroundImage]="item.artworkUri ? ('url(' + item.artworkUri + ')') : ''"
-      ></div>
-      <div class="track-info">
-        <span class="mp-cell title">{{ item.title }}</span>
-        <span class="mp-cell artist">{{ item.artist }}</span>
-      </div>
-      <div
-        class="action material-icons"
-        role="button"
-        (click)="play(item, $event)"
-      >
-        play_circle_outline
-      </div>
-    </div>
+  <mp-spinner *ngIf="waiting"></mp-spinner>
 
-    <div class="mp-row child-track" *ngIf="item.source && isChildTrack(item)">
-      <div class="track-info">
-        <span class="mp-cell title">{{ item.title }}</span>
-      </div>
-      <div
-        class="action material-icons"
-        role="button"
-        (click)="play(item, $event)"
-      >
-        play_circle_outline
-      </div>
-    </div>
+  <button
+    class="load-more"
+    *ngIf="!waiting"
+    (click)="triggerLoadMore()"
+  >Load more</button>
 
-  </ng-template>
-</mp-list>
+</div>

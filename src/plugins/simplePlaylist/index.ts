@@ -8,6 +8,9 @@ import { CoreModule } from 'core/core.module';
 import { Module as PlaylistModule } from 'plugins/playlist';
 
 import { SimplePlaylistComponent } from './simplePlaylist.component';
+import { SimpleTrackItemComponent } from './simpleTrackItem';
+import { TrackItemComponent } from './trackItem';
+import { TrackContainerItemComponent } from './trackContainerItem';
 
 @Plugin()
 @NgModule({
@@ -18,6 +21,9 @@ import { SimplePlaylistComponent } from './simplePlaylist.component';
   ],
   declarations: [
     SimplePlaylistComponent,
+    SimpleTrackItemComponent,
+    TrackContainerItemComponent,
+    TrackItemComponent,
   ],
   exports: [
     SimplePlaylistComponent,

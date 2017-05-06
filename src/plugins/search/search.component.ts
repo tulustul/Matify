@@ -52,6 +52,7 @@ export class SearchComponent {
   search(searchTerm, page=0) {
     this.page = page;
     this.waiting = true;
+    this.cdr.markForCheck();
     this.searchService.searchTerm = searchTerm;
     if (page === 0) {
       this.searchService.tracks = [];

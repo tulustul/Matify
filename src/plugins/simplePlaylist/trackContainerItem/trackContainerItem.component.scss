@@ -1,0 +1,8 @@
+@import '../item-common';
+
+:host {
+  display: block;
+  .track-container {
+    @include simple-playlist-item();
+  }
+}

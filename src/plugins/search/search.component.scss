@@ -8,10 +8,12 @@
   .controls {
     display: flex;
     justify-content: space-around;
+    height: 40px;
     .search-type {
-      padding: 5px 10px;
       cursor: pointer;
-      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       flex-grow: 1;
       background-color: rgba(0,0,0, 0.15);
       &:hover {

@@ -6,7 +6,7 @@
     [value]="searchService.searchTerm"
     [formControl]="searchFormControl"
   >
-  <button (click)="addAllToPlaylist()">
+  <button (click)="addA1ToPlaylist()">
     Add all
     <i class="material-icons">add</i>
   </button>
@@ -21,13 +21,10 @@
   >{{ type }}</div>
 </div>
 
-<mp-spinner *ngIf="waiting && !haveResults"></mp-spinner>
-
 <mp-simple-playlist
-  *ngIf="!waiting || haveResults"
   [tracks]="searchService.tracks"
   [trackContainers]="searchService.trackContainers"
+  [waiting]="waiting"
   (select)="itemSelected($event)"
+  (loadMore)="searchMore()"
 ></mp-simple-playlist>
-
-<div (click)="searchMore()">Load more</div>

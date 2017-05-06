@@ -1,0 +1,15 @@
+<div
+  class="artwork"
+  [style.backgroundImage]="track.artworkUri ? ('url(' + track.artworkUri + ')') : ''"
+></div>
+<div class="track-info">
+  <span class="mp-cell title">{{ track.title }}</span>
+  <span class="mp-cell artist">{{ track.artist }}</span>
+</div>
+<div
+  class="action material-icons"
+  role="button"
+  (click)="play()"
+>
+  play_circle_outline
+</div>

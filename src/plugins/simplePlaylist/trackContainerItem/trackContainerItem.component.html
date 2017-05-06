@@ -1,0 +1,29 @@
+<div class="track-container" (click)="expanded = !expanded">
+  <div class="action material-icons">
+    <span *ngIf="!expanded">keyboard_arrow_down</span>
+    <span *ngIf="expanded">keyboard_arrow_up</span>
+  </div>
+  <div
+    class="artwork"
+    [style.backgroundImage]="trackContainer.artworkUri ? ('url(' + trackContainer.artworkUri + ')') : ''"
+  ></div>
+  <div class="track-info">
+    <span class="mp-cell title">{{ trackContainer.name }}</span>
+  </div>
+  <div
+    class="action material-icons"
+    role="button"
+    (click)="selectAll($event)"
+  >
+    playlist_add
+  </div>
+</div>
+
+<div class="tracks" *ngIf="expanded">
+  <mp-simple-track-item
+    *ngFor="let track of trackContainer.tracks"
+    [track]="track"
+    (select)="select(track)"
+    (play)="play(track)"
+  ></mp-simple-track-item>
+</div>

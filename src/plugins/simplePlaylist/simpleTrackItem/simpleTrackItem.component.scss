@@ -1,0 +1,5 @@
+@import '../item-common';
+
+:host {
+  @include simple-playlist-item();
+}

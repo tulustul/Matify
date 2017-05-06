@@ -23,19 +23,17 @@
     background: linear-gradient(to left bottom, darken($primary-color, 5%), lighten($primary-color, 5%));
   }
 
-  .mp-row {
-    &.mp-row-selected {
-      background-color: rgba(0, 0, 0, 0.2);
-    }
+  .mp-row-selected {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
 
-    &.mp-row-highlighted, &:hover {
-      background-color: rgba(0, 0, 0, 0.1);
-    }
+  .mp-row-highlighted, .mp-row:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
 
-    &.mp-row-marked {
-      color: $tertiary-color;
-      font-weight: bold;
-    }
+  .mp-row-marked {
+    color: $tertiary-color;
+    font-weight: bold;
   }
 
   .mp-tab {
@@ -47,7 +45,6 @@
 
   button, .mp-button {
     background: $primary-color;
-    border-bottom: 2px solid white;
     &:hover {
       background: darken($primary-color, 10%);
     }

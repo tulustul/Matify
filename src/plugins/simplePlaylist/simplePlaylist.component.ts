@@ -29,8 +29,11 @@ export class SimplePlaylistComponent {
 
   _trackContainers: TrackContainer[] = [];
 
+  @Input()
+  waiting = false;
+
   @Output()
-  endReached = new EventEmitter<void>();
+  loadMore = new EventEmitter<void>();
 
   @Output()
   select = new EventEmitter<Track>();
@@ -57,14 +60,13 @@ export class SimplePlaylistComponent {
     });
   }
 
-  play(track: Track, event: Event) {
+  play(track: Track) {
     this.playing.next(track);
     this.audio.play(track);
-    event.stopPropagation();
   }
 
-  triggerEndReached() {
-    this.endReached.next(null);
+  triggerLoadMore() {
+    this.loadMore.next(null);
   }
 
   selectItem(item: Item) {
@@ -101,11 +103,10 @@ export class SimplePlaylistComponent {
     }
   }
 
-  addTrackContainer(trackContainer: TrackContainer, event: Event) {
+  addTrackContainer(trackContainer: TrackContainer) {
     this.playlistCommands.addTracks(trackContainer.tracks);
     this.removeItemFromList(trackContainer, this.trackContainers);
     this.buildItemsList();
-    event.stopPropagation();
   }
 
   buildItemsList() {
