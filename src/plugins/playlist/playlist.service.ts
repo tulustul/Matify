@@ -109,11 +109,22 @@ export class PlaylistService {
   private _save() {
     if (this.playlist.placeholder === 1) {
       this.playlist.placeholder = 0;
+      this.playlist.name = this.guessPlaylistName(this.playlist, this.tracks);
       Playlist.store.update(this.playlist.id, this.playlist);
+      this._playlist$.next(this.playlist);
     }
     PlaylistTracks.store.update(this.playlist.id, {
       tracks: this.tracks,
     });
+  }
+
+  private guessPlaylistName(playlist: Playlist, tracks: Track[]) {
+    if (tracks.length) {
+      const t = tracks[0];
+      return t.album || t.artist || t.title || playlist.name;
+    } else {
+      return playlist.name;
+    }
   }
 
   deleteTrack(track: Track) {
