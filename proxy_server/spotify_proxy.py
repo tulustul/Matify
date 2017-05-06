@@ -69,6 +69,9 @@ def on_delivery(session, new_audio_format, frames, num_frames):
     ))
     frame_number = track.duration // 1000 * audio_format.sample_rate
     wav.setnframes(frame_number)
+    app.logger.info('audio_format.sample_rate {}'.format(audio_format.sample_rate))
+    app.logger.info('audio_format.channels {}'.format(audio_format.channels))
+    app.logger.info('audio_format.frame_size {}'.format(audio_format.frame_size()))
 
   wav.writeframesraw(frames)
   return num_frames
@@ -110,12 +113,10 @@ def spotify_proxy(track_key):
     except ValueError:
       range_in_bytes = 0
     # position = range_in_bytes * 1000 // audio_format.sample_rate // audio_format.frame_size() // audio_format.channels
-    position = range_in_bytes * 1000 // 44100 // 4 // 2
+    position = range_in_bytes * 1000 // 44100 // 4
   else:
     position = 0
 
-  # is_end.set()
-  # time.sleep(0.02)
 
   is_end.clear()
   buffer = io.BytesIO()
@@ -147,7 +148,7 @@ def spotify_proxy(track_key):
       time.sleep(0.01)
 
   # content_size = track.duration // 1000 * audio_format.sample_rate * frame_size * 2
-  content_size = track.duration // 1000 * 44100 * 4 * 2
+  content_size = track.duration // 1000 * 44100 * 4
 
   return Response(
     generate(),
@@ -155,7 +156,6 @@ def spotify_proxy(track_key):
     status=206,
     headers={
       'Accept-Ranges': 'bytes',
-      'Content-Length': content_size - range_in_bytes - 20,
       'Content-Range': 'bytes {}-{}/{}'.format(
         range_in_bytes, content_size, content_size + 1,
       ),

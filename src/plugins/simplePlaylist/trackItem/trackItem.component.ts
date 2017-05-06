@@ -48,7 +48,8 @@ export class TrackItemComponent {
     this.select$.next(this.track);
   }
 
-  play() {
+  play(event: Event) {
+    event.stopPropagation();
     this.play$.next(this.track);
   }
 
