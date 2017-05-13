@@ -6,7 +6,7 @@ import {
 
 import { PaneView, View } from 'core/ui/pane';
 import { Keybindings } from 'core/keybindings.service';
-import { FilterService } from 'core/filter.service';
+import { filter } from 'core/filters';
 
 interface Section {
   name: string;
@@ -38,7 +38,6 @@ export class ShortcutsViewComponent implements PaneView {
 
   constructor(
     private cdr: ChangeDetectorRef,
-    private filterService: FilterService,
     keybindings: Keybindings,
   ) {
     const sections = new Map<string, Section>();
@@ -71,7 +70,7 @@ export class ShortcutsViewComponent implements PaneView {
     this.filteredSections = [];
 
     for (let section of this.sections) {
-      const bindings = this.filterService.filter(
+      const bindings = filter(
         searchTerm,
         section.bindings,
         ['binding', 'command', 'description'],

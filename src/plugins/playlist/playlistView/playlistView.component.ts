@@ -4,16 +4,17 @@ import {
   ChangeDetectorRef,
   OnInit,
   OnDestroy,
+  ViewChild,
 } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
 import { Track } from 'core/tracks';
-import { FilterService } from 'core/filter.service';
 import { PaneView } from 'core/ui/pane';
 import { View } from 'core/ui/pane/view.decorator';
 
 import { PlaylistService } from '../playlist.service';
+import { PlaylistComponent } from '../playlist/playlist.component';
 
 @View
 @Component({
@@ -23,6 +24,9 @@ import { PlaylistService } from '../playlist.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlaylistViewComponent implements OnInit, OnDestroy, PaneView {
+
+  @ViewChild(PlaylistComponent)
+  private playlistComponent: PlaylistComponent;
 
   key: string;
 
@@ -34,7 +38,6 @@ export class PlaylistViewComponent implements OnInit, OnDestroy, PaneView {
 
   constructor(
     public playlist: PlaylistService,
-    private filterService: FilterService,
     private changeDetectorRef: ChangeDetectorRef,
   ) {
     this.displayName$ = playlist.playlist$.map(
@@ -57,10 +60,7 @@ export class PlaylistViewComponent implements OnInit, OnDestroy, PaneView {
   }
 
   search(searchTerm: string) {
-    this.filteredTracks = this.filterService.filter(
-      searchTerm, this.playlist.tracks, ['title', 'album', 'artist'],
-    );
-    this.changeDetectorRef.markForCheck();
+    this.playlistComponent.list.itemsManager.search(searchTerm);
   }
 
 }

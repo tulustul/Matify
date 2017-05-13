@@ -6,8 +6,9 @@
   [items]="tracks"
   [markedItem]="playingTrack"
   [itemsEqualityFn]="tracksEqual"
+  [searchBy]="searchBy"
   (select)="play($event)"
-  (delete)="playlist.deleteTrack($event)"
+  (change)="playlist.updateTracks($event)"
 >
   <ng-template let-item="item" let-columns="columns">
     <div class="mp-cell" *ngFor="let column of columns">

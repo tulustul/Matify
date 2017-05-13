@@ -86,7 +86,9 @@ export class ListCommands {
     name: 'navigation.deleteItem',
   })
   listDeleteItem() {
-    this.listService.focusedList.emitDelete();
+    this.listService.focusedList.itemsManager.delete(
+      [this.listService.focusedList.cursorItem],
+    );
   }
 
 }

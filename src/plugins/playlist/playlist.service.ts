@@ -8,14 +8,9 @@ import { AudioService } from 'core/audio.service';
 import { Track } from 'core/tracks';
 import { formatSeconds } from 'core/utils';
 import { NotificationsService } from 'core/ui/notifications';
+import { Column } from 'core/ui/list';
 
 import { Playlist, PlaylistTracks } from './models';
-
-interface Column {
-  displayName: string;
-  size: string;
-  getter: (track: Track) => any;
-}
 
 @Injectable()
 export class PlaylistService {
@@ -32,31 +27,37 @@ export class PlaylistService {
   private _searchFocus$ = new ReplaySubject<void>(1);
   searchFocus$ = this._searchFocus$.asObservable();
 
-  columns: Column[] = [
+  columns: Column<Track>[] = [
     {
       displayName: 'Track',
-      size: '50px',
+      size: '75px',
       getter: track => track.track,
+      sortGetter: track => track.track,
     }, {
       displayName: 'Title',
       size: '40%',
       getter: track => track.title,
+      sortGetter: track => track.title.toLocaleLowerCase(),
     }, {
       displayName: 'Album',
       size: '20%',
       getter: track => track.album,
+      sortGetter: track => track.album.toLocaleLowerCase(),
     }, {
       displayName: 'Artist',
       size: '20%',
       getter: track => track.artist,
+      sortGetter: track => track.artist.toLocaleLowerCase(),
     }, {
       displayName: 'Year',
-      size: '50px',
+      size: '75px',
       getter: track => track.year,
+      sortGetter: track => track.year,
     }, {
       displayName: 'Length',
-      size: '50px',
+      size: '85px',
       getter: track => formatSeconds(track.length),
+      sortGetter: track => track.length,
     },
   ];
 
@@ -93,14 +94,14 @@ export class PlaylistService {
   }
 
   addTracks(tracks: Track[]) {
-    this._updateTracks(this.tracks.concat(tracks));
+    this.updateTracks(this.tracks.concat(tracks));
   }
 
   clear() {
-    this._updateTracks([]);
+    this.updateTracks([]);
   }
 
-  private _updateTracks(tracks: Track[]) {
+  private updateTracks(tracks: Track[]) {
     this.tracks = tracks;
     this._tracks$.next(this.tracks.slice());
     this._save();
@@ -124,14 +125,6 @@ export class PlaylistService {
       return t.album || t.artist || t.title || playlist.name;
     } else {
       return playlist.name;
-    }
-  }
-
-  deleteTrack(track: Track) {
-    let index = this.tracks.indexOf(track);
-    if (index !== -1) {
-      this.tracks.splice(index, 1);
-      this._updateTracks(this.tracks);
     }
   }
 

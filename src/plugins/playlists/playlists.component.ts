@@ -24,7 +24,7 @@ import {
 })
 export class PlaylistsComponent {
 
-  columns: Column[] = [
+  columns: Column<Playlist>[] = [
     {getter: (item: Playlist) => item.name},
   ];
 

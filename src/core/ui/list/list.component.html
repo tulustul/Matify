@@ -1,10 +1,17 @@
 <div class="mp-header" *ngIf="headerEnabled">
   <div class="mp-row">
     <div
-      class="mp-cell"
+      class="mp-header-cell"
       *ngFor="let column of columns"
       [style.width]="column.size"
-    >{{ column.displayName }}</div>
+      (click)="itemsManager.sort(column)"
+    >
+      {{ column.displayName }}
+      <i
+        class="material-icons sorted {{ itemsManager.sortOrder }}"
+        *ngIf="column === itemsManager.sortedBy"
+      >{{ sortIcon }}</i>
+    </div>
   </div>
 </div>
 
@@ -13,7 +20,7 @@
 </div>
 
 <div class="rows">
-  <div *virtualFor="let visibleItems of items">
+  <div *virtualFor="let visibleItems of itemsManager.filteredItems$ | async">
     <div class="mp-row"
       *ngFor="let item of visibleItems | async"
       (click)="selectItem(item)"

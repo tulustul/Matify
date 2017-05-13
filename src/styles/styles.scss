@@ -50,6 +50,14 @@ input {
   overflow: hidden;
 }
 
+.mp-header-cell {
+  padding: 7px 0 7px 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
 .mp-row {
   border-color: rgba(255, 255, 255, 0.12);
   &:not(:last-child) {

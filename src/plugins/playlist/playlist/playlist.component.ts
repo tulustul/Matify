@@ -21,12 +21,14 @@ import { PlaylistService } from '../playlist.service';
 })
 export class PlaylistComponent implements OnInit {
 
-  playingTrack: Track;
-
   @Input() tracks: Track[] = [];
 
   @ViewChild(ListComponent)
   list: ListComponent;
+
+  playingTrack: Track;
+
+  searchBy = ['title', 'artist', 'album'];
 
   constructor(
     public playlist: PlaylistService,

@@ -9,7 +9,6 @@ import { Keybindings } from './keybindings.service';
 import { CommandRunner, CoreCommands } from './commands';
 import { AudioService } from './audio.service';
 import { AudioAnalyserService } from './audioAnalyser.service';
-import { FilterService } from './filter.service';
 import { ProxyServerService } from './proxyServer.service';
 import { TracksService } from './tracks';
 
@@ -69,7 +68,6 @@ import {
     CoreCommands,
     ListService,
     ListCommands,
-    FilterService,
     ProxyServerService,
     PaneService,
     PaneCommands,

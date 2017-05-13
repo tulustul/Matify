@@ -16,6 +16,7 @@ import { VirtualRepeaterDirective } from 'core/ui/virtualRepeater';
 
 import { ListService } from './list.service';
 import { Column } from './column.interface';
+import { ItemsManager } from './itemsManager';
 
 @Component({
   selector: 'mp-list',
@@ -27,9 +28,9 @@ export class ListComponent {
 
   private _itemSize = 34;
 
-  private _columns: Column[];
+  private _columns: Column<any>[];
 
-  private _items: any[];
+  itemsManager = new ItemsManager();
 
   @Input()
   id: string;
@@ -43,6 +44,9 @@ export class ListComponent {
   @Input()
   noItemsMessage: string;
 
+  @Input()
+  searchBy: string[] = [];
+
   @Output()
   select = new EventEmitter<any>();
 
@@ -50,7 +54,7 @@ export class ListComponent {
   highlight = new EventEmitter<any>();
 
   @Output()
-  delete = new EventEmitter<any>();
+  change = new EventEmitter<any[]>();
 
   @Output()
   endReached = new EventEmitter<void>();
@@ -77,12 +81,17 @@ export class ListComponent {
 
   ngOnInit() {
     this.repeater.endReached.subscribe(
-      () => this.endReached.next(null)
+      () => this.endReached.next(null),
     );
+
+    this.itemsManager.searchBy = this.searchBy;
+    this.itemsManager.items$.subscribe(items => {
+      this.change.next(items);
+    })
   }
 
   @Input()
-  set columns(columns: Column[]) {
+  set columns(columns: Column<any>[]) {
     this._columns = columns;
     let i = 1;
     for (let column of this.columns) {
@@ -169,7 +178,6 @@ export class ListComponent {
       if (this.selectedItems.size) {
         start++;
       }
-      console.log(start, end);
       for (let item of this.items.slice(start, end)) {
         if (this.selectedItems.has(item)) {
           this.selectedItems.delete(item);
@@ -184,13 +192,9 @@ export class ListComponent {
     this.cdr.markForCheck();
   }
 
-  emitDelete() {
-    this.delete.next(this.cursorItem);
-  }
-
   @Input()
   set items(items: any[]) {
-    this._items = items;
+    this.itemsManager.items = items;
     if (this.items.length) {
       if (this.cursor !== -1) {
         this.cursor = Math.min(this.cursor, this.items.length);
@@ -205,7 +209,7 @@ export class ListComponent {
     }
   }
   get items() {
-    return this._items;
+    return this.itemsManager.items;
   }
 
   @Input()
@@ -216,5 +220,13 @@ export class ListComponent {
   trackItem(index: number, item: any) {
     return item.id;
   }
+
+  get sortIcon() {
+    return (
+      this.itemsManager.sortOrder === 'asc'
+      ? 'keyboard_arrow_up' : 'keyboard_arrow_down'
+    );
+  }
+
 
 }

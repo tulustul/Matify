@@ -8,7 +8,7 @@ import {
 
 import { ICommand } from 'core/commands';
 import { Keybindings } from 'core/keybindings.service';
-import { FilterService } from 'core/filter.service';
+import { fuzzyFilter } from 'core/filters';
 
 import { Column, ListComponent } from 'core/ui/list';
 
@@ -34,7 +34,7 @@ export class PaletteComponent {
 
   fields: string[] = [];
 
-  columns: Column[] = [];
+  columns: Column<any>[] = [];
 
   @ViewChild('searchBox') searchBox: ElementRef;
 
@@ -42,7 +42,6 @@ export class PaletteComponent {
 
   constructor(
     private paletteService: PaletteService,
-    private filterService: FilterService,
     changeDetectorRef: ChangeDetectorRef,
     keybindings: Keybindings,
   ) {
@@ -82,7 +81,7 @@ export class PaletteComponent {
 
   filterItems() {
     this.currentIndex = 0;
-    this.filteredItems = this.filterService.fuzzyFilter(
+    this.filteredItems = fuzzyFilter(
       this.searchTerm, this.items, this.fields[0],
     );
   }

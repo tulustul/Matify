@@ -8,7 +8,6 @@ import {
 import { Subject } from 'rxjs';
 
 import { Track, TracksService } from 'core/tracks';
-import { FilterService } from 'core/filter.service';
 import { PaneView, View } from 'core/ui/pane';
 
 import { PlaylistService } from 'plugins/playlist';
