@@ -8,5 +8,6 @@
 ></mp-background-slider>
 
 <div class="right">
+  <mp-spinner *ngIf="isBuffering" size="20"></mp-spinner>
   {{ elapsed }} / {{ duration }} {{ progress.toFixed(0) }}%
 </div>

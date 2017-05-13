@@ -6,7 +6,7 @@ import {
 
 import { Observable } from 'rxjs';
 
-import { AudioService } from 'core/audio.service';
+import { AudioService, AudioState } from 'core/audio.service';
 import { Track } from 'core/tracks';
 import { formatSeconds } from 'core/utils';
 
@@ -26,6 +26,8 @@ export class TrackIndicatorComponent {
 
   _progress: number;
 
+  isBuffering = false;
+
   constructor(
     private audio: AudioService,
     cdr: ChangeDetectorRef,
@@ -38,6 +40,12 @@ export class TrackIndicatorComponent {
       this.track = data[0];
       this._elapsed = data[1];
       this._duration = data[2];
+
+      cdr.markForCheck();
+    });
+
+    audio.state$.subscribe(state => {
+      this.isBuffering = state === AudioState.buffering;
       cdr.markForCheck();
     });
   }

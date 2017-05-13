@@ -6,6 +6,10 @@
   flex-grow: 1;
   padding: 5px;
   .left, .right {
+    display: flex;
     z-index: 1;
+    mp-spinner {
+      margin-right: 10px;
+    }
   }
 }

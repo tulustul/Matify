@@ -43,6 +43,8 @@ export class AudioService {
 
   audio = new Audio();
 
+  isStopped = false;
+
   constructor() {
     this.volume = 1;
 
@@ -62,6 +64,22 @@ export class AudioService {
 
     this.audio.addEventListener('ended', () => {
       this.end();
+    });
+
+    this.audio.addEventListener('waiting', () => {
+      this.setState(AudioState.buffering);
+    });
+
+    this.audio.addEventListener('pause', () => {
+      if (this.isStopped) {
+        this.setState(AudioState.stopped);
+      } else {
+        this.setState(AudioState.paused);
+      }
+    });
+
+    this.audio.addEventListener('playing', () => {
+      this.setState(AudioState.playing);
     });
 
     this.audio.addEventListener('error', () => {
@@ -88,6 +106,7 @@ export class AudioService {
   }
 
   play(track: Track) {
+    this.isStopped = false;
     this.stop();
 
     if (!track) {
@@ -105,22 +124,24 @@ export class AudioService {
     this.audio.src = this.track.uri;
     this.audio.load();
     this.audio.play();
-    this.setState(AudioState.playing);
   }
 
   stop() {
+    this.isStopped = true;
+
     this.audio.pause();
     this.audio.currentTime = 0;
-    this.setState(AudioState.stopped);
+
+    this.position = 0;
+    this._position$.next(this.position);
   }
 
   togglePause() {
+    this.isStopped = false;
     if (this.audio.paused) {
       this.audio.play();
-      this.setState(AudioState.playing);
     } else {
       this.audio.pause();
-      this.setState(AudioState.paused);
     }
   }
 

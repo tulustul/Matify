@@ -11,17 +11,23 @@ import { PlaylistService } from 'plugins/playlist';
 })
 export class PlaybackControlsComponent {
 
+  STATE_ICONS = {
+    [AudioState.buffering]: 'pause_circle_outline',
+    [AudioState.paused]: 'play_circle_outline',
+    [AudioState.playing]: 'pause_circle_outline',
+    [AudioState.stopped]: 'play_circle_outline',
+  };
+
   @HostBinding('class') cssClass = 'mp-primary';
 
-  playPauseIcon = 'play_circle_outline';
+  playPauseIcon = this.STATE_ICONS[AudioState.stopped];
 
   constructor(
     public audio: AudioService,
     public playlist: PlaylistService,
   ) {
     this.audio.state$.subscribe(state => {
-      this.playPauseIcon = state === AudioState.playing ?
-        'pause_circle_outline' : 'play_circle_outline';
+      this.playPauseIcon = this.STATE_ICONS[state];
     });
   }
 
