@@ -20,10 +20,11 @@
 
   <mp-spinner *ngIf="waiting"></mp-spinner>
 
-  <button
-    class="load-more"
-    *ngIf="!waiting"
-    (click)="triggerLoadMore()"
-  >Load more</button>
+  <div class="load-more">
+    <button
+      *ngIf="!waiting"
+      (click)="triggerLoadMore()"
+    >Load more</button>
+  </div>
 
 </div>

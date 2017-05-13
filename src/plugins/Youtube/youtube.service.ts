@@ -70,21 +70,12 @@ export class YoutubeStore implements TracksStore {
     });
 
     return new Promise<TrackContainer>((resolve, reject) => {
-      request.execute(response => {
+      request.execute(async response => {
         response.items = response.items || [];
-        const tracks: Track[] = response.items.map(t => {
-          return extendMetadata(<Track>{
-            uri: `http://localhost:5000/youtube/${t.snippet.resourceId.videoId}`,
-            title: t.snippet.title,
-            album: p.snippet.title,
-            artist: '',
-            length: null,
-            artworkUri: t.snippet.thumbnails ? t.snippet.thumbnails.default.url : '',
-            track: null,
-            source: 'youtube',
-            sourceId: t.snippet.resourceId.videoId,
-          });
-        });
+
+        const ids: string[] = response.items.map(i => i.snippet.resourceId.videoId);
+        const tracks = await this.getTracksByIds(ids, p);
+
         resolve({
           name: p.snippet.title,
           artworkUri: p.snippet.thumbnails.default.url,
@@ -127,8 +118,8 @@ export class YoutubeStore implements TracksStore {
   }
 
   private _search(params: any) {
-    return new Promise<Track[]>(async (resolve, reject) => {
-      params.part = 'snippet';
+    return new Promise<Track[]>((resolve, reject) => {
+      params.part = 'id';
 
       if (this.nextPageToken) {
         params.pageToken = this.nextPageToken;
@@ -136,25 +127,54 @@ export class YoutubeStore implements TracksStore {
 
       const request = this.gapi.client.youtube.search.list(params);
 
-      request.execute(response => {
+      request.execute(async response => {
         this.nextPageToken = response.nextPageToken;
         response.items = response.items || [];
+
+        const ids: string[] = response.items.map(i => i.id.videoId);
+        resolve(await this.getTracksByIds(ids));
+      });
+    });
+  }
+
+  private getTracksByIds(ids: string[], playlist = null) {
+    return new Promise<Track[]>((resolve, reject) => {
+      const videosParams = {
+        part: 'id,snippet,contentDetails',
+        id: ids.join(','),
+      };
+
+      const videosRequest = this.gapi.client.youtube.videos.list(videosParams);
+
+      videosRequest.execute(response => {
+        response.items = response.items || [];
+
         const tracks: Track[] = response.items.map(t => {
           return extendMetadata(<Track>{
-            uri: `http://localhost:5000/youtube/${t.id.videoId}`,
+            uri: `http://localhost:5000/youtube/${t.id}`,
             title: t.snippet.title,
-            album: '',
+            album: playlist ? playlist.snippet.title : '',
             artist: '',
-            length: null,
+            length: this.parseDuration(t.contentDetails.duration),
             artworkUri: t.snippet.thumbnails.default.url,
             track: null,
             source: 'youtube',
-            sourceId: t.id.videoId,
+            sourceId: t.id,
           });
         });
         resolve(tracks);
       });
     });
+  }
+
+  private parseDuration(duration: string) {
+    const match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/);
+
+    const hours = (parseInt(match[1]) || 0);
+    const minutes = (parseInt(match[2]) || 0);
+    const seconds = (parseInt(match[3]) || 0);
+
+    return hours * 3600 + minutes * 60 + seconds;
   }
 
 }
