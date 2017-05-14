@@ -94,8 +94,8 @@ export class ListCommands {
     name: 'navigation.moveItemUp',
   })
   listMoveItemUp() {
-    this.list.itemsManager.move(this.list.navigation.selection, -1);
     this.list.navigation.setCursor(this.list.navigation.cursor - 1);
+    this.list.itemsManager.move(this.list.navigation.selection, -1);
   }
 
   @Command({
@@ -103,8 +103,8 @@ export class ListCommands {
     name: 'navigation.moveItemDown',
   })
   listMoveItemDown() {
-    this.list.itemsManager.move(this.list.navigation.selection, 1);
     this.list.navigation.setCursor(this.list.navigation.cursor + 1);
+    this.list.itemsManager.move(this.list.navigation.selection, 1);
   }
 
   get list() {

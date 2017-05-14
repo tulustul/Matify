@@ -28,12 +28,12 @@ export class ItemsManager {
   }
   set items(items: any[]) {
     this._items = items;
-    this._items$.next(this.items);
     this.search(this.searchTerm);
   }
 
   delete(items: any[]) {
     this.items = this.items.filter(i => items.indexOf(i) === -1);
+    this._items$.next(this.items);
   }
 
   search(term: string) {
@@ -63,6 +63,7 @@ export class ItemsManager {
       b = column.sortGetter(b);
       return a > b ? sortFactor : -sortFactor;
     });
+    this._items$.next(this.items);
   }
 
   move(items: any[], by: number) {
@@ -91,7 +92,7 @@ export class ItemsManager {
       }
     }
 
-    this.items = this.items;
+    this._items$.next(this.items);
   }
 
 }
