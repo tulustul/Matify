@@ -23,12 +23,25 @@
     background: linear-gradient(to left bottom, darken($primary-color, 5%), lighten($primary-color, 5%));
   }
 
-  .mp-row-selected {
-    background-color: rgba(0, 0, 0, 0.2);
+  .mp-row:hover {
+    background-color: rgba(0, 0, 0, 0.05);
   }
 
-  .mp-row-highlighted, .mp-row:hover {
-    background-color: rgba(0, 0, 0, 0.1);
+  .mp-row-selected, .mp-row-highlighted {
+    background-color: rgba(0, 0, 0, 0.15);
+    font-weight: bold;
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.20);
+    }
+  }
+
+  .mp-row-selected {
+    &.mp-row-highlighted {
+      background-color: rgba(0, 0, 0, 0.25);
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.3);
+      }
+    }
   }
 
   .mp-header-cell:hover {

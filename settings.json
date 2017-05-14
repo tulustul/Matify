@@ -122,6 +122,14 @@
             "command": "navigation.deleteItem"
         },
         {
+            "keys": ["ctrl+shift+arrowup"],
+            "command": "navigation.moveItemUp"
+        },
+        {
+            "keys": ["ctrl+shift+arrowdown"],
+            "command": "navigation.moveItemDown"
+        },
+        {
             "keys": ["ctrl+w", "x"],
             "command": "panes.closeView"
         },

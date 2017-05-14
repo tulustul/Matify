@@ -72,7 +72,7 @@ export class PaletteComponent {
       }
       if (combo === 'escape') {
         this.opened = false;
-        this.list.reset();
+        this.list.navigation.reset();
         this.list.blur();
         changeDetectorRef.markForCheck();
       }

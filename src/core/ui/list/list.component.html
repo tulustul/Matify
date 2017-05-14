@@ -23,10 +23,10 @@
   <div *virtualFor="let visibleItems of itemsManager.filteredItems$ | async">
     <div class="mp-row"
       *ngFor="let item of visibleItems | async"
-      (click)="selectItem(item)"
+      (click)="selectSingleItem(item, $event)"
       [class.mp-row-marked]="itemsEqualityFn(item, markedItem)"
-      [class.mp-row-highlighted]="itemsEqualityFn(item, cursorItem)"
-      [class.mp-row-selected]="selectedItems.has(item)"
+      [class.mp-row-highlighted]="itemsEqualityFn(item, navigation.focusedItem)"
+      [class.mp-row-selected]="navigation.selectedItems.has(item)"
     >
       <ng-template
         [ngTemplateOutlet]="template"

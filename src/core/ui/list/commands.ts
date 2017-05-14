@@ -14,7 +14,7 @@ export class ListCommands {
     name: 'navigation.down',
   })
   listDown() {
-    this.listService.focusedList.next();
+    this.list.navigation.next();
   }
 
   @Command({
@@ -22,7 +22,7 @@ export class ListCommands {
     name: 'navigation.up',
   })
   listUp() {
-    this.listService.focusedList.previous();
+    this.list.navigation.previous();
   }
 
   @Command({
@@ -30,7 +30,7 @@ export class ListCommands {
     name: 'navigation.pageDown',
   })
   listPageDown() {
-    this.listService.focusedList.nextPage();
+    this.list.navigation.nextPage();
   }
 
   @Command({
@@ -38,7 +38,7 @@ export class ListCommands {
     name: 'navigation.pageUp',
   })
   listPageUp() {
-    this.listService.focusedList.previousPage();
+    this.list.navigation.previousPage();
   }
 
   @Command({
@@ -46,7 +46,7 @@ export class ListCommands {
     name: 'navigation.addToSelectionDown',
   })
   listAddToSelectionDown() {
-    this.listService.focusedList.next(true);
+    this.list.navigation.next(true);
   }
 
   @Command({
@@ -54,7 +54,7 @@ export class ListCommands {
     name: 'navigation.addToSelectionUp',
   })
   listAddToSelectionUp() {
-    this.listService.focusedList.previous(true);
+    this.list.navigation.previous(true);
   }
 
   @Command({
@@ -62,7 +62,7 @@ export class ListCommands {
     name: 'navigation.addPageToSelectionDown',
   })
   listAddPageToSelectionDown() {
-    this.listService.focusedList.nextPage(true);
+    this.list.navigation.nextPage(true);
   }
 
   @Command({
@@ -70,7 +70,7 @@ export class ListCommands {
     name: 'navigation.addPageToSelectionUp',
   })
   listAddPageToSelectionUp() {
-    this.listService.focusedList.previousPage(true);
+    this.list.navigation.previousPage(true);
   }
 
   @Command({
@@ -78,7 +78,7 @@ export class ListCommands {
     name: 'navigation.selectItem',
   })
   listSelectItem() {
-    this.listService.focusedList.selectCursorItem();
+    this.list.emitFocusedItem();
   }
 
   @Command({
@@ -86,9 +86,29 @@ export class ListCommands {
     name: 'navigation.deleteItem',
   })
   listDeleteItem() {
-    this.listService.focusedList.itemsManager.delete(
-      [this.listService.focusedList.cursorItem],
-    );
+    this.list.itemsManager.delete(this.list.navigation.selection);
+  }
+
+  @Command({
+    isVisibleInPallete: false,
+    name: 'navigation.moveItemUp',
+  })
+  listMoveItemUp() {
+    this.list.itemsManager.move(this.list.navigation.selection, -1);
+    this.list.navigation.setCursor(this.list.navigation.cursor - 1);
+  }
+
+  @Command({
+    isVisibleInPallete: false,
+    name: 'navigation.moveItemDown',
+  })
+  listMoveItemDown() {
+    this.list.itemsManager.move(this.list.navigation.selection, 1);
+    this.list.navigation.setCursor(this.list.navigation.cursor + 1);
+  }
+
+  get list() {
+    return this.listService.focusedList;
   }
 
 }

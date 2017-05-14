@@ -65,8 +65,33 @@ export class ItemsManager {
     });
   }
 
-  move(items: any[], atIndex: number) {
+  move(items: any[], by: number) {
+    items = items.sort((a, b) => {
+      return (this.items.indexOf(b) - this.items.indexOf(a)) * by;
+    })
 
+    const firstItemIndex = this.items.indexOf(items[0]);
+    const lastItemIndex = this.items.indexOf(items[items.length - 1]);
+
+    if (by < 0 && firstItemIndex === 0) {
+      return;
+    }
+
+    if (by > 0 && lastItemIndex === this.items.length - 1) {
+      return;
+    }
+
+    for (const item of items) {
+      const index = this.items.indexOf(item);
+      if (index !== -1) {
+        let newIndex = Math.max(0, Math.min(
+          this.items.length - 1, index + by,
+        ));
+        this.items.splice(newIndex, 0, this.items.splice(index, 1)[0]);
+      }
+    }
+
+    this.items = this.items;
   }
 
 }
