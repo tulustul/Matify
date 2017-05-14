@@ -102,7 +102,7 @@ export class ListNavigation {
   }
 
   get items() {
-    return this.list.itemsManager.items;
+    return this.list.itemsManager.filteredItems;
   }
 
   get selection() {
