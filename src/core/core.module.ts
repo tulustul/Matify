@@ -11,6 +11,7 @@ import { AudioService } from './audio.service';
 import { AudioAnalyserService } from './audioAnalyser.service';
 import { ProxyServerService } from './proxyServer.service';
 import { TracksService } from './tracks';
+import { LibraryService } from './library.service';
 
 import { BackgroundSliderComponent } from './ui/backgroundSlider';
 import { SidebarComponent } from './ui/sidebar';
@@ -75,6 +76,7 @@ import {
     VisualizationRenderer,
     VisualizationCommands,
     ContextMenuService,
+    LibraryService,
   ],
   exports: [
     VirtualRepeaterDirective,

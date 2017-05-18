@@ -90,7 +90,6 @@ export class SoundCloudStore implements TracksStore {
           album: '',
           artist: '',
           length: t.duration / 1000,
-          videoUri: t.video_url,
           artworkUri: t.artwork_url || '',
           genre: t.genre,
           year: t.release_year,

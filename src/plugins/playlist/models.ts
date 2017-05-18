@@ -18,5 +18,5 @@ export class PlaylistTracks {
   static store: Dexie.Table<PlaylistTracks, number>;
 
   @PrimaryKey() playlistId: number;
-  tracks: Track[];
+  trackUris: string[];
 }

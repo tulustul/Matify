@@ -6,6 +6,7 @@ import { ReplaySubject, Observable } from 'rxjs';
 
 import { AudioService } from 'core/audio.service';
 import { Track } from 'core/tracks';
+import { LibraryService } from 'core/library.service';
 import { formatSeconds } from 'core/utils';
 import { NotificationsService } from 'core/ui/notifications';
 import { Column } from 'core/ui/list';
@@ -58,12 +59,18 @@ export class PlaylistService {
       size: '85px',
       getter: track => formatSeconds(track.length),
       sortGetter: track => track.length,
+    }, {
+      displayName: 'Rank',
+      size: '75px',
+      getter: track => track.rank ? track.rank.toFixed(1) : '',
+      sortGetter: track => track.rank,
     },
   ];
 
   constructor(
     private audio: AudioService,
     private notifications: NotificationsService,
+    private library: LibraryService,
   ) {
     this._tracks$.next([]);
   }
@@ -93,7 +100,8 @@ export class PlaylistService {
       }
   }
 
-  addTracks(tracks: Track[]) {
+  async addTracks(tracks: Track[]) {
+    await this.library.bulkAddTracks(tracks);
     this.updateTracks(this.tracks.concat(tracks));
   }
 
@@ -101,21 +109,21 @@ export class PlaylistService {
     this.updateTracks([]);
   }
 
-  private updateTracks(tracks: Track[]) {
+  public updateTracks(tracks: Track[]) {
     this.tracks = tracks;
     this._tracks$.next(this.tracks.slice());
     this._save();
   }
 
-  private _save() {
+  private async _save() {
     if (this.playlist.placeholder === 1) {
       this.playlist.placeholder = 0;
       this.playlist.name = this.guessPlaylistName(this.playlist, this.tracks);
-      Playlist.store.update(this.playlist.id, this.playlist);
+      await Playlist.store.update(this.playlist.id, this.playlist);
       this._playlist$.next(this.playlist);
     }
-    PlaylistTracks.store.update(this.playlist.id, {
-      tracks: this.tracks,
+    await PlaylistTracks.store.update(this.playlist.id, {
+      trackUris: this.tracks.map(t => t.uri),
     });
   }
 
@@ -138,7 +146,7 @@ export class PlaylistService {
     this.playlist.id = await Playlist.store.add(this.playlist);
     this.playlistTracks = {
       playlistId: this.playlist.id,
-      tracks: this.tracks,
+      trackUris: [],
     };
     await PlaylistTracks.store.add(this.playlistTracks);
 
@@ -171,7 +179,9 @@ export class PlaylistService {
     this.playlist = playlist;
     if (this.playlist) {
       this.playlistTracks = await PlaylistTracks.store.get(this.playlist.id);
-      this.tracks = this.playlistTracks.tracks;
+      this.tracks = await this.library.getTracksByUris(
+        this.playlistTracks.trackUris,
+      );
       this._tracks$.next(this.tracks);
       this._playlist$.next(this.playlist);
     }

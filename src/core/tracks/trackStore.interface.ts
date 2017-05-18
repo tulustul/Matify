@@ -1,4 +1,5 @@
-import { Track, TrackContainer } from './track.interface';
+import { Track } from './track.model';
+import { TrackContainer } from './trackContainer.interface';
 
 export interface TracksStore {
 

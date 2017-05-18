@@ -35,13 +35,19 @@ export class AudioService {
   private _volume$ = new ReplaySubject<number>(1);
   volume$ = this._volume$.asObservable();
 
-  private _trackend$ = new ReplaySubject<void>(1);
+  private _trackend$ = new Subject<void>();
   trackend$ = this._trackend$.asObservable();
+
+  private _playFinish$ = new Subject<{track: Track, playTime: number}>();
+  playFinish$ = this._playFinish$.asObservable();
 
   private _errors$ = new Subject<AudioError>();
   errors$ = this._errors$.asObservable();
 
   audio = new Audio();
+
+  playStartTimestamp = 0;
+  cumulativePlayTime = 0
 
   isStopped = false;
 
@@ -71,6 +77,7 @@ export class AudioService {
     });
 
     this.audio.addEventListener('pause', () => {
+      this.cumulativePlayTime += this.playingTime;
       if (this.isStopped) {
         this.setState(AudioState.stopped);
       } else {
@@ -80,6 +87,7 @@ export class AudioService {
 
     this.audio.addEventListener('playing', () => {
       this.setState(AudioState.playing);
+      this.playStartTimestamp = this.currentTime;
     });
 
     this.audio.addEventListener('error', () => {
@@ -106,6 +114,13 @@ export class AudioService {
   }
 
   play(track: Track) {
+    if (this.track) {
+      this._playFinish$.next({
+        track: this.track,
+        playTime: this.totalPlayingSeconds,
+      });
+    }
+
     this.isStopped = false;
     this.stop();
 
@@ -124,6 +139,8 @@ export class AudioService {
     this.audio.src = this.track.uri;
     this.audio.load();
     this.audio.play();
+
+    this.cumulativePlayTime = 0;
   }
 
   stop() {
@@ -182,6 +199,18 @@ export class AudioService {
         'The video audio not be loaded, either because the server or ' +
         'network failed or because the format is not supported.',
     }[errorCode] || 'An unknown error occurred.';
+  }
+
+  get currentTime() {
+    return new Date().getTime();
+  }
+
+  get playingTime() {
+    return this.currentTime - this.playStartTimestamp;
+  }
+
+  get totalPlayingSeconds() {
+    return this.playingTime / 1000;
   }
 
 }

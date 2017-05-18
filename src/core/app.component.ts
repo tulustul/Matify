@@ -13,6 +13,7 @@ import { Keybindings } from 'core/keybindings.service';
 import { Theme } from 'core/theme.service';
 import { ProxyServerService } from 'core/proxyServer.service';
 import { Settings } from 'core/settings.service';
+import { LibraryService } from 'core/library.service';
 
 import { AudioErrorsNotifier } from 'plugins/audioErrorsNotifier';
 import { TrackSchedulerService } from 'plugins/trackScheduler';
@@ -48,6 +49,7 @@ export class AppComponent {
     tracksService: TracksService,
     proxyServerService: ProxyServerService,
     settings: Settings,
+    library: LibraryService,
   ) {
     settings.changes$.subscribe(() => {
       if (!this.initialized) {

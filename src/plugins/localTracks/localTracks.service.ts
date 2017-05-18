@@ -1,6 +1,4 @@
-import { TracksStore } from 'core/tracks';
-
-import { LocalTrack, LocalTrackWord } from './localTrack.model';
+import { TracksStore, Track, TrackWord } from 'core/tracks';
 
 export class LocalTracksStore implements TracksStore {
 
@@ -27,17 +25,17 @@ export class LocalTracksStore implements TracksStore {
       );
     }
 
-    return LocalTrack.store.where('id').anyOf(Array.from(trackIds)).toArray();
+    return Track.store.where('id').anyOf(Array.from(trackIds)).toArray();
   }
 
   async getTrackIds(token: string, page: number) {
     let trackIdsForToken = new Set<number>();
-    await LocalTrackWord.store
+    await TrackWord.store
       .where('word')
       .startsWithAnyOfIgnoreCase(token)
       .offset(page * this.PAGE_SIZE)
       .limit(this.PAGE_SIZE)
-      .each(w => trackIdsForToken.add(w.localTrackId));
+      .each(w => trackIdsForToken.add(w.trackId));
     return trackIdsForToken;
   }
 }

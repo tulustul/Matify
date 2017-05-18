@@ -1,15 +1,15 @@
 import { Dexie } from 'dexie';
 
 import { Store, PrimaryKey, Index } from 'core/db';
-import { Track } from 'core/tracks';
 
 @Store()
-export class LocalTrack implements Track {
-  static store: Dexie.Table<LocalTrack, number>;
+export class Track {
+  static store: Dexie.Table<Track, number>;
 
   @PrimaryKey() id?: number;
   @Index() uri: string;
   @Index() source: string;
+
   @Index() title: string;
   @Index() album: string;
   @Index() artist: string;
@@ -17,15 +17,19 @@ export class LocalTrack implements Track {
   @Index() year: number;
   @Index() genre: string;
   @Index() length: number;
+
+  @Index() rank?: number;
+  @Index() plays?: number;
+
   sourceId = '';
 
   artworkUri: string;
 }
 
 @Store()
-export class LocalTrackWord {
-  static store: Dexie.Table<LocalTrackWord, number>;
+export class TrackWord {
+  static store: Dexie.Table<TrackWord, number>;
 
-  @Index() localTrackId: number;
+  @Index() trackId: number;
   @Index() word: string;
 }

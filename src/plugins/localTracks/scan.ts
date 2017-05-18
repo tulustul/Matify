@@ -13,7 +13,8 @@ import { Command } from 'core/commands';
 import { ModalsService } from 'core/ui/modals';
 import { NotificationsService, Notification } from 'core/ui/notifications';
 
-import { LocalTrack, LocalTrackWord } from './localTrack.model';
+import { Track, TrackWord } from 'core/tracks/track.model';
+import { LibraryService } from 'core/library.service';
 
 const dialog = remote.dialog;
 
@@ -27,11 +28,12 @@ export class Scan {
     gathering: false,
   };
 
-  tracks: LocalTrack[];
+  tracks: Track[];
 
   constructor(
     private notifications: NotificationsService,
     private modals: ModalsService,
+    private library: LibraryService,
   ) {}
 
   @Command()
@@ -99,39 +101,10 @@ export class Scan {
       }
     }
 
-    await LocalTrack.store.bulkAdd(this.tracks);
-
-    this.index(notification);
+    await this.library.bulkAddTracks(this.tracks);
 
     notification.message = 'Scanning finished';
     this.notifications.scheduleDispose(notification);
-  }
-
-  async index(notification: Notification) {
-    notification.message = 'Indexing...';
-    let tracks = await LocalTrack.store.toArray();
-
-    let localTrackWords: LocalTrackWord[] = [];
-    for (let track of tracks) {
-      let words = this.getTrackWords(track, 'title');
-      words = words.concat(this.getTrackWords(track, 'album'));
-      words = words.concat(this.getTrackWords(track, 'artist'));
-      words = words.concat(this.getTrackWords(track, 'genre'));
-
-      for (let word of words) {
-        localTrackWords.push({
-          localTrackId: track.id,
-          word: word,
-        });
-      }
-    }
-
-    await LocalTrackWord.store.bulkAdd(localTrackWords);
-  }
-
-  getTrackWords(track: LocalTrack, property: string) {
-    let phrase = (track[property] || '').trim();
-    return phrase ? phrase.split(' ') : [];
   }
 
   handleFile(filepath: string) {

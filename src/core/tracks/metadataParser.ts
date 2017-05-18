@@ -1,4 +1,4 @@
-import { Track } from './track.interface';
+import { Track } from './track.model';
 
 export function extendMetadata(track: Track) {
   if (!track.artist) {
