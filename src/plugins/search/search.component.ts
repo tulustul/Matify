@@ -21,12 +21,14 @@ import { SearchService } from './search.service';
 })
 export class SearchComponent {
 
+  SEARCH_TYPE_KEY = 'search:type';
+
   SEARCH_TYPES = [
     'tracks',
     'albums',
   ];
 
-  searchType = 'albums';
+  searchType = localStorage.getItem(this.SEARCH_TYPE_KEY) || 'albums';
 
   waiting = false;
 
@@ -97,6 +99,7 @@ export class SearchComponent {
   }
 
   searchBy(searchType: string) {
+    localStorage.setItem(this.SEARCH_TYPE_KEY, searchType);
     this.searchType = searchType;
     if (this.searchService.searchTerm) {
       this.search(this.searchService.searchTerm);
