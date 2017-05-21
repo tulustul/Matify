@@ -2,6 +2,7 @@ import {
   Component,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  ViewChild,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
@@ -10,6 +11,7 @@ import { Observable } from 'rxjs';
 import { Track, TrackContainer, TracksService } from 'core/tracks';
 
 import { PlaylistCommands } from 'plugins/playlist';
+import { SimplePlaylistComponent } from 'plugins/simplePlaylist';
 
 import { SearchService } from './search.service';
 
@@ -37,6 +39,9 @@ export class SearchComponent {
   page = 0;
 
   searchFormControl = new FormControl();
+
+  @ViewChild(SimplePlaylistComponent)
+  playlistView: SimplePlaylistComponent;
 
   constructor(
     private tracksService: TracksService,
@@ -111,6 +116,10 @@ export class SearchComponent {
       this.searchService.tracks.length > 0 ||
       this.searchService.trackContainers.length > 0
     );
+  }
+
+  addAllToPlaylist() {
+    this.playlistView.addAllToPlaylist();
   }
 
 }

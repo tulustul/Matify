@@ -84,6 +84,16 @@ export class SimplePlaylistComponent {
     this.playlistCommands.addTrack(Object.assign({}, track));
   }
 
+  async addAllToPlaylist() {
+    const tracks = this.tracks.concat(...this.trackContainers.map(
+      container => container.tracks,
+    ));
+    await this.playlistCommands.addTracks(tracks);
+    this.tracks = [];
+    this.trackContainers = [];
+    this.cdr.markForCheck();
+  }
+
   removeTrackFromResults(track: Track) {
     const parent = this.trackContainersMap.get(track.uri);
     if (parent) {
