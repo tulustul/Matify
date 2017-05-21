@@ -41,9 +41,12 @@ export class TracksService {
     return <Observable<Track[]>>Observable.create((observer: Observer<Track[]>) => {
       let remaining = this.enabledStores.length;
 
+      let tracks: Track[] = [];
+
       this.enabledStores.forEach(async store => {
         try {
-          let tracks = await store.search(term, page);
+          const newTracks = await store.search(term, page);
+          tracks = tracks.concat(newTracks);
           observer.next(tracks);
         } catch (e) {
           console.error(
@@ -56,19 +59,22 @@ export class TracksService {
           observer.complete();
         }
       });
-    });
+    }).share();
   }
 
   searchAlbums(term: string, page: number) {
     return <Observable<TrackContainer[]>>Observable.create((observer: Observer<TrackContainer[]>) => {
       let remaining = this.enabledStores.length;
 
+      let tracks: TrackContainer[] = [];
+
       this.enabledStores.forEach(async store => {
         if (!store.searchAlbums) {
           return;
         }
         try {
-          let tracks = await store.searchAlbums(term, page);
+          const newTracks = await store.searchAlbums(term, page);
+          tracks = tracks.concat(newTracks);
           observer.next(tracks);
         } catch (e) {
           console.error(
@@ -81,19 +87,22 @@ export class TracksService {
           observer.complete();
         }
       });
-    });
+    }).share();
   }
 
   findSimilar(track: Track) {
     return <Observable<Track[]>>Observable.create((observer: Observer<Track[]>) => {
       let remaining = this.enabledStores.length;
 
+      let tracks: Track[] = [];
+
       this.enabledStores.forEach(async store => {
         if (!store.findSimilar) {
           return;
         }
         try {
-          let tracks = await store.findSimilar(track);
+          const newTracks = await store.findSimilar(track)
+          tracks = tracks.concat(newTracks);
           observer.next(tracks);
         } catch (e) {
           console.error(
@@ -106,7 +115,7 @@ export class TracksService {
           observer.complete();
         }
       });
-    });
+    }).share();
   }
 
 }

@@ -1,0 +1,15 @@
+<div class="header">
+  <label>
+    Exclude tracks in the library
+    <input type="checkbox">
+  </label>
+  <button (click)="discoverTracks()">
+    Try again
+  </button>
+</div>
+
+<mp-simple-playlist
+  [tracks]="discoverService.tracks$ | async"
+  [waiting]="waiting"
+  (select)="itemSelected($event)"
+></mp-simple-playlist>

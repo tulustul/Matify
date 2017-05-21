@@ -50,7 +50,7 @@ export class SimilarTracksComponent {
 
     this.tracksService.findSimilar(track).subscribe(
       tracks => {
-        this.tracks = this.tracks.concat(tracks);
+        this.tracks = tracks;
         this.cdr.markForCheck();
       },
       () => {},

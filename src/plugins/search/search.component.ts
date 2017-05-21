@@ -65,16 +65,12 @@ export class SearchComponent {
     if (this.searchType === 'tracks') {
       tracks$ = this.tracksService.search(searchTerm, this.page);
       tracks$.subscribe(tracks => {
-        this.searchService.tracks = (
-          this.searchService.tracks.concat(tracks)
-        );
+        this.searchService.tracks = tracks;
       });
     } else if (this.searchType === 'albums') {
       trackContainers$ = this.tracksService.searchAlbums(searchTerm, this.page);
       trackContainers$.subscribe(trackContainers => {
-        this.searchService.trackContainers = (
-          this.searchService.trackContainers.concat(trackContainers)
-        );
+        this.searchService.trackContainers = trackContainers;
       });
     }
 
