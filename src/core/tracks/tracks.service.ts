@@ -38,75 +38,43 @@ export class TracksService {
   }
 
   search(term: string, page: number) {
-    return <Observable<Track[]>>Observable.create((observer: Observer<Track[]>) => {
-      let remaining = this.enabledStores.length;
-
-      let tracks: Track[] = [];
-
-      this.enabledStores.forEach(async store => {
-        try {
-          const newTracks = await store.search(term, page);
-          tracks = tracks.concat(newTracks);
-          observer.next(tracks);
-        } catch (e) {
-          console.error(
-            `Failed to search tracks for provider "${store.name}". Reason: ${e}`
-          );
-          console.error(e.stack);
-        }
-        remaining -= 1;
-        if (remaining === 0) {
-          observer.complete();
-        }
-      });
-    }).share();
+    return this.queryStore<Track>(
+      'search', store => store.search(term, page),
+    );
   }
 
   searchAlbums(term: string, page: number) {
-    return <Observable<TrackContainer[]>>Observable.create((observer: Observer<TrackContainer[]>) => {
-      let remaining = this.enabledStores.length;
-
-      let tracks: TrackContainer[] = [];
-
-      this.enabledStores.forEach(async store => {
-        if (!store.searchAlbums) {
-          return;
-        }
-        try {
-          const newTracks = await store.searchAlbums(term, page);
-          tracks = tracks.concat(newTracks);
-          observer.next(tracks);
-        } catch (e) {
-          console.error(
-            `Failed to search tracks for provider "${store.name}". Reason: ${e}`
-          );
-          console.error(e.stack);
-        }
-        remaining -= 1;
-        if (remaining === 0) {
-          observer.complete();
-        }
-      });
-    }).share();
+    return this.queryStore<TrackContainer>(
+      'searchAlbums', store => store.searchAlbums(term, page),
+    );
   }
 
   findSimilar(track: Track) {
-    return <Observable<Track[]>>Observable.create((observer: Observer<Track[]>) => {
+    return this.queryStore<Track>(
+      'findSimilar', store => store.findSimilar(track),
+    );
+  }
+
+  private queryStore<T>(
+    methodName: string,
+    queryCall: (store: TracksStore) => Promise<T[]>,
+  ) {
+     return <Observable<T[]>>Observable.create((observer: Observer<T[]>) => {
       let remaining = this.enabledStores.length;
 
-      let tracks: Track[] = [];
+      let tracks: T[] = [];
 
       this.enabledStores.forEach(async store => {
-        if (!store.findSimilar) {
+        if (!store[methodName]) {
           return;
         }
         try {
-          const newTracks = await store.findSimilar(track)
+          const newTracks = await queryCall(store);
           tracks = tracks.concat(newTracks);
           observer.next(tracks);
         } catch (e) {
           console.error(
-            `Failed to find similar tracks for provider "${store.name}". Reason: ${e}`
+            `Failed to run "${methodName}" for provider "${store.name}".`
           );
           console.error(e.stack);
         }
