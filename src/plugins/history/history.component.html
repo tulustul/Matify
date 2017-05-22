@@ -1,0 +1,14 @@
+<ul>
+  <li *ngFor="let item of getItems()">
+    <div [ngSwitch]="item.type">
+      <h2 *ngSwitchCase="'year'">{{ item.year }}</h2>
+      <h3 *ngSwitchCase="'month'">{{ item.month }}</h3>
+      <h4 *ngSwitchCase="'day'">{{ item.day }}</h4>
+      <div *ngSwitchCase="'track'">
+        {{ formatTrackDate(item.trackHistory.history.date) }}
+        {{ item.trackHistory.track.title }}
+        {{ formatPlaytime(item.trackHistory) }}
+      </div>
+    </div>
+  </li>
+</ul>

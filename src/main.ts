@@ -17,6 +17,7 @@ import './plugins/discover';
 import './plugins/library';
 import './plugins/similarTracks';
 import './plugins/playlists';
+import './plugins/history';
 import './plugins/settings';
 
 // bar

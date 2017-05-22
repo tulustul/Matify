@@ -36,10 +36,7 @@
     "rxjs": "^5.0.1",
     "soundcloud": "^3.1.2",
     "spotify-web-api-js": "^0.21.2",
-    "sqlite3": "^3.1.8",
     "ts-helpers": "^1.1.1",
-    "typeorm": "0.0.5",
-    "typescript": "^2.2.2",
     "zone.js": "^0.7.2"
   },
   "devDependencies": {
@@ -64,6 +61,6 @@
     "protractor": "~4.0.13",
     "ts-node": "1.2.1",
     "tslint": "^4.0.2",
-    "typescript": "~2.1"
+    "typescript": "~2.3"
   }
 }

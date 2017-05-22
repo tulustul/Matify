@@ -18,6 +18,7 @@ import { LibraryService } from 'core/library.service';
 import { AudioErrorsNotifier } from 'plugins/audioErrorsNotifier';
 import { TrackSchedulerService } from 'plugins/trackScheduler';
 import { TrayService } from 'plugins/tray';
+import { HistoryService } from 'plugins/history';
 
 @Component({
   selector: 'mp-root',
@@ -50,6 +51,7 @@ export class AppComponent {
     proxyServerService: ProxyServerService,
     settings: Settings,
     library: LibraryService,
+    historyService: HistoryService,
   ) {
     settings.changes$.subscribe(() => {
       if (!this.initialized) {
